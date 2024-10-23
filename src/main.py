@@ -1,4 +1,5 @@
-from src.UDFs import Tree
+from src.UDFs import DecisionTreeClassifier
+from src.UDFs import compute_accuracy
 import numpy as np
 
 X = np.array([[1, 2],
@@ -10,9 +11,11 @@ X = np.array([[1, 2],
 y = np.array([0, 0, 1, 1, 0, 1])  # Example binary labels
 
 # Create and fit the decision tree
-tree = Tree(min_samples_split=5, max_depth=3, n_features=2)
+tree = DecisionTreeClassifier(min_samples_split=5, criterion="entropy")
 tree.fit(X, y)
 
 # Make predictions
 predictions = tree.predict(X)
 print("Predictions:", predictions)
+
+accuracy = compute_accuracy(y, predictions)
