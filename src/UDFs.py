@@ -2,21 +2,52 @@ import numpy as np
 import pandas as pd
 
 def compute_entropy(y):
-    """Calculate the entropy of labels."""
+    """Calculate the entropy of labels.
+
+    Args:
+        y (np.ndarray): Array of class labels.
+
+    Returns:
+        float: Entropy of the class labels.
+    """
     probabilities = np.bincount(y) / len(y)
     return -np.sum(probabilities * np.log2(probabilities + np.finfo(float).eps))
 
 def compute_gini(y):
-    """Calculate the Gini impurity of labels."""
+    """Calculate the Gini impurity of labels.
+
+    Args:
+        y (np.ndarray): Array of class labels.
+
+    Returns:
+        float: Gini impurity of the class labels.
+    """
     probabilities = np.bincount(y) / len(y)
     return 1.0 - np.sum(probabilities ** 2)
 
 def compute_accuracy(y, y_predicted):
-    """Compute accuracy as the percentage of correct predictions."""
+    """Compute accuracy as the percentage of correct predictions.
+
+    Args:
+        y (np.ndarray): True class labels.
+        y_predicted (np.ndarray): Predicted class labels.
+
+    Returns:
+        float: Accuracy of the predictions.
+    """
     return np.sum(y == y_predicted) / len(y)
 
 class TreeNode:
     def __init__(self, feature_index=None, threshold_value=None, left_child=None, right_child=None, leaf_value=None):
+        """Initialize a tree node.
+
+        Args:
+            feature_index (int, optional): Index of the feature used for splitting.
+            threshold_value (float, optional): Threshold value for the split.
+            left_child (TreeNode, optional): Left child node.
+            right_child (TreeNode, optional): Right child node.
+            leaf_value (int, optional): Class label if the node is a leaf.
+        """
         self.feature_index = feature_index
         self.threshold_value = threshold_value
         self.left_child = left_child
@@ -24,16 +55,22 @@ class TreeNode:
         self.leaf_value = leaf_value
 
     def is_leaf(self):
-        """Check if the node is a leaf."""
+        """Check if the node is a leaf.
+
+        Returns:
+            bool: True if the node is a leaf, False otherwise.
+        """
         return self.leaf_value is not None
     
 class DecisionTreeClassifier:
-    def __init__(self, min_samples_split=2, max_depth=None, n_features=None, criterion="entropy", min_information_gain=0.0):
+    def __init__(self, min_samples_split=2, max_depth=None, n_features=None, criterion="entropy", min_information_gain=0.0, n_quantiles=None, one_vs_rest=False):
         self.min_samples_split = min_samples_split
         self.max_depth = max_depth
         self.n_features = n_features
         self.criterion = criterion
         self.min_information_gain = min_information_gain
+        self.n_quantiles = n_quantiles
+        self.one_vs_rest = one_vs_rest
         self.root = None
         
     def fit(self, X, y):
@@ -44,16 +81,13 @@ class DecisionTreeClassifier:
         print("Model fitting completed.")
 
     def _build_tree(self, X, y, depth=0):
-        """Recursively build the decision tree."""
+        """Recursively build the decision tree."""        
         n_samples, n_features = X.shape
         n_labels = len(np.unique(y))
-
-#        print(f"Building tree at depth {depth}: Samples={n_samples}, Unique labels={n_labels}")
 
         # Stop conditions
         if (n_samples < self.min_samples_split or (self.max_depth is not None and depth >= self.max_depth) or n_labels == 1):
             most_common_label = self._get_most_common_label(y)
-#            print(f" - Leaf node created with label: {most_common_label}")
             return TreeNode(leaf_value=most_common_label)
 
         feature_indices = np.random.choice(n_features, self.n_features, replace=False)
@@ -62,12 +96,9 @@ class DecisionTreeClassifier:
         # Avoid invalid splits
         if best_feature_index is None or best_threshold_value is None:
             most_common_label = self._get_most_common_label(y)
-#            print(f" - No valid split found. Leaf node created with label: {most_common_label}")
             return TreeNode(leaf_value=most_common_label)
         
         left_indices, right_indices = self._split(X[:, best_feature_index], best_threshold_value)
-
-#        print(f" - Best split found: Feature {best_feature_index}, Threshold {best_threshold_value}")
 
         # Create child nodes
         left_child = self._build_tree(X[left_indices, :], y[left_indices], depth + 1)
@@ -88,11 +119,23 @@ class DecisionTreeClassifier:
         
         for feature_index in feature_indices:
             feature_column = X[:, feature_index]
-            unique_thresholds = np.unique(feature_column)
+            
+            if pd.api.types.is_string_dtype(feature_column):
+                unique_thresholds = np.unique(feature_column)
+            else:
+                unique_values = np.unique(feature_column)
+                
+                if self.n_quantiles is None:
+                    unique_thresholds = (unique_values[:-1] + unique_values[1:]) / 2
+                else:
+                    unique_thresholds = np.quantile(unique_values, np.linspace(0, 1, self.n_quantiles + 1)[1:-1])
+                    
+            # Print the thresholds being considered
+            print(f"Considering thresholds for feature index {feature_index}: {unique_thresholds}")
             
             for threshold_value in unique_thresholds:
                 gain = self._calculate_information_gain(y, feature_column, threshold_value)
-
+                
                 if gain > best_gain:
                     best_gain = gain
                     best_feature_index = feature_index
@@ -124,9 +167,10 @@ class DecisionTreeClassifier:
     
     def _split(self, feature_column, threshold_value):
         """Split the data based on the threshold."""
-        if isinstance(feature_column, pd.CategoricalDtype):
+        if pd.api.types.is_string_dtype(feature_column) and self.one_vs_rest:
             left_indices = np.argwhere(feature_column == threshold_value).flatten()
             right_indices = np.argwhere(feature_column != threshold_value).flatten()
+        
         else:
             left_indices = np.argwhere(feature_column <= threshold_value).flatten()
             right_indices = np.argwhere(feature_column > threshold_value).flatten()
@@ -134,14 +178,14 @@ class DecisionTreeClassifier:
         return left_indices, right_indices
     
     def predict(self, X):
-        """Predict labels for the input data."""
+        """Predict labels for the input data."""        
         print("Predicting labels...")
         predictions = [self._traverse_tree(x) for x in X]
         print("Prediction completed.")
         return predictions
 
     def _traverse_tree(self, x):
-        """Traverse the tree to predict a label for a single instance."""
+        """Traverse the tree to predict a label for a single instance."""        
         node = self.root
         
         while not node.is_leaf():
