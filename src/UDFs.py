@@ -45,7 +45,7 @@ class DecisionTreeClassifier:
         n_labels = len(np.unique(y))
 
         # Stop conditions
-        if (n_samples < self.min_samples_split or depth >= self.max_depth or n_labels == 1):
+        if (n_samples < self.min_samples_split or (self.max_depth is not None and depth >= self.max_depth) or n_labels == 1):
             return TreeNode(leaf_value=self._get_most_common_label(y))
 
         feature_indices = np.random.choice(n_features, self.n_features, replace=False)

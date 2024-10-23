@@ -1,5 +1,4 @@
-from src.UDFs import DecisionTreeClassifier
-from src.UDFs import compute_accuracy
+from src.UDFs import DecisionTreeClassifier, compute_accuracy
 import numpy as np
 
 X = np.array([[1, 2],
@@ -18,4 +17,6 @@ tree.fit(X, y)
 predictions = tree.predict(X)
 print("Predictions:", predictions)
 
+# Calculate accuracy
 accuracy = compute_accuracy(y, predictions)
+print(f"Accuracy: {accuracy:.2f}")
