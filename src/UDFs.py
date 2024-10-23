@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 def compute_entropy(y):
     """Calculate the entropy of labels."""
@@ -27,11 +28,12 @@ class TreeNode:
         return self.leaf_value is not None
     
 class DecisionTreeClassifier:
-    def __init__(self, min_samples_split=2, max_depth=None, n_features=None, criterion="entropy"):
+    def __init__(self, min_samples_split=2, max_depth=None, n_features=None, criterion="entropy", min_information_gain=0.0):
         self.min_samples_split = min_samples_split
         self.max_depth = max_depth
         self.n_features = n_features
         self.criterion = criterion
+        self.min_information_gain = min_information_gain
         self.root = None
         
     def fit(self, X, y):
@@ -51,6 +53,10 @@ class DecisionTreeClassifier:
         feature_indices = np.random.choice(n_features, self.n_features, replace=False)
         best_feature_index, best_threshold_value = self._find_best_split(X, y, feature_indices)
         
+        # Avoid invalid splits
+        if best_feature_index is None or best_threshold_value is None:
+            return TreeNode(leaf_value=self._get_most_common_label(y))
+        
         left_indices, right_indices = self._split(X[:, best_feature_index], best_threshold_value)
 
         # Create child nodes
@@ -66,7 +72,7 @@ class DecisionTreeClassifier:
     
     def _find_best_split(self, X, y, feature_indices):
         """Determine the best feature and threshold for splitting."""
-        best_gain = -1
+        best_gain = self.min_information_gain
         best_feature_index, best_threshold_value = None, None
         
         for feature_index in feature_indices:
@@ -85,10 +91,11 @@ class DecisionTreeClassifier:
 
     def _calculate_information_gain(self, y, feature_column, threshold_value):
         """Calculate the information gain from a split based on the selected criterion."""
-        if self.criterion == "gini":
-            impurity_before_split = compute_gini(y)
-        else:
-            impurity_before_split = compute_entropy(y)
+        impurity_functions = {
+            "gini": compute_gini,
+            "entropy": compute_entropy
+        }
+        impurity_before_split = impurity_functions[self.criterion](y)
 
         left_indices, right_indices = self._split(feature_column, threshold_value)
 
@@ -97,21 +104,21 @@ class DecisionTreeClassifier:
             return 0
 
         n = len(y)
-        n_left, n_right = len(left_indices), len(right_indices)
-        if self.criterion == "gini":
-            impurity_left = compute_gini(y[left_indices])
-            impurity_right = compute_gini(y[right_indices])
-        else:
-            impurity_left = compute_entropy(y[left_indices])
-            impurity_right = compute_entropy(y[right_indices])
+        impurity_left = impurity_functions[self.criterion](y[left_indices])
+        impurity_right = impurity_functions[self.criterion](y[right_indices])
 
-        weighted_impurity_children = (n_left / n) * impurity_left + (n_right / n) * impurity_right
+        weighted_impurity_children = (len(left_indices) / n) * impurity_left + (len(right_indices) / n) * impurity_right
         return impurity_before_split - weighted_impurity_children
     
     def _split(self, feature_column, threshold_value):
         """Split the data based on the threshold."""
-        left_indices = np.argwhere(feature_column <= threshold_value).flatten()
-        right_indices = np.argwhere(feature_column > threshold_value).flatten()
+        if isinstance(feature_column, pd.CategoricalDtype):
+            left_indices = np.argwhere(feature_column == threshold_value).flatten()
+            right_indices = np.argwhere(feature_column != threshold_value).flatten()
+        else:
+            left_indices = np.argwhere(feature_column <= threshold_value).flatten()
+            right_indices = np.argwhere(feature_column > threshold_value).flatten()
+            
         return left_indices, right_indices
     
     def predict(self, X):
