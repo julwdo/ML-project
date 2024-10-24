@@ -2,52 +2,22 @@ import numpy as np
 import pandas as pd
 
 def compute_entropy(y):
-    """Calculate the entropy of labels.
-
-    Args:
-        y (np.ndarray): Array of class labels.
-
-    Returns:
-        float: Entropy of the class labels.
-    """
+    """Calculate the entropy of labels."""
     probabilities = np.bincount(y) / len(y)
     return -np.sum(probabilities * np.log2(probabilities + np.finfo(float).eps))
 
 def compute_gini(y):
-    """Calculate the Gini impurity of labels.
-
-    Args:
-        y (np.ndarray): Array of class labels.
-
-    Returns:
-        float: Gini impurity of the class labels.
-    """
+    """Calculate the Gini impurity of labels."""
     probabilities = np.bincount(y) / len(y)
     return 1.0 - np.sum(probabilities ** 2)
 
 def compute_accuracy(y, y_predicted):
-    """Compute accuracy as the percentage of correct predictions.
-
-    Args:
-        y (np.ndarray): True class labels.
-        y_predicted (np.ndarray): Predicted class labels.
-
-    Returns:
-        float: Accuracy of the predictions.
-    """
+    """Compute accuracy as the percentage of correct predictions."""
     return np.sum(y == y_predicted) / len(y)
 
 class TreeNode:
     def __init__(self, feature_index=None, threshold_value=None, left_child=None, right_child=None, leaf_value=None):
-        """Initialize a tree node.
-
-        Args:
-            feature_index (int, optional): Index of the feature used for splitting.
-            threshold_value (float, optional): Threshold value for the split.
-            left_child (TreeNode, optional): Left child node.
-            right_child (TreeNode, optional): Right child node.
-            leaf_value (int, optional): Class label if the node is a leaf.
-        """
+        """Initialize a tree node."""
         self.feature_index = feature_index
         self.threshold_value = threshold_value
         self.left_child = left_child
@@ -55,37 +25,14 @@ class TreeNode:
         self.leaf_value = leaf_value
 
     def is_leaf(self):
-        """Check if the node is a leaf.
-
-        Returns:
-            bool: True if the node is a leaf, False otherwise.
-        """
+        """Check if the node is a leaf."""
         return self.leaf_value is not None
     
 class DecisionTreeClassifier:
     def __init__(self, min_samples_split=2, max_depth=None, n_features=None, 
                  criterion="entropy", min_information_gain=0.0, n_quantiles=None, 
                  one_vs_rest=False):
-        """Initialize the Decision Tree Classifier.
-
-        Args:
-            min_samples_split (int): Minimum number of samples required to split an internal node.
-            max_depth (int, optional): Maximum depth of the tree. If None, nodes are expanded until all leaves are pure or until all leaves contain less than min_samples_split samples.
-            n_features (int, optional): Number of features to consider when looking for the best split.
-            criterion (str): Function to measure the quality of a split ("entropy" or "gini").
-            min_information_gain (float): Minimum information gain required to make a split.
-            n_quantiles (int, optional): Specifies the number of quantiles to use for creating 
-                threshold values when splitting using numerical features. If set to None, the classifier 
-                will use midpoints between all unique values in the feature. If an integer is provided, 
-                the classifier will create quantile thresholds based on the specified number of equally 
-                spaced quantiles, which can help manage the number of splits in features with a large 
-                number of unique values. Defaults to None.
-            one_vs_rest (bool, optional): If True, uses a one-vs-rest strategy for string categorical
-            features, allowing for binary splits where one category is isolated on one side, and all
-            other categories are grouped on the other side. If False, categorical splits are performed
-            such that all values alphabetically lower than the threshold (including the threshold) go
-            to the left node, while the remaining values go to the right node. Defaults to False.
-        """
+        """Initialize the Decision Tree Classifier."""
         self.min_samples_split = min_samples_split
         self.max_depth = max_depth
         self.n_features = n_features
@@ -94,30 +41,18 @@ class DecisionTreeClassifier:
         self.n_quantiles = n_quantiles
         self.one_vs_rest = one_vs_rest
         self.root = None
+        self.depth = 0  # To track the final depth of the tree
         
     def fit(self, X, y):
-        """Fit the model to the training data.
-
-        Args:
-            X (np.ndarray): Feature matrix.
-            y (np.ndarray): Class labels.
-        """
+        """Fit the model to the training data."""
         print("Fitting the model...")
         self.n_features = min(self.n_features or X.shape[1], X.shape[1])
         self.root = self._build_tree(X, y)
-        print("Model fitting completed.")
+        print(f"Model fitting completed. Final depth: {self.depth}")
 
     def _build_tree(self, X, y, depth=0):
-        """Recursively build the decision tree.
-
-        Args:
-            X (np.ndarray): Feature matrix.
-            y (np.ndarray): Class labels.
-            depth (int): Current depth in the tree.
-
-        Returns:
-            TreeNode: Root node of the constructed subtree.
-        """
+        """Recursively build the decision tree."""
+        self.depth = max(self.depth, depth)  # Update the final depth of the tree
         n_samples, n_features = X.shape
         n_labels = len(np.unique(y))
 
@@ -137,6 +72,12 @@ class DecisionTreeClassifier:
             return TreeNode(leaf_value=most_common_label)
         
         left_indices, right_indices = self._split(X[:, best_feature_index], best_threshold_value)
+        
+        # Print the feature and threshold used to split, and print the values going to the left and right
+        print(f"Best feature index: {best_feature_index}")
+        print(f"Best threshold value: {best_threshold_value}")
+        print(f"Unique left split values: {np.unique(X[left_indices, best_feature_index])}")
+        print(f"Unique right split values: {np.unique(X[right_indices, best_feature_index])}")
 
         # Create child nodes
         left_child = self._build_tree(X[left_indices, :], y[left_indices], depth + 1)
@@ -145,29 +86,13 @@ class DecisionTreeClassifier:
         return TreeNode(best_feature_index, best_threshold_value, left_child, right_child)
     
     def _get_most_common_label(self, y):
-        """Find the most common label in the labels array.
-
-        Args:
-            y (np.ndarray): Class labels.
-
-        Returns:
-            int: Most common class label.
-        """
+        """Find the most common label in the labels array."""
         unique_labels, counts = np.unique(y, return_counts=True)
         most_common_label = unique_labels[np.argmax(counts)]
         return most_common_label
     
     def _find_best_split(self, X, y, feature_indices):
-        """Determine the best feature and threshold for splitting.
-
-        Args:
-            X (np.ndarray): Feature matrix.
-            y (np.ndarray): Class labels.
-            feature_indices (np.ndarray): Randomly selected feature indices.
-
-        Returns:
-            tuple: Best feature index and threshold value for splitting.
-        """
+        """Determine the best feature and threshold for splitting."""
         best_gain = self.min_information_gain
         best_feature_index, best_threshold_value = None, None
         
@@ -184,6 +109,9 @@ class DecisionTreeClassifier:
                 else:
                     unique_thresholds = np.quantile(unique_values, np.linspace(0, 1, self.n_quantiles + 1)[1:-1])
             
+            # Print the thresholds being considered for the current feature
+            print(f"Considering thresholds for feature index {feature_index}: {unique_thresholds}")
+            
             for threshold_value in unique_thresholds:
                 gain = self._calculate_information_gain(y, feature_column, threshold_value)
                 
@@ -195,16 +123,7 @@ class DecisionTreeClassifier:
         return best_feature_index, best_threshold_value
 
     def _calculate_information_gain(self, y, feature_column, threshold_value):
-        """Calculate the information gain from a split based on the selected criterion.
-
-        Args:
-            y (np.ndarray): Class labels.
-            feature_column (np.ndarray): Feature values for the selected feature.
-            threshold_value (float or str): Threshold value for the split.
-
-        Returns:
-            float: Information gain from the split.
-        """
+        """Calculate the information gain from a split based on the selected criterion."""
         impurity_functions = {
             "gini": compute_gini,
             "entropy": compute_entropy
@@ -226,47 +145,25 @@ class DecisionTreeClassifier:
         return gain
     
     def _split(self, feature_column, threshold_value):
-        """Split the data based on the threshold.
-
-        Args:
-            feature_column (np.ndarray): Feature values for the selected feature.
-            threshold_value (float or str): Threshold value for the split.
-
-        Returns:
-            tuple: Indices of the left and right splits.
-        """
+        """Split the data based on the threshold."""
         if pd.api.types.is_string_dtype(feature_column) and self.one_vs_rest:
             left_indices = np.argwhere(feature_column == threshold_value).flatten()
             right_indices = np.argwhere(feature_column != threshold_value).flatten()
         else:
             left_indices = np.argwhere(feature_column <= threshold_value).flatten()
             right_indices = np.argwhere(feature_column > threshold_value).flatten()
-
+        
         return left_indices, right_indices
     
     def predict(self, X):
-        """Predict labels for the input data.
-
-        Args:
-            X (np.ndarray): Feature matrix.
-
-        Returns:
-        np.ndarray: Predicted class labels for each instance.
-        """
+        """Predict labels for the input data."""
         print("Predicting labels...")
         predictions = np.array([self._traverse_tree(x) for x in X])
         print("Prediction completed.")
         return predictions
 
     def _traverse_tree(self, x):
-        """Traverse the tree to predict a label for a single instance.
-
-        Args:
-            x (np.ndarray): Feature values for a single instance.
-
-        Returns:
-            int: Predicted class label for the instance.
-        """
+        """Traverse the tree to predict a label for a single instance."""
         node = self.root
         
         while not node.is_leaf():
