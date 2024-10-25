@@ -1,15 +1,20 @@
 import numpy as np
 import pandas as pd
 
-def compute_gini(y):
-    """Calculate the Gini impurity of labels."""
+def compute_classification_error(y):
+    """Calculate the classification error of labels."""
     probabilities = np.bincount(y) / len(y)
-    return 1.0 - np.sum(probabilities ** 2)
+    return 1 - np.max(probabilities)
 
 def compute_entropy(y):
     """Calculate the entropy of labels."""
     probabilities = np.bincount(y) / len(y)
     return -np.sum(probabilities * np.log2(probabilities + np.finfo(float).eps))
+
+def compute_gini(y):
+    """Calculate the Gini impurity of labels."""
+    probabilities = np.bincount(y) / len(y)
+    return 1.0 - np.sum(probabilities ** 2)
 
 def compute_accuracy(y, y_predicted):
     """Compute accuracy as the percentage of correct predictions."""
@@ -129,8 +134,9 @@ class DecisionTreeClassifier:
     def _calculate_information_gain(self, y, feature_column, threshold_value):
         """Calculate the information gain from a split based on the selected criterion."""
         impurity_functions = {
+            "entropy": compute_entropy,
             "gini": compute_gini,
-            "entropy": compute_entropy
+            "classification_error": compute_classification_error
         }
         impurity_before_split = impurity_functions[self.criterion](y)
 
