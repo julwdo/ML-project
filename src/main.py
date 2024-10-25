@@ -6,7 +6,9 @@ mushrooms = pd.read_csv('data/secondary_data.csv', delimiter = ';')
 
 mushrooms['class'] = mushrooms['class'].map({'e': 0, 'p': 1})
 
-mushrooms_1 = mushrooms.dropna(axis=1)
+#mushrooms_1 = mushrooms.dropna(axis=1)
 
-X = mushrooms_1.drop('class', axis=1).values
-y = mushrooms_1['class'].values
+X = mushrooms.drop('class', axis=1).values
+y = mushrooms['class'].values
+
+X
