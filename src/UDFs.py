@@ -16,7 +16,26 @@ def compute_gini(y):
     probabilities = np.bincount(y) / len(y)
     return 1.0 - np.sum(probabilities ** 2)
 
-def compute_accuracy(y, y_predicted):
+def train_test_partition(X, y, test_size=0.2, random_state=None):
+    """Partition data into training and testing sets."""
+    
+    if random_state is not None:
+        np.random.seed(random_state)
+    
+    indices = np.arange(X.shape[0])
+    np.random.shuffle(indices)
+    
+    split_index = int(len(indices) * (1 - test_size))
+    
+    train_indices = indices[:split_index]
+    test_indices = indices[split_index:]
+    
+    X_train, X_test = X[train_indices], X[test_indices]
+    y_train, y_test = y[train_indices], y[test_indices]
+    
+    return X_train, X_test, y_train, y_test
+
+def accuracy_metric(y, y_predicted):
     """Compute accuracy as the percentage of correct predictions."""
     return np.sum(y == y_predicted) / len(y)
 
@@ -52,7 +71,20 @@ class DecisionTreeClassifier:
     def fit(self, X, y):
         """Fit the model to the training data."""
         print("Fitting the model...")
-        self.n_features = min(self.n_features or X.shape[1], X.shape[1])
+        
+        n_features_functions = {
+            "sqrt": np.sqrt,
+            "log2": np.log2
+        }
+        
+        if isinstance(self.n_features, int):
+            self.n_features = min(self.n_features or X.shape[1], X.shape[1])
+        elif isinstance(self.n_features, float):
+            self.n_features = max(1, int(self.n_features * X.shape[1]))
+        else:
+            self.n_features = max(1, int(n_features_functions[self.n_features](X.shape[1])))
+        
+        print(f"Considering {self.n_features} features at each split.")
         self.root = self._build_tree(X, y)
         print(f"Model fitting completed. Final depth: {self.depth}")
 
@@ -186,14 +218,13 @@ class DecisionTreeClassifier:
         return predictions
     
     def _traverse_tree(self, x):
-        """Predict a label by probabilistically splitting at nodes with missing values."""
+        """Traverse the tree to predict a label for a single instance."""
         node = self.root
         while not node.is_leaf():
             feature_value = x[node.feature_index]
             
-            # Randomly assign to left or right child based on the ratio of samples
             if pd.isnull(feature_value):
-                if np.random.rand() < node.left_ratio:
+                if np.random.binomial(1, node.left_ratio) == 1:
                     node = node.left_child
                 else:
                     node = node.right_child
