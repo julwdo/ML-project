@@ -35,8 +35,32 @@ def train_test_partition(X, y, test_size=0.2, random_state=None):
     
     return X_train, X_test, y_train, y_test
 
+def k_fold_partition(X, k=5, random_state=None):
+    """Split data into k folds for cross-validation."""
+    
+    if random_state is not None:
+        np.random.seed(random_state)
+        
+    indices = np.arange(X.shape[0])
+    np.random.shuffle(indices)
+    
+    fold_size = X.shape[0] // k
+    fold_indices = []
+    
+    for i in range(k):
+        val_indices = indices[i * fold_size: (i + 1) * fold_size]
+        train_indices = np.setdiff1d(indices, val_indices)
+        
+        fold_indices.append((train_indices, val_indices))
+    
+    return fold_indices
+
+def zero_one_loss(y, y_predicted):
+    """Compute zero-one loss."""
+    return np.sum(y != y_predicted)
+
 def accuracy_metric(y, y_predicted):
-    """Compute accuracy as the percentage of correct predictions."""
+    """Compute accuracy."""
     return np.sum(y == y_predicted) / len(y)
 
 class TreeNode:
@@ -85,6 +109,7 @@ class DecisionTreeClassifier:
             self.n_features = max(1, int(n_features_functions[self.n_features](X.shape[1])))
         
         print(f"Considering {self.n_features} features at each split.")
+        
         self.root = self._build_tree(X, y)
         print(f"Model fitting completed. Final depth: {self.depth}")
 
