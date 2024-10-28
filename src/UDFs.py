@@ -55,13 +55,36 @@ def k_fold_partition(X, k=5, random_state=None):
     
     return fold_indices
 
-def zero_one_loss(y, y_predicted):
-    """Compute zero-one loss."""
-    return np.sum(y != y_predicted)
+def k_fold_cv_estimate(X, y, tree_parameters, k=5, random_state=None):
+    """Compute decision tree k-fold cross-validation estimate."""
+    
+    tree = DecisionTreeClassifier(**tree_parameters)
+    
+    test_errors = []
+    
+    fold_indices = k_fold_partition(X, k=k, random_state=random_state)
+    
+    for train_indices, test_indices in fold_indices:
+        
+        X_train, y_train = X[train_indices], y[train_indices]
+        X_test, y_test = X[test_indices], y[test_indices]
+        
+        tree.fit(X_train, y_train)
+        
+        y_test_predicted = tree.predict(X_test)
+        
+        test_error = compute_error(y_test, y_test_predicted)
+        test_errors.append(test_error)
+        
+    return np.mean(test_errors)    
+
+def compute_error(y, y_predicted):
+    """Compute training or test error."""
+    return np.mean(y != y_predicted)
 
 def accuracy_metric(y, y_predicted):
     """Compute accuracy."""
-    return np.sum(y == y_predicted) / len(y)
+    return np.mean(y == y_predicted)
 
 class TreeNode:
     def __init__(self, feature_index=None, threshold_value=None, left_child=None, right_child=None, left_ratio=None, leaf_value=None):
