@@ -55,14 +55,12 @@ def k_fold_partition(X, k=5, random_state=None):
     
     return fold_indices
 
-def k_fold_cv_estimate(X, y, tree_parameters, k=5, random_state=None):
+def k_fold_cv_estimate(X, y, tree_parameters, fold_indices):
     """Compute decision tree k-fold cross-validation estimate."""
     
     tree = DecisionTreeClassifier(**tree_parameters)
     
     test_errors = []
-    
-    fold_indices = k_fold_partition(X, k=k, random_state=random_state)
     
     for train_indices, test_indices in fold_indices:
         
@@ -76,7 +74,41 @@ def k_fold_cv_estimate(X, y, tree_parameters, k=5, random_state=None):
         test_error = compute_error(y_test, y_test_predicted)
         test_errors.append(test_error)
         
-    return np.mean(test_errors)    
+    return np.mean(test_errors)
+
+def hyperparameter_tuning(X, y, parameter_grid, k=5, random_state=None):
+    """Hyperparameter tuning with cross-validation."""
+    best_parameters = None
+    best_mean_test_error = 0
+    
+    indices = k_fold_partition(X, k=k, random_state=random_state)
+    
+    for min_samples_split in parameter_grid['min_samples_split']:
+        for max_depth in parameter_grid['max_depth']:
+            for n_features in parameter_grid['n_features']:
+                for criterion in parameter_grid['criterion']:
+                    for min_information_gain in parameter_grid['min_information_gain']:
+                        for n_quantiles in parameter_grid['n_quantiles']:
+                            for isolate_one in parameter_grid['isolate_one']:
+                                
+                                parameters = {
+                                    'min_samples_split': min_samples_split,
+                                    'max_depth': max_depth,
+                                    'n_features': n_features,
+                                    'criterion': criterion,
+                                    'min_information_gain': min_information_gain,
+                                    'n_quantiles': n_quantiles,
+                                    'isolate_one': isolate_one
+                                }
+                                
+                                mean_test_error = k_fold_cv_estimate(X, y, parameters, indices)
+                                
+                                if mean_test_error > best_mean_test_error:
+                                    best_mean_test_error = mean_test_error
+                                    best_parameters = parameters
+                                    print(f"New mean test error: {best_mean_test_error:.4f} with parameters: {best_parameters}")
+    
+    return best_parameters, best_mean_test_error
 
 def compute_error(y, y_predicted):
     """Compute training or test error."""
@@ -124,8 +156,10 @@ class DecisionTreeClassifier:
             "log2": np.log2
         }
         
+        self.n_features = self.n_features or X.shape[1]
+        
         if isinstance(self.n_features, int):
-            self.n_features = min(self.n_features or X.shape[1], X.shape[1])
+            self.n_features = min(self.n_features, X.shape[1])
         elif isinstance(self.n_features, float):
             self.n_features = max(1, int(self.n_features * X.shape[1]))
         else:
