@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from itertools import product
 
 def compute_classification_error(y):
     """Calculate the classification error of labels."""
@@ -18,7 +19,6 @@ def compute_gini(y):
 
 def train_test_partition(X, y, test_size=0.2, random_state=None):
     """Partition data into training and testing sets."""
-    
     if random_state is not None:
         np.random.seed(random_state)
     
@@ -30,14 +30,10 @@ def train_test_partition(X, y, test_size=0.2, random_state=None):
     train_indices = indices[:split_index]
     test_indices = indices[split_index:]
     
-    X_train, X_test = X[train_indices], X[test_indices]
-    y_train, y_test = y[train_indices], y[test_indices]
-    
-    return X_train, X_test, y_train, y_test
+    return X[train_indices], X[test_indices], y[train_indices], y[test_indices]
 
 def k_fold_partition(X, k=5, random_state=None):
     """Partition data into k folds."""
-    
     if random_state is not None:
         np.random.seed(random_state)
         
@@ -45,99 +41,84 @@ def k_fold_partition(X, k=5, random_state=None):
     np.random.shuffle(indices)
     
     fold_size = X.shape[0] // k
-    fold_indices = []
+    folds = []
     
     for i in range(k):
         test_indices = indices[i * fold_size : (i + 1) * fold_size]
         train_indices = np.setdiff1d(indices, test_indices)
-        
-        fold_indices.append((train_indices, test_indices))
+        folds.append((train_indices, test_indices))
     
-    return fold_indices
+    return folds
 
-def k_fold_cv_estimate(X, y, tree_parameters, k=5, random_state=None):
+def k_fold_cv_estimate(X, y, model_class, model_parameters, k=5, random_state=None):
     """Compute k-fold cross-validation estimate."""
-    
-    tree = DecisionTreeClassifier(**tree_parameters)
-    
-    fold_indices = k_fold_partition(X, k=k, random_state=random_state)
-    
+    folds = k_fold_partition(X, k=k, random_state=random_state)
     test_errors = []
-    
-    for train_indices, test_indices in fold_indices:
-        
+
+    for train_indices, test_indices in folds:
         X_train, y_train = X[train_indices], y[train_indices]
         X_test, y_test = X[test_indices], y[test_indices]
         
-        tree.fit(X_train, y_train)
+        model = model_class(**model_parameters)
+        model.fit(X_train, y_train)
+        y_test_predicted = model.predict(X_test)
         
-        y_test_predicted = tree.predict(X_test)
-        
-        test_error = compute_error(y_test, y_test_predicted)
+        test_error = 1 - accuracy_metric(y_test, y_test_predicted)
         test_errors.append(test_error)
-        
+
     return np.mean(test_errors)
 
-def hyperparameter_tuning(X, y, tree_parameter_grid, k=5, random_state=None):
+def hyperparameter_tuning(X, y, model_class, parameter_grid, k=5, random_state=None):
     """Use cross-validation to tune hyperparameters."""
-    best_tree_parameters = None
-    best_mean_test_error = 1
+    best_parameters = None
+    best_mean_test_error = float('inf')
     
-    for min_samples_split in tree_parameter_grid['min_samples_split']:
-        for max_depth in tree_parameter_grid['max_depth']:
-            for n_features in tree_parameter_grid['n_features']:
-                for criterion in tree_parameter_grid['criterion']:
-                    for min_information_gain in tree_parameter_grid['min_information_gain']:
-                        for n_quantiles in tree_parameter_grid['n_quantiles']:
-                            for isolate_one in tree_parameter_grid['isolate_one']:
-                                
-                                tree_parameters = {
-                                    'min_samples_split': min_samples_split,
-                                    'max_depth': max_depth,
-                                    'n_features': n_features,
-                                    'criterion': criterion,
-                                    'min_information_gain': min_information_gain,
-                                    'n_quantiles': n_quantiles,
-                                    'isolate_one': isolate_one
-                                }
-                                                           
-                                mean_test_error = k_fold_cv_estimate(X, y, tree_parameters, k=k, random_state=random_state)
-                                
-                                if mean_test_error < best_mean_test_error:
-                                    best_mean_test_error = mean_test_error
-                                    best_tree_parameters = tree_parameters
-                                    print(f"New mean test error: {best_mean_test_error:.4f} with parameters: {best_tree_parameters}")
-    
-    return best_tree_parameters, best_mean_test_error
+    for parameters in _parameter_combinations(parameter_grid):
+        mean_test_error = k_fold_cv_estimate(X, y, model_class, parameters, k=k, random_state=random_state)
+        
+        if mean_test_error < best_mean_test_error:
+            best_mean_test_error = mean_test_error
+            best_parameters = parameters
+            print(f"New best mean test error: {best_mean_test_error:.4f} with parameters: {best_parameters}")
 
-def nested_k_fold_cv_estimate(X, y, parameter_grid, k=5, random_state=None):
-    """Compute nested k-fold cross-validation estimate."""
-      
-    fold_indices = k_fold_partition(X, k=k, random_state=random_state)
-    
-    test_errors = []
-    
-    for train_indices, test_indices in fold_indices:
-        
-        X_train, y_train = X[train_indices], y[train_indices]
-        X_test, y_test = X[test_indices], y[test_indices]
-        
-        best_parameters, best_mean_test_error = hyperparameter_tuning(X_train, y_train, parameter_grid, random_state=random_state)
-        
-        tree = DecisionTreeClassifier(**best_parameters)
-        
-        tree.fit(X_train, y_train)
-        
-        y_test_predicted = tree.predict(X_test)
-        
-        test_error = compute_error(y_test, y_test_predicted)
-        test_errors.append(test_error)
-        
-    return np.mean(test_errors)
+    return best_parameters, best_mean_test_error
 
-def compute_error(y, y_predicted):
-    """Compute training or test error according to the 0-1 loss."""
-    return np.mean(y != y_predicted)
+def _parameter_combinations(parameter_grid):
+    """Generate all combinations of parameters."""
+    keys = parameter_grid.keys()
+    values = [parameter_grid[key] for key in keys]
+    
+    for combination in product(*values):
+        yield dict(zip(keys, combination))
+
+class NestedCrossValidation:
+    def __init__(self, model_class, parameter_grid, k=5, random_state=None):
+        self.model_class = model_class
+        self.parameter_grid = parameter_grid
+        self.k = k
+        self.random_state = random_state
+    
+    def run(self, X, y):
+        """Run nested k-fold cross-validation."""
+        folds = k_fold_partition(X, self.k, self.random_state)
+        model_parameters = []
+        test_errors = []
+
+        for train_indices, test_indices in folds:
+            X_train, y_train = X[train_indices], y[train_indices]
+            X_test, y_test = X[test_indices], y[test_indices]
+
+            best_parameters, _ = hyperparameter_tuning(X_train, y_train, self.model_class, self.parameter_grid, k=self.k, random_state=self.random_state)
+            model_parameters.append(best_parameters)
+            
+            model = self.model_class(**best_parameters)
+            model.fit(X_train, y_train)
+            y_test_predicted = model.predict(X_test)
+
+            test_error = 1 - accuracy_metric(y_test, y_test_predicted)
+            test_errors.append(test_error)
+
+        return model_parameters, test_errors
 
 def accuracy_metric(y, y_predicted):
     """Compute accuracy."""
