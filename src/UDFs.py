@@ -52,7 +52,7 @@ def k_fold_partition(X, k=5, random_state=None):
 
 def k_fold_cv_estimate(X, y, model_class, model_parameters, k=5, random_state=None):
     """Compute k-fold cross-validation estimate."""
-    folds = k_fold_partition(X, k=k, random_state=random_state)
+    folds = k_fold_partition(X, k, random_state)
     test_errors = []
 
     for train_indices, test_indices in folds:
@@ -73,13 +73,20 @@ def hyperparameter_tuning(X, y, model_class, parameter_grid, k=5, random_state=N
     best_parameters = None
     best_mean_test_error = float('inf')
     
-    for parameters in _parameter_combinations(parameter_grid):
-        mean_test_error = k_fold_cv_estimate(X, y, model_class, parameters, k=k, random_state=random_state)
+    print("Starting hyperparameter tuning with cross-validation...")
+    
+    parameter_combinations = list(_parameter_combinations(parameter_grid))
+    total_combinations = len(parameter_combinations)
+
+    for i, parameters in enumerate(parameter_combinations):
+        print(f"Evaluating parameter combination {i + 1}/{total_combinations}: {parameters}")
+        mean_test_error = k_fold_cv_estimate(X, y, model_class, parameters, k, random_state)
         
         if mean_test_error < best_mean_test_error:
             best_mean_test_error = mean_test_error
             best_parameters = parameters
-            print(f"New best mean test error: {best_mean_test_error:.4f} with parameters: {best_parameters}")
+            
+    print("Hyperparameter tuning completed.")
 
     return best_parameters, best_mean_test_error
 
@@ -91,34 +98,42 @@ def _parameter_combinations(parameter_grid):
     for combination in product(*values):
         yield dict(zip(keys, combination))
 
-class NestedCrossValidation:
-    def __init__(self, model_class, parameter_grid, k=5, random_state=None):
-        self.model_class = model_class
-        self.parameter_grid = parameter_grid
-        self.k = k
-        self.random_state = random_state
+def k_fold_nested_cv(X, y, model_class, parameter_grid, k=5, random_state=None):
+    """Run k-fold nested cross-validation."""
+    folds = k_fold_partition(X, k, random_state)
+    model_parameters = []
+    test_errors = []
     
-    def run(self, X, y):
-        """Run nested k-fold cross-validation."""
-        folds = k_fold_partition(X, self.k, self.random_state)
-        model_parameters = []
-        test_errors = []
+    print(f"Starting k-fold nested cross-validation with {k} folds...")
 
-        for train_indices, test_indices in folds:
-            X_train, y_train = X[train_indices], y[train_indices]
-            X_test, y_test = X[test_indices], y[test_indices]
+    for i, (train_indices, test_indices) in enumerate(folds):
+        print(f"Iteration {i + 1}/{k}:")
+        X_train, y_train = X[train_indices], y[train_indices]
+        X_test, y_test = X[test_indices], y[test_indices]
 
-            best_parameters, _ = hyperparameter_tuning(X_train, y_train, self.model_class, self.parameter_grid, k=self.k, random_state=self.random_state)
-            model_parameters.append(best_parameters)
+        best_parameters, _ = hyperparameter_tuning(X_train, y_train, model_class, parameter_grid, k, random_state)
+        model_parameters.append(best_parameters)
+        
+        print(f"Best parameters for iteration {i + 1}: {best_parameters}")
             
-            model = self.model_class(**best_parameters)
-            model.fit(X_train, y_train)
-            y_test_predicted = model.predict(X_test)
+        model = model_class(**best_parameters)
+        model.fit(X_train, y_train)
+        y_test_predicted = model.predict(X_test)
 
-            test_error = 1 - accuracy_metric(y_test, y_test_predicted)
-            test_errors.append(test_error)
+        test_error = 1 - accuracy_metric(y_test, y_test_predicted)
+        test_errors.append(test_error)
+        print(f"Test Error for iteration {i + 1}: {test_error:.4f}")
 
-        return model_parameters, test_errors
+    mean_test_error = np.mean(test_errors)
+    min_test_error = np.min(test_errors)
+    best_model_params = model_parameters[np.argmin(test_errors)]
+
+    print("k-fold nested cross-validation done.")
+    print(f"Mean Test Error: {mean_test_error:.4f}")
+    print(f"Minimum Test Error: {min_test_error:.4f}")
+    print(f"Best Model Parameters (corresponding to Minimum Test Error): {best_model_params}")
+
+    return model_parameters, test_errors
 
 def accuracy_metric(y, y_predicted):
     """Compute accuracy."""
@@ -155,7 +170,7 @@ class DecisionTreeClassifier:
         
     def fit(self, X, y):
         """Fit the model to the training data."""
-        print("Fitting the model...")
+#        print("Fitting the model...")
         
         n_features_functions = {
             "sqrt": np.sqrt,
@@ -171,10 +186,8 @@ class DecisionTreeClassifier:
         else:
             self.n_features = max(1, int(n_features_functions[self.n_features](X.shape[1])))
         
-        print(f"Considering {self.n_features} features at each split.")
-        
         self.root = self._build_tree(X, y)
-        print(f"Model fitting completed. Final depth: {self.depth}")
+#        print(f"Model fitting completed. Final depth: {self.depth}")
 
     def _build_tree(self, X, y, depth=0):
         """Recursively build the decision tree."""
@@ -201,10 +214,6 @@ class DecisionTreeClassifier:
         
         # Keep track of the ratio of samples going to the left child
         left_ratio = len(left_indices) / n_samples
-        
-        # Print the feature and threshold used to split, and print the values going to the left and right
-        print(f"Best feature index: {best_feature_index}")
-        print(f"Best threshold value: {best_threshold_value}")
 
         # Create child nodes
         left_child = self._build_tree(X[left_indices, :], y[left_indices], depth + 1)
@@ -237,9 +246,6 @@ class DecisionTreeClassifier:
                     unique_thresholds = (unique_values[:-1] + unique_values[1:]) / 2
                 else:
                     unique_thresholds = np.quantile(unique_values, np.linspace(0, 1, self.n_quantiles + 1)[1:-1])
-            
-            # Print the thresholds being considered for the current feature
-            print(f"Considering thresholds for feature index {feature_index}: {unique_thresholds}")
             
             for threshold_value in unique_thresholds:
                 gain = self._calculate_information_gain(y, feature_column, threshold_value)
@@ -300,9 +306,9 @@ class DecisionTreeClassifier:
     
     def predict(self, X):
         """Predict labels for the input data."""
-        print("Predicting labels...")
+#        print("Predicting labels...")
         predictions = np.array([self._traverse_tree(x) for x in X])
-        print("Prediction completed.")
+#        print("Prediction completed.")
         return predictions
     
     def _traverse_tree(self, x):
