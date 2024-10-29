@@ -36,7 +36,7 @@ def train_test_partition(X, y, test_size=0.2, random_state=None):
     return X_train, X_test, y_train, y_test
 
 def k_fold_partition(X, k=5, random_state=None):
-    """Split data into k folds for cross-validation."""
+    """Partition data into k folds."""
     
     if random_state is not None:
         np.random.seed(random_state)
@@ -48,17 +48,19 @@ def k_fold_partition(X, k=5, random_state=None):
     fold_indices = []
     
     for i in range(k):
-        val_indices = indices[i * fold_size: (i + 1) * fold_size]
-        train_indices = np.setdiff1d(indices, val_indices)
+        test_indices = indices[i * fold_size : (i + 1) * fold_size]
+        train_indices = np.setdiff1d(indices, test_indices)
         
-        fold_indices.append((train_indices, val_indices))
+        fold_indices.append((train_indices, test_indices))
     
     return fold_indices
 
-def k_fold_cv_estimate(X, y, tree_parameters, fold_indices):
-    """Compute decision tree k-fold cross-validation estimate."""
+def k_fold_cv_estimate(X, y, tree_parameters, k=5, random_state=None):
+    """Compute k-fold cross-validation estimate."""
     
     tree = DecisionTreeClassifier(**tree_parameters)
+    
+    fold_indices = k_fold_partition(X, k=k, random_state=random_state)
     
     test_errors = []
     
@@ -76,22 +78,20 @@ def k_fold_cv_estimate(X, y, tree_parameters, fold_indices):
         
     return np.mean(test_errors)
 
-def hyperparameter_tuning(X, y, parameter_grid, k=5, random_state=None):
-    """Hyperparameter tuning with cross-validation."""
-    best_parameters = None
-    best_mean_test_error = 0
+def hyperparameter_tuning(X, y, tree_parameter_grid, k=5, random_state=None):
+    """Use cross-validation to tune hyperparameters."""
+    best_tree_parameters = None
+    best_mean_test_error = 1
     
-    indices = k_fold_partition(X, k=k, random_state=random_state)
-    
-    for min_samples_split in parameter_grid['min_samples_split']:
-        for max_depth in parameter_grid['max_depth']:
-            for n_features in parameter_grid['n_features']:
-                for criterion in parameter_grid['criterion']:
-                    for min_information_gain in parameter_grid['min_information_gain']:
-                        for n_quantiles in parameter_grid['n_quantiles']:
-                            for isolate_one in parameter_grid['isolate_one']:
+    for min_samples_split in tree_parameter_grid['min_samples_split']:
+        for max_depth in tree_parameter_grid['max_depth']:
+            for n_features in tree_parameter_grid['n_features']:
+                for criterion in tree_parameter_grid['criterion']:
+                    for min_information_gain in tree_parameter_grid['min_information_gain']:
+                        for n_quantiles in tree_parameter_grid['n_quantiles']:
+                            for isolate_one in tree_parameter_grid['isolate_one']:
                                 
-                                parameters = {
+                                tree_parameters = {
                                     'min_samples_split': min_samples_split,
                                     'max_depth': max_depth,
                                     'n_features': n_features,
@@ -100,18 +100,43 @@ def hyperparameter_tuning(X, y, parameter_grid, k=5, random_state=None):
                                     'n_quantiles': n_quantiles,
                                     'isolate_one': isolate_one
                                 }
+                                                           
+                                mean_test_error = k_fold_cv_estimate(X, y, tree_parameters, k=k, random_state=random_state)
                                 
-                                mean_test_error = k_fold_cv_estimate(X, y, parameters, indices)
-                                
-                                if mean_test_error > best_mean_test_error:
+                                if mean_test_error < best_mean_test_error:
                                     best_mean_test_error = mean_test_error
-                                    best_parameters = parameters
-                                    print(f"New mean test error: {best_mean_test_error:.4f} with parameters: {best_parameters}")
+                                    best_tree_parameters = tree_parameters
+                                    print(f"New mean test error: {best_mean_test_error:.4f} with parameters: {best_tree_parameters}")
     
-    return best_parameters, best_mean_test_error
+    return best_tree_parameters, best_mean_test_error
+
+def nested_k_fold_cv_estimate(X, y, parameter_grid, k=5, random_state=None):
+    """Compute nested k-fold cross-validation estimate."""
+      
+    fold_indices = k_fold_partition(X, k=k, random_state=random_state)
+    
+    test_errors = []
+    
+    for train_indices, test_indices in fold_indices:
+        
+        X_train, y_train = X[train_indices], y[train_indices]
+        X_test, y_test = X[test_indices], y[test_indices]
+        
+        best_parameters, best_mean_test_error = hyperparameter_tuning(X_train, y_train, parameter_grid, random_state=random_state)
+        
+        tree = DecisionTreeClassifier(**best_parameters)
+        
+        tree.fit(X_train, y_train)
+        
+        y_test_predicted = tree.predict(X_test)
+        
+        test_error = compute_error(y_test, y_test_predicted)
+        test_errors.append(test_error)
+        
+    return np.mean(test_errors)
 
 def compute_error(y, y_predicted):
-    """Compute training or test error."""
+    """Compute training or test error according to the 0-1 loss."""
     return np.mean(y != y_predicted)
 
 def accuracy_metric(y, y_predicted):
