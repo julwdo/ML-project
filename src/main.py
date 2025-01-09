@@ -12,3 +12,12 @@ X = mushrooms.drop('class', axis=1).values
 y = mushrooms['class'].values
 
 X
+
+y = np.array([0, 1, 0, 1, 0, 0, 1, 1, 0, 1])
+
+def _gini_impurity(self, y):
+    """Calculate the Gini impurity of labels."""
+    probabilities = np.bincount(y) / len(y)
+    print("Probabilities:", probabilities)  # Print the probabilities to check their values
+    return 2 * probabilities[0] * (1 - probabilities[0])
+

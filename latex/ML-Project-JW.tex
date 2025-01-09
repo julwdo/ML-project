@@ -1,0 +1,271 @@
+\documentclass{article}
+\usepackage{geometry}
+\usepackage{graphicx} % To use \resizebox
+\usepackage{array} % For custom column widths
+\usepackage{calc} % To use \widthof
+
+\usepackage{amsthm} % For definitions
+\newtheorem{definition}{Definition}[section]
+
+\usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage{threeparttable}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{multirow}
+%\usepackage{placeins}
+
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\geometry{
+    a4paper,
+    total={170mm,257mm},
+    left=20mm,
+    top=20mm,
+}
+
+\author{Julia Maria Wdowinska}
+\date{} % Remove date from the title
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vfill
+    {\scshape\Large University of Milan \par}
+    \vspace{0.5cm}
+    {\scshape\large Faculty of Political, Economic and Social Sciences \par}
+    \vspace{3cm}
+    {\huge
+    \textbf{Binary Tree Classifier from Scratch for Mushroom Classification} \\
+    \vspace{0.5cm}
+    \large Final Project in the Subject Machine Learning \par}
+    \vspace{2cm}
+    {\large \textbf{Julia Maria Wdowinska} \par}
+    \vspace{0.5cm}
+    {\large Data Science for Economics \par}
+    {\large I year\par}
+    {\large Master’s Degree \par}
+    {\large Matriculation Number:\ 43288A \par}
+\vfill
+\begin{center}
+\begin{figure}[h!]\centering
+ \includegraphics[keepaspectratio=true,scale=0.2]{logo} \\
+\end{figure}
+\end{center}
+\vfill
+    {\large \today \par}
+    \vfill
+\end{titlepage}
+
+\tableofcontents
+%\newpage
+
+\section{Introduction}
+
+\section{Dataset Description}
+
+The \href{https://archive.ics.uci.edu/dataset/848/secondary+mushroom+dataset}{dataset} used in this study is a simulated version inspired by the \href{https://archive.ics.uci.edu/dataset/73/mushroom}{Mushroom Data Set from J.\ Schlimmer}. It contains 61,069 hypothetical mushrooms, each described by 20 features and classified as either definitely edible or definitely poisonous/of unknown edibility. Table \ref{tab:mushroom_variables} presents all 21 variables included in the dataset.
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\caption{Mushroom Dataset Variables}
+\label{tab:mushroom_variables}
+\begin{tabular}{
+>{\raggedright\arraybackslash}p{\widthof{spore-print-color}}
+>{\raggedright\arraybackslash}p{\widthof{categorical}}
+>{\raggedright\arraybackslash}p{\widthof{b (bell), c (conical), x (convex), f (flat), s (sunken), p (spherical), o (others)}}
+}
+\hline
+\textbf{Variable} & \textbf{Type} & \textbf{Possible Values} \\ \hline
+class & categorical & e (edible), p (poisonous/of unknown edibility) \\ \hline
+cap-diameter & numerical & float number in cm \\ \hline
+cap-shape & categorical & b (bell), c (conical), x (convex), f (flat), s (sunken), p (spherical), o (others) \\ \hline
+cap-surface & categorical & i (fibrous), g (grooves), y (scaly), s (smooth), h (shiny), l (leathery), k (silky), t (sticky), w (wrinkled), e (fleshy) \\ \hline
+cap-color & categorical & n (brown), b (buff), g (gray), r (green), p (pink), u (purple), e (red), w (white), y (yellow), l (blue), o (orange), k (black) \\ \hline
+does-bruise-bleed & categorical & t (bruises or bleeding), f (no) \\ \hline
+gill-attachment & categorical & a (adnate), x (adnexed), d (decurrent), e (free), s (sinuate), p (pores), f (none), ? (unknown) \\ \hline
+gill-spacing & categorical & c (close), d (distant), f (none) \\ \hline
+gill-color & categorical & see cap-color, f (none) \\ \hline
+stem-height & numerical & float number in cm \\ \hline
+stem-width & numerical & float number in mm \\ \hline
+stem-root & categorical & b (bulbous), s (swollen), c (club), u (cup), e (equal), z (rhizomorphs), r (rooted) \\ \hline
+stem-surface & categorical & see cap-surface, f (none) \\ \hline
+stem-color & categorical & see cap-color, f (none) \\ \hline
+veil-type & categorical & p (partial), u (universal) \\ \hline
+veil-color & categorical & see cap-color, f (none) \\ \hline
+has-ring & categorical & t (ring), f (none) \\ \hline
+ring-type & categorical & c (cobwebby), e (evanescent), r (flaring), g (grooved), l (large), p (pendant), s (sheathing), z (zone), y (scaly), m (movable), f (none), ? (unknown) \\ \hline
+spore-print-color & categorical & see cap-color \\ \hline
+habitat & categorical & g (grasses), l (leaves), m (meadows), p (paths), h (heaths), u (urban), w (waste), d (woods) \\ \hline
+season & categorical & s (spring), u (summer), a (autumn), w (winter) \\ \hline
+\end{tabular}
+\end{table}
+
+The class distribution is balanced, i.e., 27,181 mushrooms are edible, and 33,888 are poisonous or of unknown edibility. However, 9 variables contain missing values (see Table \ref{tab:missing_values}).
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\caption{Missing Values Count and Percentage}
+\label{tab:missing_values}
+\begin{tabular}{
+>{\raggedright\arraybackslash}p{\widthof{spore-print-color}}
+>{\raggedleft\arraybackslash}p{\widthof{Missing Values Count}}
+}
+\hline
+\textbf{Variable} & \textbf{Missing Values} \\ \hline
+cap-surface & 14,120 (23.12\%) \\ \hline
+gill-attachment & 9,884 (16.18\%) \\ \hline
+gill-spacing & 25,063 (41.04\%) \\ \hline
+stem-root & 51,538 (84.39\%) \\ \hline
+stem-surface & 38,124 (62.43\%) \\ \hline
+veil-type & 57,892 (94.80\%) \\ \hline
+veil-color & 53,656 (87.86\%) \\ \hline
+ring-type & 2,471 (4.05\%) \\ \hline
+spore-print-color & 54,715 (89.60\%) \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Tree Classifier Implementation}
+
+Tree predictors are fundamental tools in machine learning, widely applied to classification and regression tasks. They represent a hierarchy of decision rules, where data points are recursively split into subsets based on feature values. The main advantage of tree predictors is their ability to handle both numerical and categorical features. Tree predictors are also straightforward, making them a popular choice when interpretability is a priority.
+
+In this study, a complete binary tree classifier - where each internal node has exactly two children - has been implemented in Python. A detailed description of the classes and methods created is provided below.
+
+\subsection{TreeNode Class}
+
+The \texttt{TreeNode} class represents a single node in a binary tree classifier. Each node can either be an internal node or a leaf node. Internal nodes split the data based on a specific feature and threshold, while leaf nodes store the predicted label. The attributes and methods of this class are designed to support the recursive structure of the tree classifier.
+
+\subsubsection*{Attributes:}
+\begin{itemize}
+    \item \texttt{feature\_index} (int or None): The feature index used for splitting the data at this node.
+    \item \texttt{threshold\_value} (float or None): The threshold value that determines how the data is split at this node.
+    \item \texttt{left\_child} (TreeNode or None): The left child node.
+    \item \texttt{right\_child} (TreeNode or None): The right child node.
+    \item \texttt{left\_ratio} (float or None): The ratio of samples that go to the left child. This value is particularly useful for handling missing values and calculating probabilities.
+    \item \texttt{leaf\_value} (int or None): The predicted label associated with the leaf node.
+\end{itemize}
+
+\noindent If the node is a leaf node, then \texttt{feature\_index}, \texttt{threshold\_value}, \texttt{left\_child}, \texttt{right\_child}, and \texttt{left\_ratio} are \texttt{None}, while \texttt{leaf\_value} is an integer. If the node is not a leaf node, then only \texttt{leaf\_value} is \texttt{None}.
+
+\subsubsection*{Methods:}
+\begin{itemize}
+    \item \texttt{is\_leaf()}: This method checks whether the current node is a leaf node. It returns \texttt{True} if the node has a \texttt{leaf\_value}, and \texttt{False} otherwise.
+\end{itemize}
+
+\subsection{DecisionTreeClassifier Class}
+
+The \texttt{DecisionTreeClassifier} class implements a decision tree for binary classification. It recursively splits the data based on specific features and thresholds, creating a tree structure that can be used for predicting labels. The attributes and methods of this class are designed to support model training, hyperparameter tuning, and prediction.
+
+\subsubsection*{Attributes:}
+\begin{itemize}
+    \item \texttt{min\_samples\_split} (int): The minimum number of samples required to split a node.
+    \item \texttt{max\_depth} (int or None): The maximum depth of the tree. If set to \texttt{None}, the tree expands until all nodes are pure, contain fewer than \texttt{min\_samples\_split} samples, or further splitting results in an information gain below \texttt{min\_information\_gain}.
+    \item \texttt{n\_features} (int, float, or str): The number of features to consider when identifying the best split. This can be specified as an integer, a float, or one of the following strings:\ \texttt{`sqrt'} or \texttt{`log2'}.
+    \item \texttt{criterion} (str): The function to measure the quality of a split. Options are:\ \texttt{`gini'}, \texttt{`scaled\_entropy'}, and \texttt{`square\_root'}.
+    \item \texttt{min\_information\_gain} (float): The minimum information gain required to perform a split.
+    \item \texttt{n\_quantiles} (int or None): The number of quantiles to consider when determining the best threshold for continuous features. If set to \texttt{None}, the algorithm uses midpoints of unique values.
+    \item \texttt{isolate\_one} (bool): Whether to isolate a single value for categorical features, creating a one-vs-rest split.
+    \item \texttt{root} (TreeNode or None): The root node of the decision tree.
+    \item \texttt{depth} (int): The final depth of the tree after it has been built.
+\end{itemize}
+
+\subsubsection*{min\_samples\_split Parameter:}
+
+The \texttt{min\_samples\_split} parameter controls the minimum number of samples a node must contain to be eligible for splitting. If a node has fewer than \texttt{min\_samples\_split} samples, it becomes a leaf node, and no further splits are attempted.
+
+A higher value for \texttt{min\_samples\_split} reduces the depth of the tree, making it less prone to capturing noise in the data. Conversely, a lower value allows the tree to grow deeper and potentially capture finer details, which can be beneficial for highly complex datasets but may increase the risk of overfitting. The default value is 2.
+
+\subsubsection*{n\_features Parameter:}
+
+The \texttt{n\_features} parameter specifies the number of features to consider when identifying the best split. The default value is \texttt{None}, which results in all features in the dataset being considered. Otherwise:
+
+\begin{itemize}
+    \item If \texttt{n\_features} is an integer, this specifies the exact number of features to consider. If the value exceeds the total number of features in the dataset, all features are considered instead.
+    \item If \texttt{n\_features} is a float, it represents a fraction of the total number of features. The number of features to consider is calculated by multiplying this fraction by the total number of features and truncating the decimal part to obtain an integer. At least one feature is considered.
+    \item If \texttt{n\_features} is a string, it can be either \texttt{`sqrt'} or \texttt{`log2'}, and the number of features is calculated as follows:
+    \begin{itemize}
+        \item \texttt{`sqrt'}: Sets the number of features to the square root of the total number of features, truncating the decimal part to obtain an integer. At least one feature is considered.
+        \item \texttt{`log2'}: Sets the number of features to the base-2 logarithm of the total number of features, truncating the decimal part to obtain an integer. At least one feature is considered.
+    \end{itemize}
+\end{itemize}
+
+This parameter allows the decision tree model to use a subset of features, which can help improve the model’s efficiency and performance, particularly when working with high-dimensional datasets.
+
+\subsubsection*{criterion Parameter:}
+
+The \texttt{criterion} parameter specifies the function used to measure the quality of a split in the decision tree. The available options are:
+
+\begin{itemize}
+    \item \texttt{`gini'}: The Gini impurity is used, which is computed as:
+    \[
+    \text{Gini} = 2 \cdot p_0 \cdot (1 - p_0)
+    \]
+    where \( p_0 \) is the probability of class '0' within the node.
+    
+    \item \texttt{`scaled\_entropy'}: The scaled entropy is used. The entropy is scaled by halving the probabilities before applying the standard entropy formula:
+    \[
+    \text{Scaled Entropy} = -\sum_{i} \frac{p_i}{2} \cdot \log_2(p_i + \epsilon)
+    \]
+    where \( p_i \) is the probability of class \( i \), and \( \epsilon \) is a small constant to avoid taking the logarithm of zero.
+    
+    \item \texttt{`square\_root'}: The ``square root'' impurity is used, which is calculated as:
+    \[
+    \text{Square Root Impurity} = \sqrt{p_0 \cdot (1 - p_0)}
+    \]
+    where \( p_0 \) is the probability of class '0' within the node.
+\end{itemize}
+
+\subsubsection*{min\_information\_gain Parameter:}
+
+The \texttt{min\_information\_gain} parameter specifies the minimum amount of information gain required to perform a split. Information gain measures the reduction in impurity after a split. It is computed as follows:
+\[
+    \text{Information Gain} = \text{Impurity Before Split} - \text{Weighted Impurity After Split}
+\]
+where the impurity is calculated using the selected \texttt{criterion}, such as Gini impurity, scaled entropy, or square root impurity. The weighted impurity after the split is calculated as:
+\[
+    \text{Weighted Impurity After Split} = \frac{L}{n} \cdot \text{Impurity of Left Child} + \frac{R}{n} \cdot \text{Impurity of Right Child}
+\]
+where:
+\begin{itemize}
+    \item \( L \) and \( R \) are the number of samples in the left and right child nodes, respectively.
+    \item \( n \) is the total number of samples in the parent node.
+\end{itemize}
+
+The \texttt{min\_information\_gain} parameter accepts a float value that sets the threshold for the minimum information gain. If the calculated information gain from a potential split is less than this threshold, the split is not performed, and the node becomes a leaf node. The default value is 0.0.
+
+
+
+
+
+\subsubsection*{Methods:}
+\begin{itemize}
+    \item \texttt{fit(X, y)}: Fits the decision tree model to the training data \texttt{X} and labels \texttt{y}.
+    \item \texttt{\_build\_tree(X, y, depth=0)}: Recursively builds the decision tree by splitting the data based on the best feature and threshold. It stops if the minimum number of samples per split is reached, the maximum depth is reached, or all samples belong to the same class.
+    \item \texttt{\_get\_most\_common\_label(y)}: Finds the most common label in the array \texttt{y}.
+    \item \texttt{\_find\_best\_split(X, y, feature\_indices)}: Finds the best feature and threshold for splitting the data.
+    \item \texttt{\_calculate\_information\_gain(y, feature\_column, threshold\_value)}: Calculates the information gain from a split based on a selected criterion.
+    \item \texttt{\_split(feature\_column, threshold\_value)}: Splits the feature data based on the threshold value, considering missing values and categorical data.
+    \item \texttt{\_gini\_impurity(y)}: Calculates the Gini impurity of the labels.
+    \item \texttt{\_scaled\_entropy(y)}: Calculates the scaled entropy of the labels.
+    \item \texttt{\_square\_root\_impurity(y)}: Calculates the square root impurity of the labels.
+    \item \texttt{predict(X)}: Predicts the labels for the input data \texttt{X} using the trained decision tree model.
+    \item \texttt{\_traverse\_tree(x)}: Traverses the tree for a single input sample \texttt{x} and returns the predicted label.
+\end{itemize}
+
+\subsubsection*{Description:}
+The \texttt{DecisionTreeClassifier} is a flexible and efficient implementation of a decision tree for binary classification. It uses a recursive approach to build the tree, splitting the data at each node based on the best feature and threshold that maximizes information gain. The tree grows until it reaches the stopping criteria, including a maximum depth or a minimum number of samples for a split.
+
+The model supports various splitting criteria, including Gini impurity, scaled entropy, and square root impurity. Additionally, it allows handling of missing values and categorical features, providing flexibility in dealing with real-world data. The tree can be pruned or grown further based on hyperparameters such as maximum depth, minimum samples per split, and the minimum information gain required to make a split.
+
+After training, the model can predict labels for new samples by traversing the tree from the root to a leaf node, where the label is assigned. The model also supports cross-validation for hyperparameter tuning, helping find the best set of parameters for the decision tree.
+
+
+\end{document}
