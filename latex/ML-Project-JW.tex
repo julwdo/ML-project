@@ -204,7 +204,7 @@ This parameter allows the decision tree model to use a subset of features, which
 The \texttt{criterion} parameter specifies the function used to measure the quality of a split in the decision tree. The available options are:
 
 \begin{itemize}
-    \item \texttt{`gini'}: The Gini impurity is used, which is computed as:
+    \item \texttt{`gini'} (the default): The Gini impurity is used, which is computed as:
     \[
     \text{Gini} = 2 \cdot p_0 \cdot (1 - p_0)
     \]
@@ -241,6 +241,20 @@ where:
 
 The \texttt{min\_information\_gain} parameter accepts a float value that sets the threshold for the minimum information gain. If the calculated information gain from a potential split is less than this threshold, the split is not performed, and the node becomes a leaf node. The default value is 0.0.
 
+\subsubsection*{n\_quantiles Parameter:}
+
+The \texttt{n\_quantiles} parameter specifies the number of quantiles to consider when determining the best threshold for splitting continuous features. 
+
+\begin{itemize}
+    \item If \texttt{n\_quantiles} is set to \texttt{None} (the default), the algorithm considers all midpoints between unique values of the feature as candidate thresholds.
+    \item If \texttt{n\_quantiles} is an integer, the continuous feature values are divided into that many quantiles, and the candidate thresholds are chosen as the boundaries between these quantiles.
+\end{itemize}
+
+By adjusting the \texttt{n\_quantiles} parameter, you can control the granularity of threshold selection:
+\begin{itemize}
+    \item Lower values of \texttt{n\_quantiles} reduce the number of candidate thresholds, which can speed up computation but may lead to less optimal splits.
+    \item Higher values of \texttt{n\_quantiles}, or using \texttt{None} (to consider all midpoints), increase the granularity of the search, improving the likelihood of finding an optimal split at the expense of additional computation time.
+\end{itemize}
 
 
 

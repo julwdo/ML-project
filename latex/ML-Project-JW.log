@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.10.28)  10 JAN 2025 00:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.10.28)  11 JAN 2025 21:36
 entering extended mode
 **./ML-Project-JW.tex
 (ML-Project-JW.tex
@@ -535,18 +535,18 @@ been already used, duplicate ignored
                    \relax 
 l.139 
        [1] [2] [3]
-Overfull \hbox (6.17282pt too wide) in paragraph at lines 254--255
+Overfull \hbox (6.17282pt too wide) in paragraph at lines 268--269
 [][]\OT1/cmtt/m/n/10 calculate[]information[]gain(y, feature[]column, threshold
 []value)\OT1/cmr/m/n/10 : Cal-cu-lates the in-for-ma-tion gain
  []
 
-[4] (ML-Project-JW.aux)
+[4] [5] (ML-Project-JW.aux)
 Package rerunfilecheck Info: File `ML-Project-JW.out' has not changed.
 (rerunfilecheck)             Checksum: A430C17EED6C25D2A8A77EE38D11AC5F;773.
  ) 
 Here is how much of TeX's memory you used:
- 12961 strings out of 478869
- 194015 string characters out of 2860379
+ 12963 strings out of 478869
+ 194032 string characters out of 2860379
  531943 words of memory out of 3000000
  30667 multiletter control sequences out of 15000+600000
  409996 words of font info for 50 fonts, out of 8000000 for 9000
@@ -565,9 +565,9 @@ c/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmr8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:
 /Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Fil
 es/MiKTeX/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on ML-Project-JW.pdf (5 pages, 364758 bytes).
+Output written on ML-Project-JW.pdf (6 pages, 367236 bytes).
 PDF statistics:
- 147 PDF objects out of 1000 (max. 8388607)
- 23 named destinations out of 1000 (max. 500000)
+ 153 PDF objects out of 1000 (max. 8388607)
+ 25 named destinations out of 1000 (max. 500000)
  46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
