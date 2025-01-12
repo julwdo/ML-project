@@ -225,12 +225,13 @@ class DecisionTreeClassifier:
             if pd.api.types.is_string_dtype(feature_column[not_missing_indices]): # Ignore missing values when computing thresholds
                 unique_thresholds = np.unique(feature_column[not_missing_indices])
             else:
-                unique_values = np.unique(feature_column[not_missing_indices])
+                values = feature_column[not_missing_indices]
                 
                 if self.n_quantiles is None:
+                    unique_values = np.unique(values)
                     unique_thresholds = (unique_values[:-1] + unique_values[1:]) / 2
                 else:
-                    unique_thresholds = np.quantile(unique_values, np.linspace(0, 1, self.n_quantiles + 1)[1:-1])
+                    unique_thresholds = np.quantile(values, np.linspace(0, 1, self.n_quantiles + 1)[1:-1])
             
             for threshold_value in unique_thresholds:
                 gain = self._calculate_information_gain(y, feature_column, threshold_value)
