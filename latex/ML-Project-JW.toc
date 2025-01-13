@@ -3,3 +3,4 @@
 \contentsline {section}{\numberline {3}Tree Classifier Implementation}{2}{section.3}%
 \contentsline {subsection}{\numberline {3.1}TreeNode Class}{2}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}DecisionTreeClassifier Class}{2}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Training and Validation Procedures}{5}{section.4}%
