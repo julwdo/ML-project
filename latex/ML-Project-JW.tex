@@ -243,43 +243,74 @@ The \texttt{min\_information\_gain} parameter accepts a float value that sets th
 
 \subsubsection*{n\_quantiles Parameter:}
 
-The \texttt{n\_quantiles} parameter specifies the number of quantiles to consider when determining the best threshold for splitting continuous features. 
+The \texttt{n\_quantiles} parameter determines how candidate thresholds are chosen when splitting based on numerical features. If set to \texttt{None} (the default), all midpoints between unique values are considered. Otherwise:
 
 \begin{itemize}
-    \item If \texttt{n\_quantiles} is set to \texttt{None} (the default), the algorithm considers all midpoints between unique values of the feature as candidate thresholds.
-    \item If \texttt{n\_quantiles} is an integer, the continuous feature values are divided into that many quantiles, and the candidate thresholds are chosen as the boundaries between these quantiles.
+    \item If \texttt{n\_quantiles} is an integer, the values are divided into that many quantiles, and the candidate thresholds are the boundaries between these quantiles.
 \end{itemize}
 
-By adjusting the \texttt{n\_quantiles} parameter, you can control the granularity of threshold selection:
+While lower values of \texttt{n\_quantiles} reduce the number of candidate thresholds, speeding up computation but potentially leading to suboptimal splits, higher values or setting it to \texttt{None} (to consider all midpoints) increase the search granularity, increasing the probability of finding an optimal split, but at the cost of additional compu- tation time.
+
+\subsubsection*{isolate\_one Parameter:}
+
+The \texttt{isolate\_one} parameter controls how splits are made when splitting based on categorical features. If set to \texttt{False} (the default), all data points with a feature value lower or equal (i.e., lower or equal alphabetically) to the threshold are assigned to the left child, while all other data points are assigned to the right child. Otherwise:
+
 \begin{itemize}
-    \item Lower values of \texttt{n\_quantiles} reduce the number of candidate thresholds, which can speed up computation but may lead to less optimal splits.
-    \item Higher values of \texttt{n\_quantiles}, or using \texttt{None} (to consider all midpoints), increase the granularity of the search, improving the likelihood of finding an optimal split at the expense of additional computation time.
+\item If \texttt{isolate\_one} is set to \texttt{True}, the algorithm creates a one-vs-rest split, where all data points with a fea- ture value equal to the threshold go to the left child, while all other data points go to the right child.
 \end{itemize}
 
+This parameter affects the granularity of splits for categorical features. Setting \texttt{isolate\_one} to \texttt{True} results in more precise splits, capturing finer patterns in the data but potentially increasing the risk of overfitting. In contrast, setting it to \texttt{False} produces broader, more generalized splits, improving computational efficiency and helping reduce overfitting.
 
-
-
-\subsubsection*{Methods:}
+\subsubsection*{Private Methods:}
 \begin{itemize}
-    \item \texttt{fit(X, y)}: Fits the decision tree model to the training data \texttt{X} and labels \texttt{y}.
-    \item \texttt{\_build\_tree(X, y, depth=0)}: Recursively builds the decision tree by splitting the data based on the best feature and threshold. It stops if the minimum number of samples per split is reached, the maximum depth is reached, or all samples belong to the same class.
-    \item \texttt{\_get\_most\_common\_label(y)}: Finds the most common label in the array \texttt{y}.
-    \item \texttt{\_find\_best\_split(X, y, feature\_indices)}: Finds the best feature and threshold for splitting the data.
-    \item \texttt{\_calculate\_information\_gain(y, feature\_column, threshold\_value)}: Calculates the information gain from a split based on a selected criterion.
-    \item \texttt{\_split(feature\_column, threshold\_value)}: Splits the feature data based on the threshold value, considering missing values and categorical data.
-    \item \texttt{\_gini\_impurity(y)}: Calculates the Gini impurity of the labels.
-    \item \texttt{\_scaled\_entropy(y)}: Calculates the scaled entropy of the labels.
-    \item \texttt{\_square\_root\_impurity(y)}: Calculates the square root impurity of the labels.
-    \item \texttt{predict(X)}: Predicts the labels for the input data \texttt{X} using the trained decision tree model.
-    \item \texttt{\_traverse\_tree(x)}: Traverses the tree for a single input sample \texttt{x} and returns the predicted label.
+    \item \texttt{\_build\_tree()}: Recursively builds the tree by splitting the data based on the best feature and threshold. It stops if any stopping condition is met, e.g., \texttt{max\_depth}.
+\item \texttt{\_get\_most\_common\_label()}: This method finds and returns the most common label in a given array.
+    \item \texttt{\_find\_best\_split()}: Finds the best feature and threshold for splitting the data.
+    \item \texttt{\_calculate\_information\_gain()}: Computes the information gain from a potential split based on a selec- ted criterion.
+    \item \texttt{\_split()}: Splits the data based on the selected feature and threshold.
+    \item \texttt{\_gini\_impurity()}: Computes the Gini impurity for the given labels.
+    \item \texttt{\_scaled\_entropy()}: Computes the scaled entropy for the given labels.
+    \item \texttt{\_square\_root\_impurity()}: Computes the ``square root'' impurity for the given labels.
+    \item \texttt{\_traverse\_tree()}: Traverses the tree for a single input sample and returns the predicted label.
 \end{itemize}
 
-\subsubsection*{Description:}
-The \texttt{DecisionTreeClassifier} is a flexible and efficient implementation of a decision tree for binary classification. It uses a recursive approach to build the tree, splitting the data at each node based on the best feature and threshold that maximizes information gain. The tree grows until it reaches the stopping criteria, including a maximum depth or a minimum number of samples for a split.
+\subsubsection*{Public Methods:}
+\begin{itemize}
+    \item \texttt{fit()}: Initializes the root node and builds the tree using the \texttt{\_build\_tree()} method.
+    \item \texttt{predict()}: Predicts the labels for the given input samples by traversing the tree for each sample using the \texttt{\_traverse\_tree()} method.
+\end{itemize}
 
-The model supports various splitting criteria, including Gini impurity, scaled entropy, and square root impurity. Additionally, it allows handling of missing values and categorical features, providing flexibility in dealing with real-world data. The tree can be pruned or grown further based on hyperparameters such as maximum depth, minimum samples per split, and the minimum information gain required to make a split.
+\subsubsection*{\_build\_tree() Method:}
 
-After training, the model can predict labels for new samples by traversing the tree from the root to a leaf node, where the label is assigned. The model also supports cross-validation for hyperparameter tuning, helping find the best set of parameters for the decision tree.
+The \texttt{\_build\_tree()} method constructs a decision tree by starting at the root node and progressing recursively to the leaf nodes. At each node, it selects a random subset of features, as specified by the \texttt{n\_features} parameter, and employs the \texttt{\_find\_best\_split()} method to determine the optimal feature and threshold for splitting the data. Once the best split is found, the \texttt{\_split()} method is called to partition the data accordingly. The process is then repeated recursively on the resulting subsets to continue building the tree.
+
+The recursion halts when a stopping condition is met, such as reaching the \texttt{max\_depth}, achieving pure nodes, having fewer than \texttt{min\_samples\_split} samples per node, or when subsequent splits yield information gains lower than \texttt{min\_information\_gain}. Upon termination, the method assigns the most frequent label among the samples at that node as the predicted label for that node.
+
+\subsubsection*{\_find\_best\_split() Method:}
+
+The \texttt{\_find\_best\_split()} method identifies the optimal split for a given node in the decision tree. It iterates through all features selected by the \texttt{\_build\_tree()} method and evaluates all candidate thresholds by calling the \texttt{\_calculate\_information\_gain()} method to determine the feature-threshold combination that maximizes information gain. The creation of candidate thresholds differs between numerical and categorical features:
+
+\begin{itemize}
+\item For numerical features, potential thresholds are determined based on the \texttt{n\_quantiles} parameter (as des- cribed above).
+\item For categorical features, candidate thresholds consist of all unique values in the feature.
+\end{itemize}
+
+Any missing values are excluded when determining the candidate thresholds.
+
+\subsubsection*{\_split() Method:}
+
+The \texttt{\_split()} method partitions the data based on a specified feature and threshold. The partitioning strategy differs for numerical and categorical features:
+
+\begin{itemize}
+\item For numerical features, data points with a feature value lower than or equal to the threshold are assigned to the left child, while all other data points are assigned to the right child.
+\item For categorical features, the partitioning depends on the \texttt{isolate\_one} parameter (as described above).
+\end{itemize}
+
+After the split, any data points with a missing feature value are randomly distributed between the left and right child. The probability of being assigned to each child is proportional to the number of data points assigned to that child during the split.
+
+
+
+
 
 
 \end{document}

@@ -140,7 +140,7 @@ class TreeNode:
     
 class DecisionTreeClassifier:
     def __init__(self, min_samples_split=2, max_depth=None, n_features=None, 
-                 criterion="entropy", min_information_gain=0.0, n_quantiles=None, 
+                 criterion="gini", min_information_gain=0.0, n_quantiles=None, 
                  isolate_one=False):
         """Initialize the Decision Tree Classifier."""
         self.min_samples_split = min_samples_split
