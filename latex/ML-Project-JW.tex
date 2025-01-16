@@ -4,8 +4,7 @@
 \usepackage{array} % For custom column widths
 \usepackage{calc} % To use \widthof
 
-\usepackage{amsthm} % For definitions
-\newtheorem{definition}{Definition}[section]
+\usepackage{siunitx} % Formatting numbers in a table
 
 \usepackage{amsmath}
 \usepackage{subcaption}
@@ -15,10 +14,6 @@
 \usepackage{xcolor}
 \usepackage{multirow}
 %\usepackage{placeins}
-
-\usepackage{algorithm}
-\usepackage{algorithmicx}
-\usepackage{algpseudocode}
 
 \geometry{
     a4paper,
@@ -65,73 +60,6 @@
 %\newpage
 
 \section{Introduction}
-
-\section{Dataset Description}
-
-The \href{https://archive.ics.uci.edu/dataset/848/secondary+mushroom+dataset}{dataset} used in this study is a simulated version inspired by the \href{https://archive.ics.uci.edu/dataset/73/mushroom}{Mushroom Data Set from J.\ Schlimmer}. It contains 61,069 hypothetical mushrooms, each described by 20 features and classified as either definitely edible or definitely poisonous/of unknown edibility. Table \ref{tab:mushroom_variables} presents all 21 variables included in the dataset.
-
-\begin{table}[!ht]
-\centering
-\footnotesize
-\setlength{\tabcolsep}{5pt}
-\caption{Mushroom Dataset Variables}
-\label{tab:mushroom_variables}
-\begin{tabular}{
->{\raggedright\arraybackslash}p{\widthof{spore-print-color}}
->{\raggedright\arraybackslash}p{\widthof{categorical}}
->{\raggedright\arraybackslash}p{\widthof{b (bell), c (conical), x (convex), f (flat), s (sunken), p (spherical), o (others)}}
-}
-\hline
-\textbf{Variable} & \textbf{Type} & \textbf{Possible Values} \\ \hline
-class & categorical & e (edible), p (poisonous/of unknown edibility) \\ \hline
-cap-diameter & numerical & float number in cm \\ \hline
-cap-shape & categorical & b (bell), c (conical), x (convex), f (flat), s (sunken), p (spherical), o (others) \\ \hline
-cap-surface & categorical & i (fibrous), g (grooves), y (scaly), s (smooth), h (shiny), l (leathery), k (silky), t (sticky), w (wrinkled), e (fleshy) \\ \hline
-cap-color & categorical & n (brown), b (buff), g (gray), r (green), p (pink), u (purple), e (red), w (white), y (yellow), l (blue), o (orange), k (black) \\ \hline
-does-bruise-bleed & categorical & t (bruises or bleeding), f (no) \\ \hline
-gill-attachment & categorical & a (adnate), x (adnexed), d (decurrent), e (free), s (sinuate), p (pores), f (none), ? (unknown) \\ \hline
-gill-spacing & categorical & c (close), d (distant), f (none) \\ \hline
-gill-color & categorical & see cap-color, f (none) \\ \hline
-stem-height & numerical & float number in cm \\ \hline
-stem-width & numerical & float number in mm \\ \hline
-stem-root & categorical & b (bulbous), s (swollen), c (club), u (cup), e (equal), z (rhizomorphs), r (rooted) \\ \hline
-stem-surface & categorical & see cap-surface, f (none) \\ \hline
-stem-color & categorical & see cap-color, f (none) \\ \hline
-veil-type & categorical & p (partial), u (universal) \\ \hline
-veil-color & categorical & see cap-color, f (none) \\ \hline
-has-ring & categorical & t (ring), f (none) \\ \hline
-ring-type & categorical & c (cobwebby), e (evanescent), r (flaring), g (grooved), l (large), p (pendant), s (sheathing), z (zone), y (scaly), m (movable), f (none), ? (unknown) \\ \hline
-spore-print-color & categorical & see cap-color \\ \hline
-habitat & categorical & g (grasses), l (leaves), m (meadows), p (paths), h (heaths), u (urban), w (waste), d (woods) \\ \hline
-season & categorical & s (spring), u (summer), a (autumn), w (winter) \\ \hline
-\end{tabular}
-\end{table}
-
-The class distribution is balanced, i.e., 27,181 mushrooms are edible, and 33,888 are poisonous or of unknown edibility. However, 9 variables contain missing values (see Table \ref{tab:missing_values}).
-
-\begin{table}[!ht]
-\centering
-\footnotesize
-\setlength{\tabcolsep}{5pt}
-\caption{Missing Values Count and Percentage}
-\label{tab:missing_values}
-\begin{tabular}{
->{\raggedright\arraybackslash}p{\widthof{spore-print-color}}
->{\raggedleft\arraybackslash}p{\widthof{Missing Values Count}}
-}
-\hline
-\textbf{Variable} & \textbf{Missing Values} \\ \hline
-cap-surface & 14,120 (23.12\%) \\ \hline
-gill-attachment & 9,884 (16.18\%) \\ \hline
-gill-spacing & 25,063 (41.04\%) \\ \hline
-stem-root & 51,538 (84.39\%) \\ \hline
-stem-surface & 38,124 (62.43\%) \\ \hline
-veil-type & 57,892 (94.80\%) \\ \hline
-veil-color & 53,656 (87.86\%) \\ \hline
-ring-type & 2,471 (4.05\%) \\ \hline
-spore-print-color & 54,715 (89.60\%) \\ \hline
-\end{tabular}
-\end{table}
 
 \section{Tree Classifier Implementation}
 
@@ -343,6 +271,108 @@ In this study, a set of custom functions has been implemented to facilitate robu
     This function computes the accuracy of the model’s predictions.
 \end{itemize}
 
+\section{Dataset Description}
 
+The \href{https://archive.ics.uci.edu/dataset/848/secondary+mushroom+dataset}{dataset} used in this study is a simulated version inspired by the \href{https://archive.ics.uci.edu/dataset/73/mushroom}{Mushroom Data Set from J.\ Schlimmer}. It contains 61,069 hypothetical mushrooms, each described by 20 features and classified as either definitely edible or definitely poisonous/of unknown edibility. Table \ref{tab:mushroom_variables} presents all 21 variables included in the dataset.
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\caption{Mushroom Dataset Variables}
+\label{tab:mushroom_variables}
+\begin{tabular}{
+>{\raggedright\arraybackslash}p{\widthof{does-bruise-or-bleed}}
+>{\raggedright\arraybackslash}p{\widthof{categorical}}
+>{\raggedright\arraybackslash}p{\widthof{a (adnate), x (adnexed), d (decurrent), e (free), s (sinuate), p (pores), f (none)}}
+}
+\hline
+\textbf{Variable} & \textbf{Type} & \textbf{Possible Values} \\ \hline
+class & categorical & e (edible), p (poisonous/of unknown edibility) \\ \hline
+cap-diameter & numerical & float number in cm \\ \hline
+cap-shape & categorical & b (bell), c (conical), x (convex), f (flat), s (sunken), p (spherical), o (others) \\ \hline
+cap-surface & categorical & i (fibrous), g (grooves), y (scaly), s (smooth), h (shiny), l (leathery), k (silky), t (sticky), w (wrinkled), e (fleshy), d (not specified by the author) \\ \hline
+cap-color & categorical & n (brown), b (buff), g (gray), r (green), p (pink), u (purple), e (red), w (white), y (yellow), l (blue), o (orange), k (black) \\ \hline
+does-bruise-or-bleed & categorical & t (bruises or bleeding), f (no) \\ \hline
+gill-attachment & categorical & a (adnate), x (adnexed), d (decurrent), e (free), s (sinuate), p (pores), f (none) \\ \hline
+gill-spacing & categorical & c (close), d (distant), f (none) \\ \hline
+gill-color & categorical & n (brown), b (buff), g (gray), r (green), p (pink), u (purple), e (red), w (white), y (yellow), o (orange), k (black), f (none) \\ \hline
+stem-height & numerical & float number in cm \\ \hline
+stem-width & numerical & float number in mm \\ \hline
+stem-root & categorical & b (bulbous), s (swollen), c (club), r (rooted), f (not specified by the author) \\ \hline
+stem-surface & categorical & i (fibrous), y (scaly), s (smooth), h (shiny), k (silky), t (sticky), f (none), g (not specified by the author) \\ \hline
+stem-color & categorical & n (brown), b (buff), g (gray), r (green), p (pink), u (purple), e (red), w (white), y (yellow), l (blue), o (orange), k (black), f (none) \\ \hline
+veil-type & categorical & u (universal) \\ \hline
+veil-color & categorical & n (brown), u (purple), e (red), w (white), y (yellow), k (black) \\ \hline
+has-ring & categorical & t (ring), f (none) \\ \hline
+ring-type & categorical & e (evanescent), r (flaring), g (grooved), l (large), p (pendant), z (zone), m (movable), f (none) \\ \hline
+spore-print-color & categorical & n (brown), g (gray), r (green), p (pink), u (purple), w (white), k (black) \\ \hline
+habitat & categorical & g (grasses), l (leaves), m (meadows), p (paths), h (heaths), u (urban), w (waste), d (woods) \\ \hline
+season & categorical & s (spring), u (summer), a (autumn), w (winter) \\ \hline
+\end{tabular}
+\end{table}
+
+The dataset is balanced, with 27,181 mushrooms classified as edible and 33,888 as poisonous, ensuring that no class is overrepresented in subsequent analyses. During preprocessing, 146 duplicate rows were identified and removed to prevent undue weighting of any observation. This step reduced the dataset to 60,923 observations. Additionally, nine variables were identified as containing missing values, as shown in Table \ref{tab:missing_values_before}.
+
+Upon further inspection, a question arose about whether the value ``f'' should be treated as a regular value or as missing. After careful consideration, it was decided to encode all occurrences of ``f'' as missing, except in ``does-bruise-or-bleed'' and ``has-ring'', where ``f'' is interpreted as ``no'' rather than ``none''. This increased the number of variables with missing values to twelve (see Table \ref{tab:missing_values_after}). [write here also about value 0 for numerical]
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\caption{Missing Values Count and Percentage}
+\label{tab:missing_values_before}
+\begin{tabular}{
+>{\raggedright\arraybackslash}p{\widthof{does-bruise-or-bleed}}
+S[table-format=5]
+S[table-format=2.2]
+}
+\hline
+& \multicolumn{2}{c}{\textbf{Missing Values}} \\ \cline{2-3}
+\textbf{Variable} & \textbf{Count} & \textbf{Percentage} \\ \hline
+cap-surface & 14120 & 23.12 \\ \hline
+gill-attachment & 9855 & 16.14 \\ \hline
+gill-spacing & 25062 & 41.04 \\ \hline
+stem-root & 51536 & 84.39 \\ \hline
+stem-surface & 38122 & 62.42 \\ \hline
+veil-type & 57746 & 94.56 \\ \hline
+veil-color & 53510 & 87.62 \\ \hline
+ring-type & 2471 & 4.05 \\ \hline
+spore-print-color & 54597 & 89.40 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\caption{Missing Values Count and Percentage (After Replacing 'f' with NaN)}
+\label{tab:missing_values_after}
+\begin{tabular}{
+>{\raggedright\arraybackslash}p{\widthof{does-bruise-or-bleed}}
+S[table-format=5]
+S[table-format=2.2]
+}
+\hline
+& \multicolumn{2}{c}{\textbf{Missing Values}} \\ \cline{2-3}
+\textbf{Variable} & \textbf{Count} & \textbf{Percentage} \\ \hline
+cap-shape & 13404 & 21.95 \\ \hline
+cap-surface & 14120 & 23.12 \\ \hline
+gill-attachment & 13269 & 21.73 \\ \hline
+gill-spacing & 28476 & 46.63 \\ \hline
+gill-color & 3414 & 5.59 \\ \hline
+stem-root & 52451 & 85.89 \\ \hline
+stem-surface & 39037 & 63.92 \\ \hline
+stem-color & 915 & 1.50 \\ \hline
+veil-type & 57746 & 94.56 \\ \hline
+veil-color & 53510 & 87.62 \\ \hline
+ring-type & 50686 & 83.00 \\ \hline
+spore-print-color & 54597 & 89.40 \\ \hline
+\end{tabular}
+\end{table}
+
+It was decided to do the following analyses:\ (1) using the original dataset with missing values (since DecisionTreeClassifier is able to handle missing values), (2) using the original dataset without missing values, (3) using the processed dataset with missing values, (4) using the processed dataset without missing values.
+
+All four analyses were performed using
 
 \end{document}

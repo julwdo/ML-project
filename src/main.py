@@ -17,6 +17,15 @@ print(mushrooms.head())
 print("\nColumn data types:")
 print(mushrooms.dtypes)
 
+# Check for duplicate rows
+duplicates = mushrooms.duplicated().sum()
+if duplicates > 0:
+    print(f"\nWarning: The dataset contains {duplicates} duplicate rows.")
+    mushrooms = mushrooms.drop_duplicates()
+    print(f"{duplicates} duplicate rows have been dropped. The dataset now has {mushrooms.shape[0]} rows.")
+else:
+    print("\nNo duplicate rows found in the dataset.")
+
 # Check for missing values
 if not mushrooms.isnull().any().any():
     print("\nThere are no missing values in the dataset.")
@@ -31,18 +40,31 @@ else:
     }).query('`Missing Values Count` > 0')  # Filter for columns with missing values
     print("\nSummary of missing values:")
     print(na_summary)
-    
-# Check for duplicate rows
-duplicates = mushrooms.duplicated().sum()
-if duplicates > 0:
-    print(f"\nWarning: The dataset contains {duplicates} duplicate rows.")
-else:
-    print("\nNo duplicate rows found in the dataset.")
 
 # Inspect unique values in each column
 print("\nUnique values in each column:")
 for col in mushrooms.columns:
     print(f"- {col}: {mushrooms[col].unique()}")
+    
+# Replace 'f' with NaN in all columns except 'does-bruise-or-bleed' and 'has-ring'
+mushrooms_1 = mushrooms.copy()
+mushrooms_1.loc[:, ~mushrooms_1.columns.isin(['does-bruise-or-bleed', 'has-ring'])] = \
+    mushrooms_1.loc[:, ~mushrooms_1.columns.isin(['does-bruise-or-bleed', 'has-ring'])].replace('f', pd.NA)
+
+# Check for missing values
+if not mushrooms_1.isnull().any().any():
+    print("\nThere are no missing values in the dataset.")
+else:
+    print("\nThere are missing values in the dataset.")
+    # Summarize missing values
+    na_counts = mushrooms_1.isnull().sum()
+    na_percentages = (na_counts / n_rows) * 100
+    na_summary = pd.DataFrame({
+        'Missing Values Count': na_counts,
+        'Missing Values Percentage': na_percentages
+    }).query('`Missing Values Count` > 0')  # Filter for columns with missing values
+    print("\nSummary of missing values:")
+    print(na_summary)
 
 # Count the number of edible and poisonous mushrooms
 edible_count = (mushrooms['class'] == 'e').sum()
@@ -120,11 +142,7 @@ parameter_grid = {
 }
 
 # Perform hyperparameter tuning
-best_parameters, best_mean_test_error = hyperparameter_tuning(X_train,
-                                                              y_train,
-                                                              DecisionTreeClassifier,
-                                                              parameter_grid,
-                                                              random_state=42)
+best_parameters, best_mean_test_error = hyperparameter_tuning(X_train, y_train, DecisionTreeClassifier, parameter_grid, random_state=42)
 print("Best parameters:", best_parameters)
 print("Best mean test error:", best_mean_test_error)
 
