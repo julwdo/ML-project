@@ -109,14 +109,7 @@ def k_fold_nested_cv(X, y, model_class, parameter_grid, k=5, random_state=None):
         test_errors.append(test_error)
         print(f"Test Error for iteration {i + 1}: {test_error:.4f}")
 
-    mean_test_error = np.mean(test_errors)
-    min_test_error = np.min(test_errors)
-    best_model_params = model_parameters[np.argmin(test_errors)]
-
     print("k-fold nested cross-validation done.")
-    print(f"Mean Test Error: {mean_test_error:.4f}")
-    print(f"Minimum Test Error: {min_test_error:.4f}")
-    print(f"Best Model Parameters (corresponding to Minimum Test Error): {best_model_params}")
 
     return model_parameters, test_errors
 

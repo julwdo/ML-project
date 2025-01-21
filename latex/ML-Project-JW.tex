@@ -273,7 +273,59 @@ In this study, a set of custom functions has been implemented to facilitate robu
 
 \section{Dataset Description}
 
-The \href{https://archive.ics.uci.edu/dataset/848/secondary+mushroom+dataset}{dataset} used in this study is a simulated version inspired by the \href{https://archive.ics.uci.edu/dataset/73/mushroom}{Mushroom Data Set from J.\ Schlimmer}. It contains 61,069 hypothetical mushrooms, each described by 20 features and classified as either definitely edible or definitely poisonous/of unknown edibility. Table \ref{tab:mushroom_variables} presents all 21 variables included in the dataset.
+The \href{https://archive.ics.uci.edu/dataset/848/secondary+mushroom+dataset}{dataset} used in this study is a simulated version inspired by the \href{https://archive.ics.uci.edu/dataset/73/mushroom}{Mushroom Data Set}. It contains 61,069 hypothetical mushrooms, each described by 20 features and classified as either definitely edible or definitely poisonous/of unknown edibility. The class distribution is balanced, with 27,181 (44.51\%) mushrooms classified as edible and 33,888 (55.49\%) as poisonous, ensuring that no class is overrepresented in subsequent analyses. During preprocessing, 146 (0.24\%) duplicate rows were identified and removed to prevent undue weighting of any observation. This step reduced the dataset to 60,923 mushrooms, of which 27,181 (44.62\%) edible and 33,742 (55.38\%) poisonous. Furthermore, nine variables were identified as containing missing values, as shown in Table \ref{tab:missing_values_before}.
+
+Looking at the possible values of the variables, some values not defined by the author of the dataset were found, e.g., value ``d'' for cap-surface or value ``f'' for stem-root. An overview over all 21 variables, their types and possible values is presented in Table \ref{tab:mushroom_variables}.
+
+One can see that for many variables, one of the possible values is ``f'' which stands either for ``no'' or ``none''. A question arose about whether the value ``f'' should be treated as a regular value or as missing. After careful consideration, it was decided to encode all occurrences of ``f'' as missing, except in ``does-bruise-or-bleed'' and ``has-ring'', where ``f'' should be interpreted as ``no'' rather than ``none''. Then also some statistics on the numerical variables were explored. A minimum of 0 for ``stem-height'' and ``stem-width'' revealed the presence of 915 mushrooms with ``stem-height'' equal to 0 and ``stem-width''. These turned out to be the same mushrooms, meaning that if ``stem-height'' was equal to 0, also ``stem-width'' was equal to 0. Hence, also the other variables regarding stem characteristics where explored. It turned out that for these 915 mushrooms, all stem-root, stem-surface and stem-color were equal to f. Hence, ``stem-height'' and ``stem-width'' equal to 0 were also considered as missing values. These operations increased the number of variables with missing values to fourteen (see Table \ref{tab:missing_values_after}).
+
+However, since the implemented DecisionTree class is able to handle missing values, first analysis was performed with them in place. A nested cross-validation was performed with the following parameter grid:
+
+parameter_grid = {
+    'min_samples_split': [2],
+    'max_depth': [15, 20],
+    'n_features': ["log2"],
+    'criterion': ["gini", "scaled_entropy"],
+    'min_information_gain': [0.0],
+    'n_quantiles': [5, 10],
+    'isolate_one': [False]
+}
+
+The following results were obtained:
+Mean Test Error: 0.0601
+Minimum Test Error: 0.0532
+Best Model Parameters (corresponding to Minimum Test Error): {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': False}
+% Update these results!
+
+Subsequently, columns with more than 45\% missing values were dropped and the remaining rows with missing values were dropped. Then, the nested cross validation was performed again, with the same parameter grid, and the following results were obtained. 
+    
+    
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\caption{Missing Values Count and Percentage}
+\label{tab:missing_values_before}
+\begin{tabular}{
+>{\raggedright\arraybackslash}p{\widthof{does-bruise-or-bleed}}
+S[table-format=5]
+S[table-format=2.2]
+}
+\hline
+& \multicolumn{2}{c}{\textbf{Missing Values}} \\ \cline{2-3}
+\textbf{Variable} & \textbf{Count} & \textbf{Percentage} \\ \hline
+cap-surface & 14120 & 23.12 \\ \hline
+gill-attachment & 9855 & 16.14 \\ \hline
+gill-spacing & 25062 & 41.04 \\ \hline
+stem-root & 51536 & 84.39 \\ \hline
+stem-surface & 38122 & 62.42 \\ \hline
+veil-type & 57746 & 94.56 \\ \hline
+veil-color & 53510 & 87.62 \\ \hline
+ring-type & 2471 & 4.05 \\ \hline
+spore-print-color & 54597 & 89.40 \\ \hline
+\end{tabular}
+\end{table}
 
 \begin{table}[!ht]
 \centering
@@ -312,44 +364,14 @@ season & categorical & s (spring), u (summer), a (autumn), w (winter) \\ \hline
 \end{tabular}
 \end{table}
 
-The dataset is balanced, with 27,181 mushrooms classified as edible and 33,888 as poisonous, ensuring that no class is overrepresented in subsequent analyses. During preprocessing, 146 duplicate rows were identified and removed to prevent undue weighting of any observation. This step reduced the dataset to 60,923 observations. Additionally, nine variables were identified as containing missing values, as shown in Table \ref{tab:missing_values_before}.
-
-Upon further inspection, a question arose about whether the value ``f'' should be treated as a regular value or as missing. After careful consideration, it was decided to encode all occurrences of ``f'' as missing, except in ``does-bruise-or-bleed'' and ``has-ring'', where ``f'' is interpreted as ``no'' rather than ``none''. This increased the number of variables with missing values to twelve (see Table \ref{tab:missing_values_after}). [write here also about value 0 for numerical]
-
 \begin{table}[!ht]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{5pt}
-\caption{Missing Values Count and Percentage}
-\label{tab:missing_values_before}
-\begin{tabular}{
->{\raggedright\arraybackslash}p{\widthof{does-bruise-or-bleed}}
-S[table-format=5]
-S[table-format=2.2]
-}
-\hline
-& \multicolumn{2}{c}{\textbf{Missing Values}} \\ \cline{2-3}
-\textbf{Variable} & \textbf{Count} & \textbf{Percentage} \\ \hline
-cap-surface & 14120 & 23.12 \\ \hline
-gill-attachment & 9855 & 16.14 \\ \hline
-gill-spacing & 25062 & 41.04 \\ \hline
-stem-root & 51536 & 84.39 \\ \hline
-stem-surface & 38122 & 62.42 \\ \hline
-veil-type & 57746 & 94.56 \\ \hline
-veil-color & 53510 & 87.62 \\ \hline
-ring-type & 2471 & 4.05 \\ \hline
-spore-print-color & 54597 & 89.40 \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[!ht]
-\centering
-\footnotesize
-\setlength{\tabcolsep}{5pt}
-\caption{Missing Values Count and Percentage (After Replacing 'f' with NaN)}
+\caption{Missing Values Count and Percentage (After Replacements)}
 \label{tab:missing_values_after}
 \begin{tabular}{
->{\raggedright\arraybackslash}p{\widthof{does-bruise-or-bleed}}
+>{\raggedright\arraybackslash}p{\widthof{spore-print-color}}
 S[table-format=5]
 S[table-format=2.2]
 }
@@ -361,7 +383,9 @@ cap-surface & 14120 & 23.12 \\ \hline
 gill-attachment & 13269 & 21.73 \\ \hline
 gill-spacing & 28476 & 46.63 \\ \hline
 gill-color & 3414 & 5.59 \\ \hline
-stem-root & 52451 & 85.89 \\ \hline
+stem-height & 915 & 1.50 \\ \hline
+stem-width & 915 & 1.50 \\ \hline
+gill-spacing & 52451 & 85.89 \\ \hline
 stem-surface & 39037 & 63.92 \\ \hline
 stem-color & 915 & 1.50 \\ \hline
 veil-type & 57746 & 94.56 \\ \hline
@@ -370,9 +394,5 @@ ring-type & 50686 & 83.00 \\ \hline
 spore-print-color & 54597 & 89.40 \\ \hline
 \end{tabular}
 \end{table}
-
-It was decided to do the following analyses:\ (1) using the original dataset with missing values (since DecisionTreeClassifier is able to handle missing values), (2) using the original dataset without missing values, (3) using the processed dataset with missing values, (4) using the processed dataset without missing values.
-
-All four analyses were performed using
 
 \end{document}
