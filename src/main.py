@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-from src.UDFs import DecisionTreeClassifier, k_fold_nested_cv
+from src.UDFs import DecisionTreeClassifier, k_fold_nested_cv, train_test_partition
+from src.UDFs import accuracy_metric, precision_metric, recall_metric, f1_metric, confusion_matrix
 
 # Section: Load and Explore the Dataset
 print("### Mushroom Dataset Exploration ###")
@@ -16,13 +17,13 @@ print(mushrooms.head())
 print("\nColumn data types:")
 print(mushrooms.dtypes)
 
-# Count the number of edible and poisonous mushrooms
+# Count edible and poisonous mushrooms
 edible_count = (mushrooms['class'] == 'e').sum()
 poisonous_count = n_rows - edible_count
 print(f"\nNumber of edible mushrooms: {edible_count}")
 print(f"Number of poisonous mushrooms: {poisonous_count}")
 
-# Check for duplicate rows
+# Check and handle duplicate rows
 duplicates = mushrooms.duplicated().sum()
 if duplicates > 0:
     print(f"\nWarning: The dataset contains {duplicates} duplicate rows.")
@@ -30,72 +31,59 @@ if duplicates > 0:
     print(f"{duplicates} duplicate rows have been dropped. The dataset now has {mushrooms.shape[0]} rows.")
 else:
     print("\nNo duplicate rows found in the dataset.")
-    
-# Count the number of edible and poisonous mushrooms
-edible_count = (mushrooms['class'] == 'e').sum()
-poisonous_count = mushrooms.shape[0] - edible_count
-print(f"\nNumber of edible mushrooms: {edible_count}")
-print(f"Number of poisonous mushrooms: {poisonous_count}")
 
 # Check for missing values
-if not mushrooms.isnull().any().any():
-    print("\nThere are no missing values in the dataset.")
-else:
-    print("\nThere are missing values in the dataset.")
-    # Summarize missing values
-    na_counts = mushrooms.isnull().sum()
-    na_percentages = (na_counts / n_rows) * 100
-    na_summary = pd.DataFrame({
-        'Missing Values Count': na_counts,
-        'Missing Values Percentage': na_percentages
-    }).query('`Missing Values Count` > 0')  # Filter for columns with missing values
+if mushrooms.isnull().any().any():
+    print("\nMissing values found in the dataset.")
+    na_summary = mushrooms.isnull().sum().loc[lambda x: x > 0].to_frame(name='Missing Count')
+    na_summary['Missing Percentage'] = (na_summary['Missing Count'] / n_rows) * 100
     print("\nSummary of missing values:")
     print(na_summary)
+else:
+    print("\nNo missing values found in the dataset.")
 
 # Inspect unique values in each column
 print("\nUnique values in each column:")
-for col in mushrooms.columns:
-    print(f"- {col}: {mushrooms[col].unique()}")
-    
-# Inspect numerical variable values
-mushrooms.describe()
-(mushrooms['stem-height'] == 0).sum()
-(mushrooms['stem-width'] == 0).sum()
+unique_values = {col: mushrooms[col].unique() for col in mushrooms.columns}
+for col, values in unique_values.items():
+    print(f"- {col}: {values}")
 
-mushrooms[mushrooms['stem-height'] == 0]['stem-width'].unique() # Only 0
-mushrooms[mushrooms['stem-width'] == 0]['stem-height'].unique() # Only 0
+# Identify variables where 'f' is a possible value
+variables_with_f = [col for col in mushrooms.columns if 'f' in mushrooms[col].unique()]
+print("\nVariables where 'f' is a possible value:", variables_with_f)
 
-mushrooms[mushrooms['stem-height'] == 0]['stem-root'].unique() # Only f
-mushrooms[mushrooms['stem-width'] == 0]['stem-root'].unique() # Only f
+# Explore gill-related variables
+gill_columns = [col for col in mushrooms.columns if col.startswith('gill')]
+f_gill = mushrooms[mushrooms['gill-attachment'] == 'f'][gill_columns]
+print("\nGill-related variables when 'gill-attachment' is 'f':")
+print(f_gill.drop_duplicates())
 
-mushrooms[mushrooms['stem-height'] == 0]['stem-surface'].unique() # Only f
-mushrooms[mushrooms['stem-width'] == 0]['stem-surface'].unique() # Only f
+# Explore stem-related variables
+stem_columns = [col for col in mushrooms.columns if col.startswith('stem')]
+f_stem = mushrooms[mushrooms['stem-root'] == 'f'][stem_columns]
+print("\nStem-related variables when 'stem-root' is 'f':")
+print(f_stem.drop_duplicates())
 
-mushrooms[mushrooms['stem-height'] == 0]['stem-color'].unique() # Only f
-mushrooms[mushrooms['stem-width'] == 0]['stem-color'].unique() # Only f
-    
-# Replace 'f' with NaN in all columns except 'does-bruise-or-bleed' and 'has-ring'
-mushrooms.loc[:, ~mushrooms.columns.isin(['does-bruise-or-bleed', 'has-ring'])] = \
-    mushrooms.loc[:, ~mushrooms.columns.isin(['does-bruise-or-bleed', 'has-ring'])].replace('f', pd.NA)
-    
-# Replace 0 in 'stem-height' and 'stem-width' with NaN
-mushrooms.loc[:, mushrooms.columns.isin(['stem-height', 'stem-width'])] = \
-    mushrooms.loc[:, mushrooms.columns.isin(['stem-height', 'stem-width'])].replace(0., pd.NA)
+# Inspect numerical variables
+numerical_description = mushrooms.describe()
+print("\nSummary of numerical variables:")
+print(numerical_description)
 
-# Check for missing values
-if not mushrooms.isnull().any().any():
-    print("\nThere are no missing values in the dataset.")
-else:
-    print("\nThere are missing values in the dataset.")
-    # Summarize missing values
-    na_counts = mushrooms.isnull().sum()
-    na_percentages = (na_counts / n_rows) * 100
-    na_summary = pd.DataFrame({
-        'Missing Values Count': na_counts,
-        'Missing Values Percentage': na_percentages
-    }).query('`Missing Values Count` > 0')  # Filter for columns with missing values
-    print("\nSummary of missing values:")
-    print(na_summary)
+# Investigate zero values in 'stem-height' and 'stem-width'
+zero_height = mushrooms[mushrooms['stem-height'] == 0][stem_columns]
+zero_width = mushrooms[mushrooms['stem-width'] == 0][stem_columns]
+
+print(f"\nRows with 'stem-height' = 0:\n{zero_height.drop_duplicates()}")
+print(f"\nRows with 'stem-width' = 0:\n{zero_width.drop_duplicates()}")
+
+# Analyze rows where 'veil-type' is missing
+veil_type_missing = mushrooms[mushrooms['veil-type'].isna()]
+print("\nClasses of mushrooms where 'veil-type' is missing:")
+print(veil_type_missing['class'].unique())
+
+# Drop the 'veil-type' column
+mushrooms = mushrooms.drop(columns=['veil-type'])
+print("\n'veil-type' column has been dropped from the dataset.")
 
 # Section: Preprocessing and Classification
 print("\n### Mushroom Classification ###")
@@ -110,7 +98,7 @@ else:
 X = mushrooms.drop('class', axis=1).values
 y = mushrooms['class'].values
 
-# Subsection: Using Nested Cross-Validation
+# Subsection: Nested Cross-Validation for Model Evaluation
 print("\n#### Running Model with Nested Cross-Validation ####")
 
 # Define the parameter grid for hyperparameter tuning
@@ -118,28 +106,53 @@ parameter_grid = {
     'min_samples_split': [2],
     'max_depth': [15],
     'n_features': ["log2"],
-    'criterion': ["gini", "scaled_entropy"],
+    'criterion': ["gini"],
     'min_information_gain': [0.0],
     'n_quantiles': [5],
     'isolate_one': [False]
 }
 
 # Perform nested cross-validation
-model_parameters, test_errors = k_fold_nested_cv(X, y, DecisionTreeClassifier, parameter_grid, random_state=42)
-
+model_parameters, test_errors = k_fold_nested_cv(
+    X, y, DecisionTreeClassifier, parameter_grid, random_state=42
+)
 mean_test_error = np.mean(test_errors)
 min_test_error = np.min(test_errors)
-best_model_params = model_parameters[np.argmin(test_errors)]
+best_model_parameters = model_parameters[np.argmin(test_errors)]
 
-print(f"Mean Test Error: {mean_test_error:.4f}")
+print(f"\nMean Test Error: {mean_test_error:.4f}")
 print(f"Minimum Test Error: {min_test_error:.4f}")
-print(f"Best Model Parameters (corresponding to Minimum Test Error): {best_model_params}")
+print("Best Model Parameters (corresponding to Minimum Test Error):")
+for param, value in best_model_parameters.items():
+    print(f"  {param}: {value}")
+    
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_partition(X, y, random_state=42)
 
-# Dropping columns with more than 45% of missing values
-mushrooms.drop(['gill-spacing', 'gill-spacing', 'stem-surface', 'veil-type', 'veil-color', 'ring-type',
-                'spore-print-color'], axis=1)
+print(f"Training set size: {X_train.shape[0]} samples")
+print(f"Test set size: {X_test.shape[0]} samples")
 
-# Dropping subsequent rows with missing values
-mushrooms.dropna()
+# Train the final model using the best parameters obtained from nested cross-validation
+final_model = DecisionTreeClassifier(**best_model_parameters)
+final_model.fit(X_train, y_train)
 
-# Perform nested cross-validation with the same parameter grid
+print("\n### Final Model Trained with Best Parameters ###")
+
+# Make predictions on the test set
+y_pred = final_model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_metric(y_test, y_pred)
+precision = precision_metric(y_test, y_pred)
+recall = recall_metric(y_test, y_pred)
+f1 = f1_metric(y_test, y_pred)
+tp, tn, fp, fn = confusion_matrix(y_test, y_pred)
+
+# Print the evaluation results
+print("\n#### Final Model Evaluation ####")
+print(f"Accuracy: {accuracy:.4f}")
+print(f"Precision: {precision:.4f}")
+print(f"Recall: {recall:.4f}")
+print(f"F1 Score: {f1:.4f}")
+print("\nConfusion Matrix:")
+print(f"TP: {tp}, TN: {tn}, FP: {fp}, FN: {fn}")

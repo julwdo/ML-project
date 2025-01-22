@@ -267,39 +267,27 @@ In this study, a set of custom functions has been implemented to facilitate robu
     \item \texttt{\_parameter\_combinations()}: 
     This helper function generates all possible combinations of hyperparameters from a specified grid.
 
-    \item \texttt{accuracy\_metric()}: 
-    This function computes the accuracy of the model’s predictions.
+\item \texttt{accuracy\_metric()}: 
+    This function computes the accuracy of the model’s predictions by calculating the proportion of correct predictions out of all predictions.
+
+    \item \texttt{precision\_metric()}: 
+    This function computes precision, defined as the ratio of true positive predictions to the total predicted positives.
+
+    \item \texttt{recall\_metric()}: 
+    This function computes recall, defined as the ratio of true positive predictions to the total actual positives.
+
+    \item \texttt{f1\_metric()}: 
+    This function computes the F1 score, the harmonic mean of precision and recall.
+
+    \item \texttt{confusion\_matrix()}: 
+    This function computes the confusion matrix, which summarizes the performance of a classification model by comparing the true labels against the predicted labels. The confusion matrix contains four elements:\ true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN).
 \end{itemize}
 
 \section{Dataset Description}
 
-The \href{https://archive.ics.uci.edu/dataset/848/secondary+mushroom+dataset}{dataset} used in this study is a simulated version inspired by the \href{https://archive.ics.uci.edu/dataset/73/mushroom}{Mushroom Data Set}. It contains 61,069 hypothetical mushrooms, each described by 20 features and classified as either definitely edible or definitely poisonous/of unknown edibility. The class distribution is balanced, with 27,181 (44.51\%) mushrooms classified as edible and 33,888 (55.49\%) as poisonous, ensuring that no class is overrepresented in subsequent analyses. During preprocessing, 146 (0.24\%) duplicate rows were identified and removed to prevent undue weighting of any observation. This step reduced the dataset to 60,923 mushrooms, of which 27,181 (44.62\%) edible and 33,742 (55.38\%) poisonous. Furthermore, nine variables were identified as containing missing values, as shown in Table \ref{tab:missing_values_before}.
+The \href{https://archive.ics.uci.edu/dataset/848/secondary+mushroom+dataset}{dataset} used in this study is a simulated version inspired by the \href{https://archive.ics.uci.edu/dataset/73/mushroom}{Mushroom Data Set}. It contains 61,069 hypothetical mushrooms, each described by 20 features and classified as either definitely edible or definitely poisonous/of unknown edibility. The class distribution is balanced, with 27,181 mushrooms (44.51\%) classified as edible and 33,888 (55.49\%) as poisonous, ensuring no class is overrepresented in subsequent analyses.
 
-Looking at the possible values of the variables, some values not defined by the author of the dataset were found, e.g., value ``d'' for cap-surface or value ``f'' for stem-root. An overview over all 21 variables, their types and possible values is presented in Table \ref{tab:mushroom_variables}.
-
-One can see that for many variables, one of the possible values is ``f'' which stands either for ``no'' or ``none''. A question arose about whether the value ``f'' should be treated as a regular value or as missing. After careful consideration, it was decided to encode all occurrences of ``f'' as missing, except in ``does-bruise-or-bleed'' and ``has-ring'', where ``f'' should be interpreted as ``no'' rather than ``none''. Then also some statistics on the numerical variables were explored. A minimum of 0 for ``stem-height'' and ``stem-width'' revealed the presence of 915 mushrooms with ``stem-height'' equal to 0 and ``stem-width''. These turned out to be the same mushrooms, meaning that if ``stem-height'' was equal to 0, also ``stem-width'' was equal to 0. Hence, also the other variables regarding stem characteristics where explored. It turned out that for these 915 mushrooms, all stem-root, stem-surface and stem-color were equal to f. Hence, ``stem-height'' and ``stem-width'' equal to 0 were also considered as missing values. These operations increased the number of variables with missing values to fourteen (see Table \ref{tab:missing_values_after}).
-
-However, since the implemented DecisionTree class is able to handle missing values, first analysis was performed with them in place. A nested cross-validation was performed with the following parameter grid:
-
-parameter_grid = {
-    'min_samples_split': [2],
-    'max_depth': [15, 20],
-    'n_features': ["log2"],
-    'criterion': ["gini", "scaled_entropy"],
-    'min_information_gain': [0.0],
-    'n_quantiles': [5, 10],
-    'isolate_one': [False]
-}
-
-The following results were obtained:
-Mean Test Error: 0.0601
-Minimum Test Error: 0.0532
-Best Model Parameters (corresponding to Minimum Test Error): {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': False}
-% Update these results!
-
-Subsequently, columns with more than 45\% missing values were dropped and the remaining rows with missing values were dropped. Then, the nested cross validation was performed again, with the same parameter grid, and the following results were obtained. 
-    
-    
+During preprocessing, 146 duplicate rows (0.24\%) were identified and removed to avoid undue weighting of observations. This step reduced the dataset to 60,923 mushrooms, consisting of 27,181 (44.62\%) edible and 33,742 (55.38\%) poisonous instances. Additionally, nine variables were found to contain missing values, as summarized in Table \ref{tab:missing_values_before}.
 
 \begin{table}[!ht]
 \centering
@@ -326,6 +314,8 @@ ring-type & 2471 & 4.05 \\ \hline
 spore-print-color & 54597 & 89.40 \\ \hline
 \end{tabular}
 \end{table}
+
+Upon examining the possible values for each variable, some unexpected values not defined by the dataset's author were observed, such as ``d'' for cap-surface and ``f'' for stem-root. A comprehensive overview of all 21 variables, their types, and possible values is provided in Table \ref{tab:mushroom_variables}.
 
 \begin{table}[!ht]
 \centering
@@ -364,35 +354,38 @@ season & categorical & s (spring), u (summer), a (autumn), w (winter) \\ \hline
 \end{tabular}
 \end{table}
 
-\begin{table}[!ht]
-\centering
-\footnotesize
-\setlength{\tabcolsep}{5pt}
-\caption{Missing Values Count and Percentage (After Replacements)}
-\label{tab:missing_values_after}
-\begin{tabular}{
->{\raggedright\arraybackslash}p{\widthof{spore-print-color}}
-S[table-format=5]
-S[table-format=2.2]
-}
-\hline
-& \multicolumn{2}{c}{\textbf{Missing Values}} \\ \cline{2-3}
-\textbf{Variable} & \textbf{Count} & \textbf{Percentage} \\ \hline
-cap-shape & 13404 & 21.95 \\ \hline
-cap-surface & 14120 & 23.12 \\ \hline
-gill-attachment & 13269 & 21.73 \\ \hline
-gill-spacing & 28476 & 46.63 \\ \hline
-gill-color & 3414 & 5.59 \\ \hline
-stem-height & 915 & 1.50 \\ \hline
-stem-width & 915 & 1.50 \\ \hline
-gill-spacing & 52451 & 85.89 \\ \hline
-stem-surface & 39037 & 63.92 \\ \hline
-stem-color & 915 & 1.50 \\ \hline
-veil-type & 57746 & 94.56 \\ \hline
-veil-color & 53510 & 87.62 \\ \hline
-ring-type & 50686 & 83.00 \\ \hline
-spore-print-color & 54597 & 89.40 \\ \hline
-\end{tabular}
-\end{table}
+Notably, several gill- and stem-related variables include ``f'' as a possible value, signifying ``none''. This raised a question about whether ``f'' represents a valid value or missing data. Analysis revealed that if any gill-related variable has a value of ``f'', all other gill-related variables for that mushroom also have the value ``f''. A similar pattern was found for stem-related variables. Specifically, 3,414 mushrooms lacked gill-related information, and 915 lacked stem-related information. These 915 mushrooms also had stem-height and stem-width equal to 0, confirming the consistency of this pattern.
+
+Further investigation, informed by domain knowledge, clarified that some mushrooms naturally lack gills or stems. This observation suggests that the ``f'' values reflect genuine biological characteristics rather than missing data. Consequently, these values were treated as valid in subsequent analyses.
+
+Lastly, the veil-type variable was examined for its potential utility in predictive modeling. This variable only takes the value ``u'', but it was missing for the majority (94.56\%) of observations. Additionally, when veil-type was missing, both classes (edible and poisonous) were represented, indicating that the missingness did not provide meaningful predictive information for classification. Given its lack of variability and predictive utility, the veil-type variable was excluded from further analysis.
+
+\section{Model Training and Evaluation}
+
+%However, since the implemented DecisionTree class is able to handle missing values, first analysis was performed with them in place. A nested cross-validation was performed with the following parameter grid:
+%
+%parameter_grid = {
+%    'min_samples_split': [2],
+%    'max_depth': [15, 20],
+%    'n_features': ["log2"],
+%    'criterion': ["gini", "scaled_entropy"],
+%    'min_information_gain': [0.0],
+%    'n_quantiles': [5, 10],
+%    'isolate_one': [False]
+%}
+%
+%The following results were obtained:
+%Mean Test Error: 0.0601
+%Minimum Test Error: 0.0532
+%Best Model Parameters (corresponding to Minimum Test Error): {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': False}
+%% Update these results!
+%
+%Subsequently, columns with more than 45\% missing values were dropped and the remaining rows with missing values were dropped. Then, the nested cross validation was performed again, with the same parameter grid, and the following results were obtained. 
+    
+    
+
+
+
+
 
 \end{document}

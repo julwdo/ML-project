@@ -117,6 +117,32 @@ def accuracy_metric(y, y_predicted):
     """Compute accuracy."""
     return np.mean(y == y_predicted)
 
+def confusion_matrix(y, y_predicted):
+    """Compute confusion matrix."""
+    tp = np.sum((y == 1) & (y_predicted == 1))
+    tn = np.sum((y == 0) & (y_predicted == 0))
+    fp = np.sum((y == 0) & (y_predicted == 1))
+    fn = np.sum((y == 1) & (y_predicted == 0))
+    return tp, tn, fp, fn
+
+def f1_metric(y, y_predicted):
+    """Compute F1 score."""
+    precision = precision_metric(y, y_predicted)
+    recall = recall_metric(y, y_predicted)
+    return 2 * (precision * recall) / (precision + recall)
+
+def precision_metric(y, y_predicted):
+    """Compute precision."""
+    tp = np.sum((y == 1) & (y_predicted == 1))
+    fp = np.sum((y == 0) & (y_predicted == 1))
+    return tp / (tp + fp)
+
+def recall_metric(y, y_predicted):
+    """Compute recall."""
+    tp = np.sum((y == 1) & (y_predicted == 1))
+    fn = np.sum((y == 1) & (y_predicted == 0))
+    return tp / (tp + fn)
+
 class TreeNode:
     def __init__(self, feature_index=None, threshold_value=None, left_child=None, right_child=None, left_ratio=None, leaf_value=None):
         """Initialize a tree node."""
