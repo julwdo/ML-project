@@ -103,18 +103,18 @@ print("\n#### Running Model with Nested Cross-Validation ####")
 
 # Define the parameter grid for hyperparameter tuning
 parameter_grid = {
-    'min_samples_split': [2],
-    'max_depth': [15],
-    'n_features': ["log2"],
-    'criterion': ["gini"],
-    'min_information_gain': [0.0],
-    'n_quantiles': [5],
-    'isolate_one': [False]
+    'min_samples_split': [2, 5, 10, 20],
+    'max_depth': [5, 10, 15, 20, None],
+    'n_features': ["log2", "sqrt", None],
+    'criterion': ["gini", "scaled_entropy", "square_root"],
+    'min_information_gain': [0.0, 0.01, 0.05, 0.1],
+    'n_quantiles': [5, 10, 20],
+    'isolate_one': [True, False]
 }
 
 # Perform nested cross-validation
 model_parameters, test_errors = k_fold_nested_cv(
-    X, y, DecisionTreeClassifier, parameter_grid, random_state=42
+    X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=50
 )
 mean_test_error = np.mean(test_errors)
 min_test_error = np.min(test_errors)

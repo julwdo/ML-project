@@ -53,7 +53,7 @@ def k_fold_cv_estimate(X, y, model_class, model_parameters, k=5, random_state=No
 
     return np.mean(test_errors)
 
-def hyperparameter_tuning(X, y, model_class, parameter_grid, k=5, random_state=None):
+def hyperparameter_tuning(X, y, model_class, parameter_grid, k=5, random_state=None, n_iterations=None):
     """Use cross-validation to tune hyperparameters."""
     best_parameters = None
     best_mean_test_error = float('inf')
@@ -62,9 +62,22 @@ def hyperparameter_tuning(X, y, model_class, parameter_grid, k=5, random_state=N
     
     parameter_combinations = list(_parameter_combinations(parameter_grid))
     total_combinations = len(parameter_combinations)
+    
+    if n_iterations is not None:
+        
+        if random_state is not None:
+            np.random.seed(random_state)
+        
+        n_iterations = min(n_iterations, total_combinations)
+        sampled_combinations = np.random.choice(parameter_combinations, n_iterations, replace=False)
+        print(f"Random grid search enabled: Evaluating {n_iterations} out of {total_combinations} total combinations.")
+    
+    else:
+        sampled_combinations = parameter_combinations
+        print(f"Evaluating all {total_combinations} parameter combinations.")
 
-    for i, parameters in enumerate(parameter_combinations):
-        print(f"Evaluating parameter combination {i + 1}/{total_combinations}: {parameters}")
+    for i, parameters in enumerate(sampled_combinations):
+        print(f"Evaluating parameter combination {i + 1}/{len(sampled_combinations)}: {parameters}")
         mean_test_error = k_fold_cv_estimate(X, y, model_class, parameters, k, random_state)
         
         if mean_test_error < best_mean_test_error:
@@ -72,6 +85,7 @@ def hyperparameter_tuning(X, y, model_class, parameter_grid, k=5, random_state=N
             best_parameters = parameters
             
     print("Hyperparameter tuning completed.")
+    print(f"Evaluated {len(sampled_combinations)} combinations.")
 
     return best_parameters, best_mean_test_error
 
@@ -83,7 +97,7 @@ def _parameter_combinations(parameter_grid):
     for combination in product(*values):
         yield dict(zip(keys, combination))
 
-def k_fold_nested_cv(X, y, model_class, parameter_grid, k=5, random_state=None):
+def k_fold_nested_cv(X, y, model_class, parameter_grid, k=5, random_state=None, n_iterations=None):
     """Run k-fold nested cross-validation."""
     folds = k_fold_partition(X, k, random_state)
     model_parameters = []
@@ -96,7 +110,7 @@ def k_fold_nested_cv(X, y, model_class, parameter_grid, k=5, random_state=None):
         X_train, y_train = X[train_indices], y[train_indices]
         X_test, y_test = X[test_indices], y[test_indices]
 
-        best_parameters, _ = hyperparameter_tuning(X_train, y_train, model_class, parameter_grid, k, random_state)
+        best_parameters, _ = hyperparameter_tuning(X_train, y_train, model_class, parameter_grid, k, random_state, n_iterations)
         model_parameters.append(best_parameters)
         
         print(f"Best parameters for iteration {i + 1}: {best_parameters}")
@@ -319,16 +333,14 @@ class DecisionTreeClassifier:
         probabilities = np.bincount(y) / len(y)
         return -np.sum(probabilities / 2 * np.log2(probabilities + np.finfo(float).eps))
 
-    def _square_root_impurity(y):
+    def _square_root_impurity(self, y):
         """Calculate the 'square root' impurity of labels."""
         probabilities = np.bincount(y) / len(y)
         return np.sqrt(probabilities[0] * (1-probabilities[0]))
     
     def predict(self, X):
         """Predict labels for the input data."""
-#        print("Predicting labels...")
         predictions = np.array([self._traverse_tree(x) for x in X])
-#        print("Prediction completed.")
         return predictions
     
     def _traverse_tree(self, x):
