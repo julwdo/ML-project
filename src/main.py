@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
-from src.UDFs import DecisionTreeClassifier, k_fold_nested_cv, train_test_partition
-from src.UDFs import accuracy_metric, precision_metric, recall_metric, f1_metric, confusion_matrix
+from src.UDFs import DecisionTreeClassifier, k_fold_nested_cv
 
 # Section: Load and Explore the Dataset
 print("### Mushroom Dataset Exploration ###")
@@ -113,130 +112,104 @@ parameter_grid = {
 }
 
 # Perform nested cross-validation
-model_parameters, test_errors = k_fold_nested_cv(
+model_parameters, metrics = k_fold_nested_cv(
     X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=50
 )
-mean_test_error = np.mean(test_errors)
-min_test_error = np.min(test_errors)
-best_model_parameters = model_parameters[np.argmin(test_errors)]
 
-print(f"\nMean Test Error: {mean_test_error:.4f}")
-print(f"Minimum Test Error: {min_test_error:.4f}")
-print("Best Model Parameters (corresponding to Minimum Test Error):")
-for param, value in best_model_parameters.items():
-    print(f"  {param}: {value}")
-    
-# Split the data into training and test sets
-X_train, X_test, y_train, y_test = train_test_partition(X, y, random_state=42)
+# Calculate mean of all metrics across folds
+mean_metrics = {
+    'test_error': np.mean(metrics["test_errors"]),
+    'accuracy': np.mean(metrics["accuracies"]),
+    'precision': np.mean(metrics["precisions"]),
+    'recall': np.mean(metrics["recalls"]),
+    'f1_score': np.mean(metrics["f1_scores"]),
+}
 
-print(f"Training set size: {X_train.shape[0]} samples")
-print(f"Test set size: {X_test.shape[0]} samples")
+# Find the best model (lowest test error)
+best_model_index = np.argmin(metrics["test_errors"])
+best_model_parameters = model_parameters[best_model_index]
+best_model_metrics = {
+    'accuracy': metrics["accuracies"][best_model_index],
+    'precision': metrics["precisions"][best_model_index],
+    'recall': metrics["recalls"][best_model_index],
+    'f1_score': metrics["f1_scores"][best_model_index],
+}
 
-# Train the final model using the best parameters obtained from nested cross-validation
-final_model = DecisionTreeClassifier(**best_model_parameters)
-final_model.fit(X_train, y_train)
+# Print the results
+print(f"\nMean Test Error: {mean_metrics['test_error']:.4f}")
+print(f"Mean Accuracy: {mean_metrics['accuracy']:.4f}")
+print(f"Mean Precision: {mean_metrics['precision']:.4f}")
+print(f"Mean Recall: {mean_metrics['recall']:.4f}")
+print(f"Mean F1 Score: {mean_metrics['f1_score']:.4f}")
 
-print("\n### Final Model Trained with Best Parameters ###")
+print("\nBest Model Parameters (corresponding to Minimum Test Error):")
+for parameter, value in best_model_parameters.items():
+    print(f"  {parameter}: {value}")
 
-# Make predictions on the test set
-y_pred = final_model.predict(X_test)
+print(f"\nMetrics for Best Model:")
+for metric, value in best_model_metrics.items():
+    print(f"  {metric.capitalize()}: {value:.4f}")
 
-# Evaluate the model
-accuracy = accuracy_metric(y_test, y_pred)
-precision = precision_metric(y_test, y_pred)
-recall = recall_metric(y_test, y_pred)
-f1 = f1_metric(y_test, y_pred)
-tp, tn, fp, fn = confusion_matrix(y_test, y_pred)
-
-# Print the evaluation results
-print("\n#### Final Model Evaluation ####")
-print(f"Accuracy: {accuracy:.4f}")
-print(f"Precision: {precision:.4f}")
-print(f"Recall: {recall:.4f}")
-print(f"F1 Score: {f1:.4f}")
-print("\nConfusion Matrix:")
-print(f"TP: {tp}, TN: {tn}, FP: {fp}, FN: {fn}")
-
-# Subsection: Nested Cross-Validation for Model Evaluation (No Missing Values)
-print("\n#### Running Model (No Missing Values) with Nested Cross-Validation ####")
-
-# Columns to drop (more than 40% missing values based on the data provided)
-columns_to_drop = ['veil-color', 'spore-print-color', 'stem-root', 'stem-surface', 'gill-spacing']
+# Subsection: Nested Cross-Validation (No Missing Values)
+print("\n#### Running Model with Nested Cross-Validation (No Missing Values) ####")
 
 # Drop columns with more than 40% missing values
-mushrooms = mushrooms.drop(columns=columns_to_drop)
-
+columns_to_drop = ['veil-color', 'spore-print-color', 'stem-root', 'stem-surface', 'gill-spacing']
+mushrooms.drop(columns=columns_to_drop, inplace=True)
 print(f"Dropped columns: {columns_to_drop}")
 
 # Drop rows with any remaining missing values
 rows_before = mushrooms.shape[0]
-mushrooms = mushrooms.dropna()
+mushrooms.dropna(inplace=True)
 rows_after = mushrooms.shape[0]
-
 print(f"Dropped {rows_before - rows_after} rows with missing values.")
 print(f"Remaining rows: {rows_after}, Remaining columns: {mushrooms.shape[1]}")
 
-# Check for missing values
+# Check for missing values again
 if mushrooms.isnull().any().any():
     print("\nMissing values found in the dataset.")
-    na_summary = mushrooms.isnull().sum().loc[lambda x: x > 0].to_frame(name='Missing Count')
-    na_summary['Missing Percentage'] = (na_summary['Missing Count'] / n_rows) * 100
-    print("\nSummary of missing values:")
-    print(na_summary)
 else:
     print("\nNo missing values found in the dataset.")
-    
-# Count edible and poisonous mushrooms
-edible_count = (mushrooms['class'] == 0).sum()
-poisonous_count = mushrooms.shape[0] - edible_count
-print(f"\nNumber of edible mushrooms: {edible_count}")
-print(f"Number of poisonous mushrooms: {poisonous_count}")
 
-# Separate features (X) and target (y)
+# Separate features (X) and target (y) again
 X = mushrooms.drop('class', axis=1).values
 y = mushrooms['class'].values
 
-# Perform nested cross-validation
-model_parameters, test_errors = k_fold_nested_cv(
+# Perform nested cross-validation on cleaned dataset
+model_parameters, metrics = k_fold_nested_cv(
     X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=50
 )
-mean_test_error = np.mean(test_errors)
-min_test_error = np.min(test_errors)
-best_model_parameters = model_parameters[np.argmin(test_errors)]
 
-print(f"\nMean Test Error: {mean_test_error:.4f}")
-print(f"Minimum Test Error: {min_test_error:.4f}")
-print("Best Model Parameters (corresponding to Minimum Test Error):")
-for param, value in best_model_parameters.items():
-    print(f"  {param}: {value}")
-    
-# Split the data into training and test sets
-X_train, X_test, y_train, y_test = train_test_partition(X, y, random_state=42)
+# Calculate mean of all metrics across folds for cleaned dataset
+mean_metrics_clean = {
+    'test_error': np.mean(metrics["test_errors"]),
+    'accuracy': np.mean(metrics["accuracies"]),
+    'precision': np.mean(metrics["precisions"]),
+    'recall': np.mean(metrics["recalls"]),
+    'f1_score': np.mean(metrics["f1_scores"]),
+}
 
-print(f"Training set size: {X_train.shape[0]} samples")
-print(f"Test set size: {X_test.shape[0]} samples")
+# Find the best model (lowest test error) for the cleaned dataset
+best_model_index_clean = np.argmin(metrics["test_errors"])
+best_model_parameters_clean = model_parameters[best_model_index_clean]
+best_model_metrics_clean = {
+    'accuracy': metrics["accuracies"][best_model_index_clean],
+    'precision': metrics["precisions"][best_model_index_clean],
+    'recall': metrics["recalls"][best_model_index_clean],
+    'f1_score': metrics["f1_scores"][best_model_index_clean],
+}
 
-# Train the final model using the best parameters obtained from nested cross-validation
-final_model = DecisionTreeClassifier(**best_model_parameters)
-final_model.fit(X_train, y_train)
+# Print the results for cleaned dataset
+print(f"\nMean Test Error (cleaned dataset): {mean_metrics_clean['test_error']:.4f}")
+print(f"Mean Accuracy (cleaned dataset): {mean_metrics_clean['accuracy']:.4f}")
+print(f"Mean Precision (cleaned dataset): {mean_metrics_clean['precision']:.4f}")
+print(f"Mean Recall (cleaned dataset): {mean_metrics_clean['recall']:.4f}")
+print(f"Mean F1 Score (cleaned dataset): {mean_metrics_clean['f1_score']:.4f}")
 
-print("\n### Final Model Trained with Best Parameters ###")
+print("\nBest Model Parameters (cleaned dataset):")
+for parameter, value in best_model_parameters_clean.items():
+    print(f"  {parameter}: {value}")
 
-# Make predictions on the test set
-y_pred = final_model.predict(X_test)
-
-# Evaluate the model
-accuracy = accuracy_metric(y_test, y_pred)
-precision = precision_metric(y_test, y_pred)
-recall = recall_metric(y_test, y_pred)
-f1 = f1_metric(y_test, y_pred)
-tp, tn, fp, fn = confusion_matrix(y_test, y_pred)
-
-# Print the evaluation results
-print("\n#### Final Model Evaluation ####")
-print(f"Accuracy: {accuracy:.4f}")
-print(f"Precision: {precision:.4f}")
-print(f"Recall: {recall:.4f}")
-print(f"F1 Score: {f1:.4f}")
-print("\nConfusion Matrix:")
-print(f"TP: {tp}, TN: {tn}, FP: {fp}, FN: {fn}")
+print(f"\nMetrics for Best Model (cleaned dataset):")
+for metric, value in best_model_metrics_clean.items():
+    print(f"  {metric.capitalize()}: {value:.4f}")

@@ -4,3 +4,4 @@
 \contentsline {subsection}{\numberline {2.2}DecisionTreeClassifier Class}{1}{subsection.2.2}%
 \contentsline {section}{\numberline {3}Training and Validation Procedures}{5}{section.3}%
 \contentsline {section}{\numberline {4}Dataset Description}{5}{section.4}%
+\contentsline {section}{\numberline {5}Model Training and Evaluation}{6}{section.5}%

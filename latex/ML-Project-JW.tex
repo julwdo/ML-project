@@ -249,8 +249,8 @@ In this study, a set of custom functions has been implemented to facilitate robu
 \subsubsection*{Functions:}
 
 \begin{itemize}
-    \item \texttt{train\_test\_partition()}: 
-    This function randomly partitions the data into training and testing sets. The proportion of data allocated to each set is specified by the user (the default is 20\% testing).
+%    \item \texttt{train\_test\_partition()}: 
+%    This function randomly partitions the data into training and testing sets. The proportion of data allocated to each set is specified by the user (the default is 20\% testing).
     
     \item \texttt{k\_fold\_partition()}:  
     This function divides the data into \( k \) folds for \( k \)-fold cross-validation. The number of folds is specified by the user (the default is 5).
@@ -279,8 +279,8 @@ In this study, a set of custom functions has been implemented to facilitate robu
     \item \texttt{f1\_metric()}: 
     This function computes the F1 score, the harmonic mean of precision and recall.
 
-    \item \texttt{confusion\_matrix()}: 
-    This function computes the confusion matrix, which summarizes the performance of a classification model by comparing the true labels against the predicted labels. The confusion matrix contains four elements:\ true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN).
+%    \item \texttt{confusion\_matrix()}: 
+%    This function computes the confusion matrix, which summarizes the performance of a classification model by comparing the true labels against the predicted labels. The confusion matrix contains four elements:\ true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN).
 \end{itemize}
 
 \section{Dataset Description}
@@ -362,61 +362,28 @@ Lastly, the veil-type variable was examined for its potential utility in predict
 
 \section{Model Training and Evaluation}
 
-Since the implemented DecisionTreeClassifier class is able to handle missing values, no columns or rows were dropped from the dataset. In order to find the best hyperparameters, the nested cross-validation, with 5 folds for both outer and inner loop, was performed using the following parameter grid:
+The implemented \texttt{DecisionTreeClassifier} class is capable of handling missing values, so no columns or rows were removed from the dataset in the initial analysis. To identify the best hyperparameters, nested cross-validation with 5 folds for both the outer and inner loops was performed using the following parameter grid:
 
-parameter_grid = {
-    'min_samples_split': [2, 5, 10, 20],
-    'max_depth': [5, 10, 15, 20, None],
-    'n_features': ["log2", "sqrt", None],
-    'criterion': ["gini", "scaled_entropy", "square_root"],
-    'min_information_gain': [0.0, 0.01, 0.05, 0.1],
-    'n_quantiles': [5, 10, 20],
-    'isolate_one': [True, False]
-}
-    
-Since evaluating all possible parameter combinations would mean evaluating 4,320 combinations, it was decided to select at random 50 parameter combinations to evaluate. The results were the following:
+\begin{verbatim} parameter_grid = { 'min_samples_split': [2, 5, 10, 20], 'max_depth': [5, 10, 15, 20, None], 'n_features': ["log2", "sqrt", None], 'criterion': ["gini", "scaled_entropy", "square_root"], 'min_information_gain': [0.0, 0.01, 0.05, 0.1], 'n_quantiles': [5, 10, 20], 'isolate_one': [True, False] } \end{verbatim}
 
-Mean Test Error: 0.0094
-Minimum Test Error: 0.0084
-Best Model Parameters (corresponding to Minimum Test Error):
-  min_samples_split: 10
-  max_depth: 20
-  n_features: None
-  criterion: square_root
-  min_information_gain: 0.0
-  n_quantiles: 10
-  isolate_one: False
+Evaluating all possible parameter combinations would have required testing 4,320 combinations. To reduce computational cost, 50 parameter combinations were randomly selected for evaluation. The results of the nested cross-validation were as follows:
 
-Then, in order to evaluate the obtained decision tree model, the dataset was split into training and test set (20\% test set), and the decision tree with the best parameters (obtained in the nested cross-validation process) was trained on the training part and tested on the test part. The following results were obtained.
-    
-Accuracy: 0.9914
-Precision: 0.9935
-Recall: 0.9910
-F1 Score: 0.9923
-Confusion Matrix:
-TP: 6745, TN: 5335, FP: 44, FN: 61
+\begin{itemize} \item \textbf{Mean Test Error:} 0.0094 \item \textbf{Mean Accuracy:} 0.9906 \item \textbf{Mean Precision:} 0.9929 \item \textbf{Mean Recall:} 0.9901 \item \textbf{Mean F1 Score:} 0.9915 \end{itemize}
 
-Subsequently, in order to train the model without missing values, features with more than 40\% missing values were dropped (these included 'veil-color', 'spore-print-color', 'stem-root', 'stem-surface', 'gill-spacing') and the remaining rows with missing values were dropped as well. This resulted in having 36948 observations, 14 features and the class distribution of 16944 (45.86\%) edible and 20004 (54.14\%) poisonous mushrooms. The same procedure of nested cross-validation with 5 folds was employed, and the same parameter grid was evaluated (50 parameter combinations chosen at random).
+The hyperparameters corresponding to the minimum test error were:
 
-Mean Test Error: 0.0032
-Minimum Test Error: 0.0030
-Best Model Parameters (corresponding to Minimum Test Error):
-  min_samples_split: 10
-  max_depth: 20
-  n_features: None
-  criterion: square_root
-  min_information_gain: 0.0
-  n_quantiles: 10
-  isolate_one: False
+\begin{itemize} \item \texttt{min\_samples\_split:} 10 \item \texttt{max\_depth:} 20 \item \texttt{n\_features:} None \item \texttt{criterion:} square\_root \item \texttt{min\_information\_gain:} 0.0 \item \texttt{n\_quantiles:} 10 \item \texttt{isolate\_one:} False \end{itemize}
 
-Then the data was split into training and test, the model with the best parameters was trained on the training set and evaluated on the test set, yielding the following results:
+The best model achieved the following metrics: \begin{itemize} \item \textbf{Accuracy:} 0.9916 \item \textbf{Precision:} 0.9925 \item \textbf{Recall:} 0.9922 \item \textbf{F1 Score:} 0.9923 \end{itemize}
 
-Accuracy: 0.9969
-Precision: 0.9972
-Recall: 0.9970
-F1 Score: 0.9971
-Confusion Matrix:
-TP: 3940, TN: 3427, FP: 11, FN: 12
+Subsequently, an alternative approach was tested by removing features with more than 40\% missing values (\texttt{veil-color}, \texttt{spore-print-color}, \texttt{stem-root}, \texttt{stem-surface}, and \texttt{gill-spacing}) and dropping rows with any remaining missing values. This preprocessing step resulted in a dataset containing 36,948 observations, 14 features, and the following class distribution: \begin{itemize} \item \textbf{Edible:} 16,944 (45.86\%) \item \textbf{Poisonous:} 20,004 (54.14\%) \end{itemize}
 
+The same nested cross-validation procedure (5 folds for both loops) and parameter grid were applied, with 50 randomly selected parameter combinations evaluated. The results on the cleaned dataset were as follows:
 
+\begin{itemize} \item \textbf{Mean Test Error:} 0.0032 \item \textbf{Mean Accuracy:} 0.9968 \item \textbf{Mean Precision:} 0.9972 \item \textbf{Mean Recall:} 0.9970 \item \textbf{Mean F1 Score:} 0.9971 \end{itemize}
+
+The best hyperparameters for the cleaned dataset matched those found previously: \begin{itemize} \item \texttt{min\_samples\_split:} 10 \item \texttt{max\_depth:} 20 \item \texttt{n\_features:} None \item \texttt{criterion:} square\_root \item \texttt{min\_information\_gain:} 0.0 \item \texttt{n\_quantiles:} 10 \item \texttt{isolate\_one:} False \end{itemize}
+
+The performance metrics for the best model on the cleaned dataset were: \begin{itemize} \item \textbf{Accuracy:} 0.9970 \item \textbf{Precision:} 0.9975 \item \textbf{Recall:} 0.9970 \item \textbf{F1 Score:} 0.9973 \end{itemize}
+  
 \end{document}

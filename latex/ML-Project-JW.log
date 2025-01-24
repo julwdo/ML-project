@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.10.28)  17 JAN 2025 06:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.10.28)  24 JAN 2025 19:30
 entering extended mode
 **./ML-Project-JW.tex
 (ML-Project-JW.tex
@@ -523,7 +523,7 @@ LaTeX Info: Redefining \nameref on input line 28.
 \openout3 = `ML-Project-JW.out'.
 
 \c@lstlisting=\count315
-<logo.png, id=27, 803.0pt x 803.0pt>
+<logo.png, id=31, 803.0pt x 803.0pt>
 File: logo.png Graphic file (type png)
 <use logo.png>
 Package pdftex.def Info: logo.png  used on input line 51.
@@ -541,18 +541,36 @@ been already used, duplicate ignored
                    \relax 
 l.99     \item \texttt
                       {n\_features} (int, float, or str): The number of feat...
-[1] [2] [3] [4] [5] [6] (ML-Project-JW.aux)
+[1] [2] [3] [4]
+Overfull \hbox (1.18266pt too wide) in paragraph at lines 261--263
+[]\OT1/cmtt/m/n/10 parameter[]combinations() \OT1/cmr/m/n/10 func-tion, or a ra
+n-dom sub-set if spec-i-fied, and uses the \OT1/cmtt/m/n/10 k[]fold[]cv[]estima
+te()
+ []
+
+[5]
+Overfull \hbox (1054.53975pt too wide) in paragraph at lines 367--367
+[] \OT1/cmtt/m/n/10 parameter_grid = { 'min_samples_split': [2, 5, 10, 20], 'ma
+x_depth': [5, 10, 15, 20, None], 'n_features': ["log2", "sqrt", None], 'criteri
+on': ["gini", "scaled_entropy", "square_root"], 'min_information_gain': [0.0, 0
+.01, 0.05, 0.1], 'n_quantiles': [5, 10, 20], 'isolate_one': [True, False] } 
+ []
+
+[6] [7] [8] (ML-Project-JW.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `ML-Project-JW.out' has not changed.
-(rerunfilecheck)             Checksum: 1B72B219CAA87D45331E560E1645C9D6;995.
+(rerunfilecheck)             Checksum: D67FF1CBE97CE55F15F85700D4D74ACB;1192.
  ) 
 Here is how much of TeX's memory you used:
- 16013 strings out of 478869
- 292452 string characters out of 2860379
- 616103 words of memory out of 3000000
+ 16015 strings out of 478869
+ 292442 string characters out of 2860379
+ 609006 words of memory out of 3000000
  33703 multiletter control sequences out of 15000+600000
  409996 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 73i,10n,81p,621b,828s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 73i,10n,81p,655b,828s stack positions out of 5000i,500n,10000p,200000b,80000s
 {C:/Program Files/MiKTeX/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<C:/Progra
 m Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX/fonts/typ
@@ -567,9 +585,9 @@ c/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm
 Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program File
 s/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files/MiKTeX/fon
 ts/type1/public/cm-super/sfrm1000.pfb>
-Output written on ML-Project-JW.pdf (7 pages, 386228 bytes).
+Output written on ML-Project-JW.pdf (9 pages, 394462 bytes).
 PDF statistics:
- 178 PDF objects out of 1000 (max. 8388607)
- 34 named destinations out of 1000 (max. 500000)
- 54 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 189 PDF objects out of 1000 (max. 8388607)
+ 36 named destinations out of 1000 (max. 500000)
+ 62 words of extra memory for PDF output out of 10000 (max. 10000000)
 
