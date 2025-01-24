@@ -156,3 +156,87 @@ print(f"Recall: {recall:.4f}")
 print(f"F1 Score: {f1:.4f}")
 print("\nConfusion Matrix:")
 print(f"TP: {tp}, TN: {tn}, FP: {fp}, FN: {fn}")
+
+# Subsection: Nested Cross-Validation for Model Evaluation (No Missing Values)
+print("\n#### Running Model (No Missing Values) with Nested Cross-Validation ####")
+
+# Columns to drop (more than 40% missing values based on the data provided)
+columns_to_drop = ['veil-color', 'spore-print-color', 'stem-root', 'stem-surface', 'gill-spacing']
+
+# Drop columns with more than 40% missing values
+mushrooms = mushrooms.drop(columns=columns_to_drop)
+
+print(f"Dropped columns: {columns_to_drop}")
+
+# Drop rows with any remaining missing values
+rows_before = mushrooms.shape[0]
+mushrooms = mushrooms.dropna()
+rows_after = mushrooms.shape[0]
+
+print(f"Dropped {rows_before - rows_after} rows with missing values.")
+print(f"Remaining rows: {rows_after}, Remaining columns: {mushrooms.shape[1]}")
+
+# Check for missing values
+if mushrooms.isnull().any().any():
+    print("\nMissing values found in the dataset.")
+    na_summary = mushrooms.isnull().sum().loc[lambda x: x > 0].to_frame(name='Missing Count')
+    na_summary['Missing Percentage'] = (na_summary['Missing Count'] / n_rows) * 100
+    print("\nSummary of missing values:")
+    print(na_summary)
+else:
+    print("\nNo missing values found in the dataset.")
+    
+# Count edible and poisonous mushrooms
+edible_count = (mushrooms['class'] == 0).sum()
+poisonous_count = mushrooms.shape[0] - edible_count
+print(f"\nNumber of edible mushrooms: {edible_count}")
+print(f"Number of poisonous mushrooms: {poisonous_count}")
+
+# Separate features (X) and target (y)
+X = mushrooms.drop('class', axis=1).values
+y = mushrooms['class'].values
+
+# Perform nested cross-validation
+model_parameters, test_errors = k_fold_nested_cv(
+    X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=50
+)
+mean_test_error = np.mean(test_errors)
+min_test_error = np.min(test_errors)
+best_model_parameters = model_parameters[np.argmin(test_errors)]
+
+print(f"\nMean Test Error: {mean_test_error:.4f}")
+print(f"Minimum Test Error: {min_test_error:.4f}")
+print("Best Model Parameters (corresponding to Minimum Test Error):")
+for param, value in best_model_parameters.items():
+    print(f"  {param}: {value}")
+    
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_partition(X, y, random_state=42)
+
+print(f"Training set size: {X_train.shape[0]} samples")
+print(f"Test set size: {X_test.shape[0]} samples")
+
+# Train the final model using the best parameters obtained from nested cross-validation
+final_model = DecisionTreeClassifier(**best_model_parameters)
+final_model.fit(X_train, y_train)
+
+print("\n### Final Model Trained with Best Parameters ###")
+
+# Make predictions on the test set
+y_pred = final_model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_metric(y_test, y_pred)
+precision = precision_metric(y_test, y_pred)
+recall = recall_metric(y_test, y_pred)
+f1 = f1_metric(y_test, y_pred)
+tp, tn, fp, fn = confusion_matrix(y_test, y_pred)
+
+# Print the evaluation results
+print("\n#### Final Model Evaluation ####")
+print(f"Accuracy: {accuracy:.4f}")
+print(f"Precision: {precision:.4f}")
+print(f"Recall: {recall:.4f}")
+print(f"F1 Score: {f1:.4f}")
+print("\nConfusion Matrix:")
+print(f"TP: {tp}, TN: {tn}, FP: {fp}, FN: {fn}")

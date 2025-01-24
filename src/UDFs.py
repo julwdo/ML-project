@@ -101,7 +101,13 @@ def k_fold_nested_cv(X, y, model_class, parameter_grid, k=5, random_state=None, 
     """Run k-fold nested cross-validation."""
     folds = k_fold_partition(X, k, random_state)
     model_parameters = []
-    test_errors = []
+    metrics = {
+        "test_errors": [],
+        "accuracies": [],
+        "precisions": [],
+        "recalls": [],
+        "f1_scores": []
+    }
     
     print(f"Starting k-fold nested cross-validation with {k} folds...")
 
@@ -118,26 +124,28 @@ def k_fold_nested_cv(X, y, model_class, parameter_grid, k=5, random_state=None, 
         model = model_class(**best_parameters)
         model.fit(X_train, y_train)
         y_test_predicted = model.predict(X_test)
+        
+        accuracy = accuracy_metric(y_test, y_test_predicted)
+        test_error = 1 - accuracy
+        precision = precision_metric(y_test, y_test_predicted)
+        recall = recall_metric(y_test, y_test_predicted)
+        f1_score = f1_metric(y_test, y_test_predicted)
 
-        test_error = 1 - accuracy_metric(y_test, y_test_predicted)
-        test_errors.append(test_error)
+        metrics["test_errors"].append(test_error)
+        metrics["accuracies"].append(accuracy)
+        metrics["precisions"].append(precision)
+        metrics["recalls"].append(recall)
+        metrics["f1_scores"].append(f1_score)
+
         print(f"Test Error for iteration {i + 1}: {test_error:.4f}")
-
+        
     print("k-fold nested cross-validation done.")
 
-    return model_parameters, test_errors
+    return model_parameters, metrics
 
 def accuracy_metric(y, y_predicted):
     """Compute accuracy."""
     return np.mean(y == y_predicted)
-
-def confusion_matrix(y, y_predicted):
-    """Compute confusion matrix."""
-    tp = np.sum((y == 1) & (y_predicted == 1))
-    tn = np.sum((y == 0) & (y_predicted == 0))
-    fp = np.sum((y == 0) & (y_predicted == 1))
-    fn = np.sum((y == 1) & (y_predicted == 0))
-    return tp, tn, fp, fn
 
 def f1_metric(y, y_predicted):
     """Compute F1 score."""

@@ -396,4 +396,27 @@ F1 Score: 0.9923
 Confusion Matrix:
 TP: 6745, TN: 5335, FP: 44, FN: 61
 
+Subsequently, in order to train the model without missing values, features with more than 40\% missing values were dropped (these included 'veil-color', 'spore-print-color', 'stem-root', 'stem-surface', 'gill-spacing') and the remaining rows with missing values were dropped as well. This resulted in having 36948 observations, 14 features and the class distribution of 16944 (45.86\%) edible and 20004 (54.14\%) poisonous mushrooms. The same procedure of nested cross-validation with 5 folds was employed, and the same parameter grid was evaluated (50 parameter combinations chosen at random).
+
+Mean Test Error: 0.0032
+Minimum Test Error: 0.0030
+Best Model Parameters (corresponding to Minimum Test Error):
+  min_samples_split: 10
+  max_depth: 20
+  n_features: None
+  criterion: square_root
+  min_information_gain: 0.0
+  n_quantiles: 10
+  isolate_one: False
+
+Then the data was split into training and test, the model with the best parameters was trained on the training set and evaluated on the test set, yielding the following results:
+
+Accuracy: 0.9969
+Precision: 0.9972
+Recall: 0.9970
+F1 Score: 0.9971
+Confusion Matrix:
+TP: 3940, TN: 3427, FP: 11, FN: 12
+
+
 \end{document}
