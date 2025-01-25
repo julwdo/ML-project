@@ -112,35 +112,34 @@ parameter_grid = {
 }
 
 # Perform nested cross-validation
-model_parameters, metrics = k_fold_nested_cv(
+best_parameters_per_fold, metrics_per_fold = k_fold_nested_cv(
     X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=50
 )
 
 # Calculate mean of all metrics across folds
 mean_metrics = {
-    'test_error': np.mean(metrics["test_errors"]),
-    'accuracy': np.mean(metrics["accuracies"]),
-    'precision': np.mean(metrics["precisions"]),
-    'recall': np.mean(metrics["recalls"]),
-    'f1_score': np.mean(metrics["f1_scores"]),
+    'test_error': np.mean(metrics_per_fold["test_errors"]),
+    'precision': np.mean(metrics_per_fold["precisions"]),
+    'recall': np.mean(metrics_per_fold["recalls"]),
+    'f1_score': np.mean(metrics_per_fold["f1_scores"]),
 }
 
-# Find the best model (lowest test error)
-best_model_index = np.argmin(metrics["test_errors"])
-best_model_parameters = model_parameters[best_model_index]
-best_model_metrics = {
-    'accuracy': metrics["accuracies"][best_model_index],
-    'precision': metrics["precisions"][best_model_index],
-    'recall': metrics["recalls"][best_model_index],
-    'f1_score': metrics["f1_scores"][best_model_index],
-}
-
-# Print the results
 print(f"\nMean Test Error: {mean_metrics['test_error']:.4f}")
-print(f"Mean Accuracy: {mean_metrics['accuracy']:.4f}")
+print(f"Mean Accuracy: {1 - mean_metrics['test_error']:.4f}")
 print(f"Mean Precision: {mean_metrics['precision']:.4f}")
 print(f"Mean Recall: {mean_metrics['recall']:.4f}")
 print(f"Mean F1 Score: {mean_metrics['f1_score']:.4f}")
+
+# Find the best model (lowest test error)
+best_model_index = np.argmin(metrics_per_fold["test_errors"])
+best_model_parameters = best_parameters_per_fold[best_model_index]
+best_model_metrics = {
+    'test_error': metrics_per_fold["test_errors"][best_model_index],
+    'accuracy': 1 - metrics_per_fold["test_errors"][best_model_index],
+    'precision': metrics_per_fold["precisions"][best_model_index],
+    'recall': metrics_per_fold["recalls"][best_model_index],
+    'f1_score': metrics_per_fold["f1_scores"][best_model_index],
+}
 
 print("\nBest Model Parameters (corresponding to Minimum Test Error):")
 for parameter, value in best_model_parameters.items():
@@ -176,40 +175,39 @@ X = mushrooms.drop('class', axis=1).values
 y = mushrooms['class'].values
 
 # Perform nested cross-validation on cleaned dataset
-model_parameters, metrics = k_fold_nested_cv(
+best_parameters_per_fold, metrics_per_fold = k_fold_nested_cv(
     X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=50
 )
 
 # Calculate mean of all metrics across folds for cleaned dataset
-mean_metrics_clean = {
-    'test_error': np.mean(metrics["test_errors"]),
-    'accuracy': np.mean(metrics["accuracies"]),
-    'precision': np.mean(metrics["precisions"]),
-    'recall': np.mean(metrics["recalls"]),
-    'f1_score': np.mean(metrics["f1_scores"]),
+mean_metrics = {
+    'test_error': np.mean(metrics_per_fold["test_errors"]),
+    'precision': np.mean(metrics_per_fold["precisions"]),
+    'recall': np.mean(metrics_per_fold["recalls"]),
+    'f1_score': np.mean(metrics_per_fold["f1_scores"]),
 }
 
-# Find the best model (lowest test error) for the cleaned dataset
-best_model_index_clean = np.argmin(metrics["test_errors"])
-best_model_parameters_clean = model_parameters[best_model_index_clean]
-best_model_metrics_clean = {
-    'accuracy': metrics["accuracies"][best_model_index_clean],
-    'precision': metrics["precisions"][best_model_index_clean],
-    'recall': metrics["recalls"][best_model_index_clean],
-    'f1_score': metrics["f1_scores"][best_model_index_clean],
+print(f"\nMean Test Error: {mean_metrics['test_error']:.4f}")
+print(f"Mean Accuracy: {1 - mean_metrics['test_error']:.4f}")
+print(f"Mean Precision: {mean_metrics['precision']:.4f}")
+print(f"Mean Recall: {mean_metrics['recall']:.4f}")
+print(f"Mean F1 Score: {mean_metrics['f1_score']:.4f}")
+
+# Find the best model (lowest test error) for cleaned dataset
+best_model_index = np.argmin(metrics_per_fold["test_errors"])
+best_model_parameters = best_parameters_per_fold[best_model_index]
+best_model_metrics = {
+    'test_error': metrics_per_fold["test_errors"][best_model_index],
+    'accuracy': 1 - metrics_per_fold["test_errors"][best_model_index],
+    'precision': metrics_per_fold["precisions"][best_model_index],
+    'recall': metrics_per_fold["recalls"][best_model_index],
+    'f1_score': metrics_per_fold["f1_scores"][best_model_index],
 }
 
-# Print the results for cleaned dataset
-print(f"\nMean Test Error (cleaned dataset): {mean_metrics_clean['test_error']:.4f}")
-print(f"Mean Accuracy (cleaned dataset): {mean_metrics_clean['accuracy']:.4f}")
-print(f"Mean Precision (cleaned dataset): {mean_metrics_clean['precision']:.4f}")
-print(f"Mean Recall (cleaned dataset): {mean_metrics_clean['recall']:.4f}")
-print(f"Mean F1 Score (cleaned dataset): {mean_metrics_clean['f1_score']:.4f}")
-
-print("\nBest Model Parameters (cleaned dataset):")
-for parameter, value in best_model_parameters_clean.items():
+print("\nBest Model Parameters (corresponding to Minimum Test Error):")
+for parameter, value in best_model_parameters.items():
     print(f"  {parameter}: {value}")
 
-print(f"\nMetrics for Best Model (cleaned dataset):")
-for metric, value in best_model_metrics_clean.items():
+print(f"\nMetrics for Best Model:")
+for metric, value in best_model_metrics.items():
     print(f"  {metric.capitalize()}: {value:.4f}")

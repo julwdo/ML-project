@@ -61,6 +61,10 @@
 
 \section{Introduction}
 
+The classification of mushrooms as edible or poisonous is a critical task with significant implications for both food safety and toxicology studies. Leveraging machine learning techniques, particularly decision trees, provides an interpretable and effective method for addressing this problem. This project implements a custom-built decision tree classifier designed to handle both numerical and categorical features, including missing values, making it well-suited for real-world datasets that often contain incomplete information.
+
+The study begins by exploring the dataset, addressing missing values and duplicate entries, and analyzing variable distributions. A decision tree classifier is then trained and evaluated using robust techniques such as nested cross-validation to ensure reliable performance metrics. Two approaches were explored: one utilizing the full dataset with missing value handling and another using a cleaned dataset with high missing-value features removed. The results are compared, offering insights into the importance of preprocessing and hyperparameter tuning. The study also discusses potential applications of the classifier in the context of food safety and its generalizability to other classification tasks.
+
 \section{Tree Classifier Implementation}
 
 Tree predictors are fundamental tools in machine learning, widely applied to classification and regression tasks. They represent a hierarchy of decision rules, where data points are recursively split into subsets based on feature values. The main advantage of tree predictors is their ability to handle both numerical and categorical features. Tree predictors are also straightforward, making them a popular choice when interpretability is a priority.
@@ -240,7 +244,7 @@ After the split, any data points with a missing feature value are randomly distr
 
 The \texttt{\_traverse\_tree()} method traverses the decision tree to predict the label for a single instance. Starting at the root node, it follows the tree's decision rules until it reaches a leaf node. If the feature value at the current node is missing, the method randomly decides whether to move to the left or right child, based on the ratio of data points assigned to each child.
 
-\section{Training and Validation Procedures}
+\subsection{Training and Validation Procedures}
 
 Training a model on the training set and testing it on the test set is a fundamental practice in machine learning. The goal is to develop a model that generalizes well to new, unseen data, and not just memorizes the data seen during training (a phenomenon known as overfitting).
 
@@ -362,28 +366,51 @@ Lastly, the veil-type variable was examined for its potential utility in predict
 
 \section{Model Training and Evaluation}
 
-The implemented \texttt{DecisionTreeClassifier} class is capable of handling missing values, so no columns or rows were removed from the dataset in the initial analysis. To identify the best hyperparameters, nested cross-validation with 5 folds for both the outer and inner loops was performed using the following parameter grid:
+The first approach to training the decision tree classifier utilized the full dataset without removing any columns or rows, taking advantage of the \texttt{DecisionTreeClassifier} class's capability to handle missing values. Hyperparameter tuning was conducted using nested cross-validation with five folds for both the outer and inner loops. The parameter grid for this process was as follows:
 
-\begin{verbatim} parameter_grid = { 'min_samples_split': [2, 5, 10, 20], 'max_depth': [5, 10, 15, 20, None], 'n_features': ["log2", "sqrt", None], 'criterion': ["gini", "scaled_entropy", "square_root"], 'min_information_gain': [0.0, 0.01, 0.05, 0.1], 'n_quantiles': [5, 10, 20], 'isolate_one': [True, False] } \end{verbatim}
+\begin{lstlisting}[language=Python]
+parameter_grid = {
+    'min_samples_split': [2, 5, 10, 20],
+    'max_depth': [5, 10, 15, 20, None],
+    'n_features': ["log2", "sqrt", None],
+    'criterion': ["gini", "scaled_entropy", "square_root"],
+    'min_information_gain': [0.0, 0.01, 0.05, 0.1],
+    'n_quantiles': [5, 10, 20],
+    'isolate_one': [True, False]
+}
+\end{lstlisting}
 
-Evaluating all possible parameter combinations would have required testing 4,320 combinations. To reduce computational cost, 50 parameter combinations were randomly selected for evaluation. The results of the nested cross-validation were as follows:
+\noindent To mitigate the computational burden of evaluating all 4,320 possible parameter combinations, 50 combinations were randomly selected for evaluation.
 
-\begin{itemize} \item \textbf{Mean Test Error:} 0.0094 \item \textbf{Mean Accuracy:} 0.9906 \item \textbf{Mean Precision:} 0.9929 \item \textbf{Mean Recall:} 0.9901 \item \textbf{Mean F1 Score:} 0.9915 \end{itemize}
+The results demonstrated strong predictive performance, with no evidence of overfitting. The model achieved a mean test error of 0.0094, corresponding to a mean accuracy of 99.06\%. Mean precision, recall, and F1 score were also high, at 99.29\%, 99.01\%, and 99.15\%, respectively. The best-performing hyperparameters, identified based on the lowest test error, were the following:\
+\begin{itemize}
+\item \texttt{min\_samples\_split=10},
+\item \texttt{max\_depth=20},
+\item \texttt{n\_features=None},
+\item \texttt{criterion=`square\_root'},
+\item \texttt{min\_information\_gain=0.0},
+\item \texttt{n\_quantiles=10},
+\item \texttt{isolate\_one=False}
+\end{itemize}
 
-The hyperparameters corresponding to the minimum test error were:
+\noindent A model trained with these hyperparameters yielded strong results on the test fold, with an accuracy of 99.16\%, precision of 99.25\%, recall of 99.22\%, and an F1 score of 99.23\%.
 
-\begin{itemize} \item \texttt{min\_samples\_split:} 10 \item \texttt{max\_depth:} 20 \item \texttt{n\_features:} None \item \texttt{criterion:} square\_root \item \texttt{min\_information\_gain:} 0.0 \item \texttt{n\_quantiles:} 10 \item \texttt{isolate\_one:} False \end{itemize}
+To investigate the influence of missing data on these results, a second approach was explored. Features with more than 40\% missing values were removed, and rows containing any remaining missing values were excluded. This preprocessing step reduced the dataset to 36,948 observations and 14 features, with a class distribution of 16,944 edible mushrooms (45.86\%) and 20,004 poisonous ones (54.14\%).
 
-The best model achieved the following metrics: \begin{itemize} \item \textbf{Accuracy:} 0.9916 \item \textbf{Precision:} 0.9925 \item \textbf{Recall:} 0.9922 \item \textbf{F1 Score:} 0.9923 \end{itemize}
+The same nested cross-validation procedure and parameter grid were applied to this cleaned dataset, with 50 randomly selected parameter combinations evaluated. Remarkably, the model's performance improved across all metrics. The mean test error dropped significantly to 0.0032, corresponding to a mean accuracy of 99.68\%. Mean precision, recall, and F1 score also improved, reaching 99.72\%, 99.70\%, and 99.71\%, respectively.
 
-Subsequently, an alternative approach was tested by removing features with more than 40\% missing values (\texttt{veil-color}, \texttt{spore-print-color}, \texttt{stem-root}, \texttt{stem-surface}, and \texttt{gill-spacing}) and dropping rows with any remaining missing values. This preprocessing step resulted in a dataset containing 36,948 observations, 14 features, and the following class distribution: \begin{itemize} \item \textbf{Edible:} 16,944 (45.86\%) \item \textbf{Poisonous:} 20,004 (54.14\%) \end{itemize}
+Interestingly, the optimal hyperparameters remained consistent with those from the initial analysis, demonstrating the robustness of the decision tree configuration across datasets. A model trained with these hyperparameters achieved an accuracy of 99.70\%, precision of 99.75\%, recall of 99.70\%, and an F1 score of 99.73\% on the test fold.
 
-The same nested cross-validation procedure (5 folds for both loops) and parameter grid were applied, with 50 randomly selected parameter combinations evaluated. The results on the cleaned dataset were as follows:
+Comparing the two approaches reveals the subtle yet significant impact of preprocessing on model performance. While the classifier's built-in capability to handle missing values was effective, the removal of features with a high proportion of missing data, combined with the elimination of incomplete rows, led to modest but meaningful improvements in predictive accuracy and reliability.
 
-\begin{itemize} \item \textbf{Mean Test Error:} 0.0032 \item \textbf{Mean Accuracy:} 0.9968 \item \textbf{Mean Precision:} 0.9972 \item \textbf{Mean Recall:} 0.9970 \item \textbf{Mean F1 Score:} 0.9971 \end{itemize}
+\section{Limitations and Future Work}
 
-The best hyperparameters for the cleaned dataset matched those found previously: \begin{itemize} \item \texttt{min\_samples\_split:} 10 \item \texttt{max\_depth:} 20 \item \texttt{n\_features:} None \item \texttt{criterion:} square\_root \item \texttt{min\_information\_gain:} 0.0 \item \texttt{n\_quantiles:} 10 \item \texttt{isolate\_one:} False \end{itemize}
+Despite achieving high predictive accuracy and demonstrating the robustness of the implemented decision tree classifier, this study is not without its limitations. One significant limitation lies in the relatively small scope of hyperparameter tuning due to computational constraints. While the random grid search evaluated 50 parameter combinations, testing the full grid of 4,320 combinations might have revealed alternative hyperparameter configurations with even better performance. Future work could explore more efficient hyperparameter optimization techniques, such as Bayesian optimization, to balance computational cost and thoroughness.
 
-The performance metrics for the best model on the cleaned dataset were: \begin{itemize} \item \textbf{Accuracy:} 0.9970 \item \textbf{Precision:} 0.9975 \item \textbf{Recall:} 0.9970 \item \textbf{F1 Score:} 0.9973 \end{itemize}
+Additionally, while the decision tree's ability to handle missing values was effective, preprocessing the data by removing features with high proportions of missing values resulted in improved performance. This highlights a trade-off between model robustness and the potential benefits of careful preprocessing. Future studies could investigate advanced imputation techniques to retain information from high-missing-value features without compromising model performance.
+
+Another limitation pertains to the single-model approach. While decision trees are interpretable and efficient, their tendency to overfit, especially on small datasets, is well-documented. Future work could extend this study to include ensemble methods such as Random Forests or Gradient Boosted Trees, which are known to mitigate overfitting while improving predictive performance.
+
+Finally, the dataset's class distribution (approximately 45.86\% edible vs. 54.14\% poisonous mushrooms in the cleaned dataset) was slightly imbalanced. Although this imbalance was not severe, future work could explore techniques like SMOTE (Synthetic Minority Over-sampling Technique) or class weighting to ensure fairness across different class distributions.
   
 \end{document}

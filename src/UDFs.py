@@ -100,10 +100,9 @@ def _parameter_combinations(parameter_grid):
 def k_fold_nested_cv(X, y, model_class, parameter_grid, k=5, random_state=None, n_iterations=None):
     """Run k-fold nested cross-validation."""
     folds = k_fold_partition(X, k, random_state)
-    model_parameters = []
-    metrics = {
+    best_parameters_per_fold = []
+    metrics_per_fold = {
         "test_errors": [],
-        "accuracies": [],
         "precisions": [],
         "recalls": [],
         "f1_scores": []
@@ -117,31 +116,30 @@ def k_fold_nested_cv(X, y, model_class, parameter_grid, k=5, random_state=None, 
         X_test, y_test = X[test_indices], y[test_indices]
 
         best_parameters, _ = hyperparameter_tuning(X_train, y_train, model_class, parameter_grid, k, random_state, n_iterations)
-        model_parameters.append(best_parameters)
+        best_parameters_per_fold.append(best_parameters)
         
         print(f"Best parameters for iteration {i + 1}: {best_parameters}")
             
-        model = model_class(**best_parameters)
-        model.fit(X_train, y_train)
-        y_test_predicted = model.predict(X_test)
+        best_model_per_fold = model_class(**best_parameters)
+        best_model_per_fold.fit(X_train, y_train)
+        y_test_predicted = best_model_per_fold.predict(X_test)
         
-        accuracy = accuracy_metric(y_test, y_test_predicted)
-        test_error = 1 - accuracy
+        test_error = 1 - accuracy_metric(y_test, y_test_predicted)
+        metrics_per_fold["test_errors"].append(test_error)
+        
+        print(f"Test Error for iteration {i + 1}: {test_error:.4f}")
+                       
         precision = precision_metric(y_test, y_test_predicted)
         recall = recall_metric(y_test, y_test_predicted)
         f1_score = f1_metric(y_test, y_test_predicted)
-
-        metrics["test_errors"].append(test_error)
-        metrics["accuracies"].append(accuracy)
-        metrics["precisions"].append(precision)
-        metrics["recalls"].append(recall)
-        metrics["f1_scores"].append(f1_score)
-
-        print(f"Test Error for iteration {i + 1}: {test_error:.4f}")
-        
+     
+        metrics_per_fold["precisions"].append(precision)
+        metrics_per_fold["recalls"].append(recall)
+        metrics_per_fold["f1_scores"].append(f1_score)
+    
     print("k-fold nested cross-validation done.")
 
-    return model_parameters, metrics
+    return best_parameters_per_fold, metrics_per_fold
 
 def accuracy_metric(y, y_predicted):
     """Compute accuracy."""
