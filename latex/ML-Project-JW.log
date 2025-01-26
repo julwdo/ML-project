@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.10.28)  25 JAN 2025 18:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.10.28)  26 JAN 2025 11:52
 entering extended mode
 **./ML-Project-JW.tex
 (ML-Project-JW.tex
@@ -539,9 +539,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.93 \end{itemize}
-                   [1] [2] [3] [4]
-Overfull \hbox (1.18266pt too wide) in paragraph at lines 265--267
+l.98 
+      [1] [2] [3] [4]
+Overfull \hbox (1.18266pt too wide) in paragraph at lines 267--269
 []\OT1/cmtt/m/n/10 parameter[]combinations() \OT1/cmr/m/n/10 func-tion, or a ra
 n-dom sub-set if spec-i-fied, and uses the \OT1/cmtt/m/n/10 k[]fold[]cv[]estima
 te()
@@ -551,13 +551,13 @@ te()
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 3
-72.
+74.
 
 (C:\Program Files\MiKTeX\tex/latex/base\omscmr.fd
 File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 372.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 374.
  [6] [7] [8]
 (ML-Project-JW.aux)
 Package rerunfilecheck Info: File `ML-Project-JW.out' has not changed.
@@ -570,7 +570,7 @@ Here is how much of TeX's memory you used:
  34142 multiletter control sequences out of 15000+600000
  409996 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 73i,10n,81p,750b,2394s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 73i,10n,81p,687b,2394s stack positions out of 5000i,500n,10000p,200000b,80000s
 {C:/Program Files/MiKTeX/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<C:/Progra
 m Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX/fonts/typ
@@ -585,7 +585,7 @@ c/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm
 Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program File
 s/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files/MiKTeX/fon
 ts/type1/public/cm-super/sfrm1000.pfb>
-Output written on ML-Project-JW.pdf (9 pages, 400242 bytes).
+Output written on ML-Project-JW.pdf (9 pages, 399935 bytes).
 PDF statistics:
  208 PDF objects out of 1000 (max. 8388607)
  47 named destinations out of 1000 (max. 500000)

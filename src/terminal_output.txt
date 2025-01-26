@@ -1,0 +1,610 @@
+Evaluated 50 combinations.
+Best parameters for iteration 2: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Test Error for iteration 2: 0.0125
+Iteration 3/5:
+Starting hyperparameter tuning with cross-validation...
+Random grid search enabled: Evaluating 50 out of 4320 total combinations.
+Evaluating parameter combination 1/50: {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 2/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 3/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 4/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 5/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 6/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 7/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 8/50: {'min_samples_split': 10, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 9/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 10/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 11/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 12/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 13/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 14/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 15/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 16/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 17/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 18/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 19/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 20/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 21/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 22/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 23/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 24/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 25/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 26/50: {'min_samples_split': 20, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 27/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 28/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 29/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 30/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 31/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 32/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 33/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 34/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 35/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 36/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 37/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 38/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 39/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 40/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 41/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 42/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 43/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 44/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 45/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 46/50: {'min_samples_split': 5, 'max_depth': 20, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 47/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 48/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 49/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 50/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Hyperparameter tuning completed.
+Evaluated 50 combinations.
+Best parameters for iteration 3: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Test Error for iteration 3: 0.0089
+Iteration 4/5:
+Starting hyperparameter tuning with cross-validation...
+Random grid search enabled: Evaluating 50 out of 4320 total combinations.
+Evaluating parameter combination 1/50: {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 2/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 3/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 4/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 5/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 6/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 7/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 8/50: {'min_samples_split': 10, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 9/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 10/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 11/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 12/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 13/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 14/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 15/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 16/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 17/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 18/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 19/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 20/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 21/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 22/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 23/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 24/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 25/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 26/50: {'min_samples_split': 20, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 27/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 28/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 29/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 30/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 31/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 32/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 33/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 34/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 35/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 36/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 37/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 38/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 39/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 40/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 41/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 42/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 43/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 44/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 45/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 46/50: {'min_samples_split': 5, 'max_depth': 20, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 47/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 48/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 49/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 50/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Hyperparameter tuning completed.
+Evaluated 50 combinations.
+Best parameters for iteration 4: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Test Error for iteration 4: 0.0084
+Iteration 5/5:
+Starting hyperparameter tuning with cross-validation...
+Random grid search enabled: Evaluating 50 out of 4320 total combinations.
+Evaluating parameter combination 1/50: {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 2/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 3/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 4/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 5/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 6/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 7/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 8/50: {'min_samples_split': 10, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 9/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 10/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 11/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 12/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 13/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 14/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 15/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 16/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 17/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 18/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 19/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 20/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 21/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 22/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 23/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 24/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 25/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 26/50: {'min_samples_split': 20, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 27/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 28/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 29/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 30/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 31/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 32/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 33/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 34/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 35/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 36/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 37/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 38/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 39/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 40/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 41/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 42/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 43/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 44/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 45/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 46/50: {'min_samples_split': 5, 'max_depth': 20, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 47/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 48/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 49/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 50/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Hyperparameter tuning completed.
+Evaluated 50 combinations.
+Best parameters for iteration 5: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Test Error for iteration 5: 0.0087
+k-fold nested cross-validation done.
+>>> # Calculate mean of all metrics across folds
+>>>
+>>> mean_metrics = {
+...     'test_error': np.mean(metrics_per_fold["test_errors"]),
+...     'precision': np.mean(metrics_per_fold["precisions"]),
+...     'recall': np.mean(metrics_per_fold["recalls"]),
+...     'f1_score': np.mean(metrics_per_fold["f1_scores"]),
+... }
+>>>
+>>> print(f"\nMean Test Error: {mean_metrics['test_error']:.4f}")
+
+Mean Test Error: 0.0094
+>>> print(f"Mean Accuracy: {1 - mean_metrics['test_error']:.4f}")
+Mean Accuracy: 0.9906
+>>> print(f"Mean Precision: {mean_metrics['precision']:.4f}")
+Mean Precision: 0.9929
+>>> print(f"Mean Recall: {mean_metrics['recall']:.4f}")
+Mean Recall: 0.9901
+>>> print(f"Mean F1 Score: {mean_metrics['f1_score']:.4f}")
+Mean F1 Score: 0.9915
+>>> # Find the best model (lowest test error)
+>>>
+>>> best_model_index = np.argmin(metrics_per_fold["test_errors"])
+>>> best_model_parameters = best_parameters_per_fold[best_model_index]
+>>> best_model_metrics = {
+...     'test_error': metrics_per_fold["test_errors"][best_model_index],
+...     'accuracy': 1 - metrics_per_fold["test_errors"][best_model_index],
+...     'precision': metrics_per_fold["precisions"][best_model_index],
+...     'recall': metrics_per_fold["recalls"][best_model_index],
+...     'f1_score': metrics_per_fold["f1_scores"][best_model_index],
+... }
+>>>
+>>> print("\nBest Model Parameters (corresponding to Minimum Test Error):")
+
+Best Model Parameters (corresponding to Minimum Test Error):
+>>> for parameter, value in best_model_parameters.items():
+...     print(f"  {parameter}: {value}")
+...
+  min_samples_split: 10
+  max_depth: 20
+  n_features: None
+  criterion: square_root
+  min_information_gain: 0.0
+  n_quantiles: 10
+  isolate_one: False
+>>> print(f"\nMetrics for Best Model:")
+
+Metrics for Best Model:
+>>> for metric, value in best_model_metrics.items():
+...     print(f"  {metric.capitalize()}: {value:.4f}")
+... # Subsection: Nested Cross-Validation (No Missing Values)
+...
+  Test_error: 0.0084
+  Accuracy: 0.9916
+  Precision: 0.9925
+  Recall: 0.9922
+  F1_score: 0.9923
+>>> print("\n#### Running Model with Nested Cross-Validation (No Missing Values) ####")
+
+#### Running Model with Nested Cross-Validation (No Missing Values) ####
+>>> # Drop columns with more than 40% missing values
+>>>
+>>> columns_to_drop = ['veil-color', 'spore-print-color', 'stem-root', 'stem-surface', 'gill-spacing']
+>>> mushrooms.drop(columns=columns_to_drop, inplace=True)
+>>> print(f"Dropped columns: {columns_to_drop}")
+Dropped columns: ['veil-color', 'spore-print-color', 'stem-root', 'stem-surface', 'gill-spacing']
+>>> # Drop rows with any remaining missing values
+>>>
+>>> rows_before = mushrooms.shape[0]
+>>> mushrooms.dropna(inplace=True)
+>>> rows_after = mushrooms.shape[0]
+>>> print(f"Dropped {rows_before - rows_after} rows with missing values.")
+Dropped 23975 rows with missing values.
+>>> print(f"Remaining rows: {rows_after}, Remaining columns: {mushrooms.shape[1]}")
+Remaining rows: 36948, Remaining columns: 15
+>>> # Check for missing values again
+>>>
+>>> if mushrooms.isnull().any().any():
+...     print("\nMissing values found in the dataset.")
+... else:
+...     print("\nNo missing values found in the dataset.")
+... # Separate features (X) and target (y) again
+...
+
+No missing values found in the dataset.
+>>> X = mushrooms.drop('class', axis=1).values
+>>> y = mushrooms['class'].values
+>>> # Perform nested cross-validation on cleaned dataset
+>>>
+>>> best_parameters_per_fold, metrics_per_fold = k_fold_nested_cv(
+...     X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=50
+... )
+Starting k-fold nested cross-validation with 5 folds...
+Iteration 1/5:
+Starting hyperparameter tuning with cross-validation...
+Random grid search enabled: Evaluating 50 out of 4320 total combinations.
+Evaluating parameter combination 1/50: {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 2/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 3/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 4/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 5/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 6/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 7/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 8/50: {'min_samples_split': 10, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 9/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 10/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 11/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 12/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 13/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 14/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 15/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 16/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 17/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 18/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 19/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 20/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 21/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 22/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 23/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 24/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 25/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 26/50: {'min_samples_split': 20, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 27/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 28/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 29/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 30/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 31/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 32/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 33/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 34/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 35/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 36/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 37/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 38/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 39/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 40/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 41/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 42/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 43/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 44/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 45/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 46/50: {'min_samples_split': 5, 'max_depth': 20, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 47/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 48/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 49/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 50/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Hyperparameter tuning completed.
+Evaluated 50 combinations.
+Best parameters for iteration 1: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Test Error for iteration 1: 0.0030
+Iteration 2/5:
+Starting hyperparameter tuning with cross-validation...
+Random grid search enabled: Evaluating 50 out of 4320 total combinations.
+Evaluating parameter combination 1/50: {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 2/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 3/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 4/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 5/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 6/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 7/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 8/50: {'min_samples_split': 10, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 9/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 10/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 11/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 12/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 13/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 14/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 15/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 16/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 17/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 18/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 19/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 20/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 21/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 22/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 23/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 24/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 25/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 26/50: {'min_samples_split': 20, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 27/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 28/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 29/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 30/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 31/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 32/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 33/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 34/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 35/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 36/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 37/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 38/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 39/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 40/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 41/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 42/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 43/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 44/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 45/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 46/50: {'min_samples_split': 5, 'max_depth': 20, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 47/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 48/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 49/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 50/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Hyperparameter tuning completed.
+Evaluated 50 combinations.
+Best parameters for iteration 2: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Test Error for iteration 2: 0.0032
+Iteration 3/5:
+Starting hyperparameter tuning with cross-validation...
+Random grid search enabled: Evaluating 50 out of 4320 total combinations.
+Evaluating parameter combination 1/50: {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 2/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 3/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 4/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 5/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 6/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 7/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 8/50: {'min_samples_split': 10, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 9/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 10/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 11/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 12/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 13/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 14/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 15/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 16/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 17/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 18/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 19/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 20/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 21/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 22/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 23/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 24/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 25/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 26/50: {'min_samples_split': 20, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 27/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 28/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 29/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 30/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 31/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 32/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 33/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 34/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 35/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 36/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 37/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 38/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 39/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 40/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 41/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 42/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 43/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 44/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 45/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 46/50: {'min_samples_split': 5, 'max_depth': 20, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 47/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 48/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 49/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 50/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Hyperparameter tuning completed.
+Evaluated 50 combinations.
+Best parameters for iteration 3: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Test Error for iteration 3: 0.0034
+Iteration 4/5:
+Starting hyperparameter tuning with cross-validation...
+Random grid search enabled: Evaluating 50 out of 4320 total combinations.
+Evaluating parameter combination 1/50: {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 2/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 3/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 4/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 5/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 6/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 7/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 8/50: {'min_samples_split': 10, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 9/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 10/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 11/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 12/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 13/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 14/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 15/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 16/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 17/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 18/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 19/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 20/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 21/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 22/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 23/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 24/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 25/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 26/50: {'min_samples_split': 20, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 27/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 28/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 29/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 30/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 31/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 32/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 33/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 34/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 35/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 36/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 37/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 38/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 39/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 40/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 41/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 42/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 43/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 44/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 45/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 46/50: {'min_samples_split': 5, 'max_depth': 20, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 47/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 48/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 49/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 50/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Hyperparameter tuning completed.
+Evaluated 50 combinations.
+Best parameters for iteration 4: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Test Error for iteration 4: 0.0032
+Iteration 5/5:
+Starting hyperparameter tuning with cross-validation...
+Random grid search enabled: Evaluating 50 out of 4320 total combinations.
+Evaluating parameter combination 1/50: {'min_samples_split': 2, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 2/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 3/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 4/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 5/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 6/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 7/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 8/50: {'min_samples_split': 10, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 9/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 10/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 11/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 12/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 13/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 14/50: {'min_samples_split': 10, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 15/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 16/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 17/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 18/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 19/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 20/50: {'min_samples_split': 5, 'max_depth': 5, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 21/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 22/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 23/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 24/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 25/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 26/50: {'min_samples_split': 20, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 27/50: {'min_samples_split': 10, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': True}
+Evaluating parameter combination 28/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 29/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 30/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 31/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 32/50: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 33/50: {'min_samples_split': 20, 'max_depth': 15, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 34/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': 'log2', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 35/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': True}
+Evaluating parameter combination 36/50: {'min_samples_split': 10, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 37/50: {'min_samples_split': 2, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 38/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 39/50: {'min_samples_split': 5, 'max_depth': None, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 5, 'isolate_one': False}
+Evaluating parameter combination 40/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 41/50: {'min_samples_split': 2, 'max_depth': 5, 'n_features': 'log2', 'criterion': 'square_root', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 42/50: {'min_samples_split': 2, 'max_depth': None, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 43/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 44/50: {'min_samples_split': 5, 'max_depth': 15, 'n_features': 'sqrt', 'criterion': 'scaled_entropy', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 45/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 46/50: {'min_samples_split': 5, 'max_depth': 20, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.1, 'n_quantiles': 20, 'isolate_one': True}
+Evaluating parameter combination 47/50: {'min_samples_split': 5, 'max_depth': 10, 'n_features': None, 'criterion': 'scaled_entropy', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 48/50: {'min_samples_split': 20, 'max_depth': 10, 'n_features': 'sqrt', 'criterion': 'square_root', 'min_information_gain': 0.05, 'n_quantiles': 10, 'isolate_one': False}
+Evaluating parameter combination 49/50: {'min_samples_split': 20, 'max_depth': 5, 'n_features': None, 'criterion': 'gini', 'min_information_gain': 0.01, 'n_quantiles': 20, 'isolate_one': False}
+Evaluating parameter combination 50/50: {'min_samples_split': 20, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': True}
+Hyperparameter tuning completed.
+Evaluated 50 combinations.
+Best parameters for iteration 5: {'min_samples_split': 10, 'max_depth': 20, 'n_features': None, 'criterion': 'square_root', 'min_information_gain': 0.0, 'n_quantiles': 10, 'isolate_one': False}
+Test Error for iteration 5: 0.0030
+k-fold nested cross-validation done.
+>>> # Calculate mean of all metrics across folds for cleaned dataset
+>>>
+>>> mean_metrics = {
+...     'test_error': np.mean(metrics_per_fold["test_errors"]),
+...     'precision': np.mean(metrics_per_fold["precisions"]),
+...     'recall': np.mean(metrics_per_fold["recalls"]),
+...     'f1_score': np.mean(metrics_per_fold["f1_scores"]),
+... }
+>>>
+>>> print(f"\nMean Test Error: {mean_metrics['test_error']:.4f}")
+
+Mean Test Error: 0.0032
+>>> print(f"Mean Accuracy: {1 - mean_metrics['test_error']:.4f}")
+Mean Accuracy: 0.9968
+>>> print(f"Mean Precision: {mean_metrics['precision']:.4f}")
+Mean Precision: 0.9972
+>>> print(f"Mean Recall: {mean_metrics['recall']:.4f}")
+Mean Recall: 0.9970
+>>> print(f"Mean F1 Score: {mean_metrics['f1_score']:.4f}")
+Mean F1 Score: 0.9971
+>>> # Find the best model (lowest test error) for cleaned dataset
+>>>
+>>> best_model_index = np.argmin(metrics_per_fold["test_errors"])
+>>> best_model_parameters = best_parameters_per_fold[best_model_index]
+>>> best_model_metrics = {
+...     'test_error': metrics_per_fold["test_errors"][best_model_index],
+...     'accuracy': 1 - metrics_per_fold["test_errors"][best_model_index],
+...     'precision': metrics_per_fold["precisions"][best_model_index],
+...     'recall': metrics_per_fold["recalls"][best_model_index],
+...     'f1_score': metrics_per_fold["f1_scores"][best_model_index],
+... }
+>>>
+>>> print("\nBest Model Parameters (corresponding to Minimum Test Error):")
+
+Best Model Parameters (corresponding to Minimum Test Error):
+>>> for parameter, value in best_model_parameters.items():
+...     print(f"  {parameter}: {value}")
+...
+  min_samples_split: 10
+  max_depth: 20
+  n_features: None
+  criterion: square_root
+  min_information_gain: 0.0
+  n_quantiles: 10
+  isolate_one: False
+>>> print(f"\nMetrics for Best Model:")
+
+Metrics for Best Model:
+>>> for metric, value in best_model_metrics.items():
+...     print(f"  {metric.capitalize()}: {value:.4f}")
+...
+  Test_error: 0.0030
+  Accuracy: 0.9970
+  Precision: 0.9975
+  Recall: 0.9970
+  F1_score: 0.9973

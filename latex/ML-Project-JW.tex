@@ -61,9 +61,9 @@
 
 \section{Introduction}
 
-The classification of mushrooms as edible or poisonous is a critical task with significant implications for both food safety and toxicology studies. Leveraging machine learning techniques, particularly decision trees, provides an interpretable and effective method for addressing this problem. This project implements a custom-built decision tree classifier designed to handle both numerical and categorical features, including missing values, making it well-suited for real-world datasets that often contain incomplete information.
+The classification of mushrooms as edible or poisonous based on their features is an interesting task. Although such a model might not be sufficiently precise to definitively instruct a person whether to pick or avoid a parti- cular mushroom, it can serve as a valuable aid or provide confirmation that a person's intuition about a specific mushroom is correct.
 
-The study begins by exploring the dataset, addressing missing values and duplicate entries, and analyzing variable distributions. A decision tree classifier is then trained and evaluated using robust techniques such as nested cross-validation to ensure reliable performance metrics. Two approaches were explored: one utilizing the full dataset with missing value handling and another using a cleaned dataset with high missing-value features removed. The results are compared, offering insights into the importance of preprocessing and hyperparameter tuning. The study also discusses potential applications of the classifier in the context of food safety and its generalizability to other classification tasks.
+This project implements a custom-built decision tree classifier designed to solve this (and other binary) cla- ssification problem. The goal of the implementation was to ensure simplicity, efficiency, and flexibility, offering various splitting and stopping criteria, options for creating splits based on numerical and categorical variables, and the capability to handle missing values.
 
 \section{Tree Classifier Implementation}
 
@@ -78,7 +78,7 @@ The \texttt{TreeNode} class represents a single node in a binary tree classifier
 \subsubsection*{Attributes:}
 \begin{itemize}
     \item \texttt{feature\_index} (int or None): The feature index used for splitting the data at this node.
-    \item \texttt{threshold\_value} (float or None): The threshold value that determines how the data is split at this node.
+    \item \texttt{threshold\_value} (float, str or None): The threshold value used for splitting the data at this node.
     \item \texttt{left\_child} (TreeNode or None): The left child node.
     \item \texttt{right\_child} (TreeNode or None): The right child node.
     \item \texttt{left\_ratio} (float or None): The ratio of samples that go to the left child. This value is particularly useful for handling missing values and calculating probabilities.
@@ -117,11 +117,11 @@ A higher value for \texttt{min\_samples\_split} reduces the depth of the tree, m
 
 \subsubsection*{n\_features Parameter:}
 
-The \texttt{n\_features} parameter specifies the number of features to consider when identifying the best split. The default value is \texttt{None}, which results in all features in the dataset being considered. Otherwise:
+The \texttt{n\_features} parameter specifies the number of features to consider when identifying the optimal split. The default value is \texttt{None}, which results in all features in the dataset being considered. Otherwise:
 
 \begin{itemize}
-    \item If \texttt{n\_features} is an integer, this specifies the exact number of features to consider. If the value exceeds the total number of features in the dataset, all features are considered instead.
-    \item If \texttt{n\_features} is a float, it represents a fraction of the total number of features. The number of features to consider is calculated by multiplying this fraction by the total number of features and truncating the decimal part to obtain an integer. At least one feature is considered.
+    \item If \texttt{n\_features} is an integer, this specifies the number of features to consider. If the value exceeds the total number of features in the dataset, all features are considered instead.
+    \item If \texttt{n\_features} is a float, it represents a fraction of the total number of features. The number of features to consider is calculated by multiplying this fraction by the total number of features, and truncating the decimal part to obtain an integer. At least one feature is considered.
     \item If \texttt{n\_features} is a string, it can be either \texttt{`sqrt'} or \texttt{`log2'}, and the number of features is calculated as follows:
     \begin{itemize}
         \item \texttt{`sqrt'}: Sets the number of features to the square root of the total number of features, truncating the decimal part to obtain an integer. At least one feature is considered.
@@ -185,7 +185,7 @@ While lower values of \texttt{n\_quantiles} reduce the number of candidate thres
 
 \subsubsection*{isolate\_one Parameter:}
 
-The \texttt{isolate\_one} parameter controls how splits are made when splitting based on categorical features. If set to \texttt{False} (the default), all data points with a feature value lower or equal (i.e., lower or equal alphabetically) to the threshold are assigned to the left child, while all other data points are assigned to the right child. Otherwise:
+The \texttt{isolate\_one} parameter determines how splits are made when splitting based on categorical features. If set to \texttt{False} (the default), all data points with a feature value lower or equal (i.e., lower or equal alphabetically) to the threshold are assigned to the left child, while all other data points are assigned to the right child. Otherwise:
 
 \begin{itemize}
 \item If \texttt{isolate\_one} is set to \texttt{True}, the algorithm creates a one-vs-rest split, where all data points with a fea- ture value equal to the threshold go to the left child, while all other data points go to the right child.
@@ -214,20 +214,20 @@ This parameter affects the granularity of splits for categorical features. Setti
 
 \subsubsection*{\_build\_tree() Method:}
 
-The \texttt{\_build\_tree()} method constructs a decision tree by starting at the root node and progressing recursively to the leaf nodes. At each node, it selects a random subset of features, as specified by the \texttt{n\_features} parameter, and employs the \texttt{\_find\_best\_split()} method to determine the optimal feature and threshold for splitting the data. Once the best split is found, the \texttt{\_split()} method is called to partition the data accordingly. The process is then repeated recursively on the resulting subsets to continue building the tree.
+The \texttt{\_build\_tree()} method constructs a decision tree by starting at the root node and progressing recursively to the leaf nodes. At each node, it selects a random subset of features, as specified by the \texttt{n\_features} parameter, and uses the \texttt{\_find\_best\_split()} method to determine the optimal feature and threshold for splitting the data. Once the optimal split is found, the \texttt{\_split()} method is called to partition the data accordingly. This process is then repeated recursively on the resulting subsets to continue building the tree.
 
-The recursion halts when a stopping condition is met, such as reaching the \texttt{max\_depth}, achieving pure nodes, having fewer than \texttt{min\_samples\_split} samples per node, or when subsequent splits yield information gains lower than \texttt{min\_information\_gain}. Upon termination, the method assigns the most frequent label among the samples at that node as the predicted label for that node.
+The recursion halts when a stopping condition is met, such as reaching the \texttt{max\_depth}, achieving pure nodes, having fewer than \texttt{min\_samples\_split} samples per node, or when subsequent splits yield information gains lower than \texttt{min\_information\_gain}. Upon termination, the method assigns the most frequent label among the samples at a node as the predicted label for that node.
 
 \subsubsection*{\_find\_best\_split() Method:}
 
-The \texttt{\_find\_best\_split()} method identifies the optimal split for a given node in the decision tree. It iterates through all features selected by the \texttt{\_build\_tree()} method and evaluates all candidate thresholds by calling the \texttt{\_calculate\_information\_gain()} method to determine the feature-threshold combination that maximizes information gain. The creation of candidate thresholds differs between numerical and categorical features:
+The \texttt{\_find\_best\_split()} method identifies the optimal split for a given node in the tree being built. It iterates through all features selected by the \texttt{\_build\_tree()} method and evaluates all candidate thresholds by calling the \texttt{\_calculate\_information\_gain()} method to determine the feature-threshold combination that maximizes information gain. The creation of candidate thresholds differs between numerical and categorical features:
 
 \begin{itemize}
 \item For numerical features, potential thresholds are determined based on the \texttt{n\_quantiles} parameter (as des- cribed above).
 \item For categorical features, candidate thresholds consist of all unique values in the feature.
 \end{itemize}
 
-Any missing values are excluded when determining the candidate thresholds.
+Any missing values are ignored when determining the candidate thresholds.
 
 \subsubsection*{\_split() Method:}
 
@@ -242,7 +242,9 @@ After the split, any data points with a missing feature value are randomly distr
 
 \subsubsection*{\_traverse\_tree() Method:}
 
-The \texttt{\_traverse\_tree()} method traverses the decision tree to predict the label for a single instance. Starting at the root node, it follows the tree's decision rules until it reaches a leaf node. If the feature value at the current node is missing, the method randomly decides whether to move to the left or right child, based on the ratio of data points assigned to each child.
+The \texttt{\_traverse\_tree()} method traverses the decision tree to predict the label for a single instance. Starting at the root node, it follows the tree's decision rules until it reaches a leaf node.
+
+If the feature value at the current node is missing, the method randomly decides whether to move to the left or right child, based on the ratio of data points assigned to each child.
 
 \subsection{Training and Validation Procedures}
 

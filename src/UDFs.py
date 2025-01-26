@@ -2,21 +2,6 @@ import numpy as np
 import pandas as pd
 from itertools import product
 
-def train_test_partition(X, y, test_size=0.2, random_state=None):
-    """Partition data into training and testing sets."""
-    if random_state is not None:
-        np.random.seed(random_state)
-    
-    indices = np.arange(X.shape[0])
-    np.random.shuffle(indices)
-    
-    split_index = int(len(indices) * (1 - test_size))
-    
-    train_indices = indices[:split_index]
-    test_indices = indices[split_index:]
-    
-    return X[train_indices], X[test_indices], y[train_indices], y[test_indices]
-
 def k_fold_partition(X, k=5, random_state=None):
     """Partition data into k folds."""
     if random_state is not None:
@@ -362,5 +347,11 @@ class DecisionTreeClassifier:
                     node = node.right_child
                 
             else:
-                node = node.left_child if feature_value <= node.threshold_value else node.right_child
+                if isinstance(feature_value, str) and self.isolate_one:
+                    # One-vs-rest logic for categorical features
+                    node = node.left_child if feature_value == node.threshold_value else node.right_child
+                else:
+                    # Regular numerical threshold logic
+                    node = node.left_child if feature_value <= node.threshold_value else node.right_child
+                    
         return node.leaf_value
