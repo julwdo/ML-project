@@ -113,7 +113,7 @@ parameter_grid = {
 
 # Perform nested cross-validation
 best_parameters_per_fold, metrics_per_fold = k_fold_nested_cv(
-    X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=50
+    X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=86
 )
 
 # Calculate mean of all metrics across folds
@@ -176,7 +176,7 @@ y = mushrooms['class'].values
 
 # Perform nested cross-validation on cleaned dataset
 best_parameters_per_fold, metrics_per_fold = k_fold_nested_cv(
-    X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=50
+    X, y, DecisionTreeClassifier, parameter_grid, random_state=42, n_iterations=86
 )
 
 # Calculate mean of all metrics across folds for cleaned dataset
