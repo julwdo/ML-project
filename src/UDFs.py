@@ -149,7 +149,9 @@ def recall_metric(y, y_predicted):
     return tp / (tp + fn)
 
 class TreeNode:
-    def __init__(self, feature_index=None, threshold_value=None, left_child=None, right_child=None, left_ratio=None, leaf_value=None):
+    def __init__(self, feature_index=None, threshold_value=None,
+                 left_child=None, right_child=None, left_ratio=None,
+                 leaf_value=None):
         """Initialize a tree node."""
         self.feature_index = feature_index
         self.threshold_value = threshold_value
@@ -175,11 +177,10 @@ class DecisionTreeClassifier:
         self.n_quantiles = n_quantiles
         self.isolate_one = isolate_one
         self.root = None
-        self.depth = 0  # To track the final depth of the tree
+        self.depth = 0
         
     def fit(self, X, y):
         """Fit the model to the training data."""
-#        print("Fitting the model...")
         
         n_features_functions = {
             "sqrt": np.sqrt,
@@ -196,15 +197,13 @@ class DecisionTreeClassifier:
             self.n_features = max(1, int(n_features_functions[self.n_features](X.shape[1])))
         
         self.root = self._build_tree(X, y)
-#        print(f"Model fitting completed. Final depth: {self.depth}")
 
     def _build_tree(self, X, y, depth=0):
         """Recursively build the decision tree."""
-        self.depth = max(self.depth, depth)  # Update the final depth of the tree      
+        self.depth = max(self.depth, depth)    
         n_samples, n_features = X.shape
         n_labels = len(np.unique(y))
 
-        # Stop conditions
         if (n_samples < self.min_samples_split or 
             (self.max_depth is not None and depth >= self.max_depth) or 
             n_labels == 1):
@@ -214,17 +213,13 @@ class DecisionTreeClassifier:
         feature_indices = np.random.choice(n_features, self.n_features, replace=False)
         best_feature_index, best_threshold_value = self._find_best_split(X, y, feature_indices)
         
-        # Avoid invalid splits
         if best_feature_index is None or best_threshold_value is None:
             most_common_label = self._get_most_common_label(y)
             return TreeNode(leaf_value=most_common_label)
         
         left_indices, right_indices = self._split(X[:, best_feature_index], best_threshold_value)
-        
-        # Keep track of the ratio of samples going to the left child
         left_ratio = len(left_indices) / n_samples
 
-        # Create child nodes
         left_child = self._build_tree(X[left_indices, :], y[left_indices], depth + 1)
         right_child = self._build_tree(X[right_indices, :], y[right_indices], depth + 1)
         
@@ -246,7 +241,7 @@ class DecisionTreeClassifier:
             
             not_missing_indices = np.argwhere(~pd.isnull(feature_column)).flatten()
             
-            if pd.api.types.is_string_dtype(feature_column[not_missing_indices]): # Ignore missing values when computing thresholds
+            if pd.api.types.is_string_dtype(feature_column[not_missing_indices]):
                 unique_thresholds = np.unique(feature_column[not_missing_indices])
             else:
                 values = feature_column[not_missing_indices]
@@ -278,7 +273,6 @@ class DecisionTreeClassifier:
 
         left_indices, right_indices = self._split(feature_column, threshold_value)
 
-        # Avoid invalid splits
         if len(left_indices) == 0 or len(right_indices) == 0:
             return 0
 
@@ -295,7 +289,6 @@ class DecisionTreeClassifier:
         missing_indices = np.argwhere(pd.isnull(feature_column)).flatten()
         not_missing_indices = np.argwhere(~pd.isnull(feature_column)).flatten()
         
-        # Split non-missing values
         if pd.api.types.is_string_dtype(feature_column) and self.isolate_one:
             left_indices = not_missing_indices[feature_column[not_missing_indices] == threshold_value]
         else:
@@ -303,7 +296,6 @@ class DecisionTreeClassifier:
         
         right_indices = np.setdiff1d(not_missing_indices, left_indices)
             
-        # Randomly distribute missing values proportionally based on the sizes of left and right splits
         left_ratio = len(left_indices) / len(not_missing_indices)
         
         left_missing = np.random.choice(missing_indices, int(left_ratio * len(missing_indices)), replace=False)
@@ -348,10 +340,8 @@ class DecisionTreeClassifier:
                 
             else:
                 if isinstance(feature_value, str) and self.isolate_one:
-                    # One-vs-rest logic for categorical features
                     node = node.left_child if feature_value == node.threshold_value else node.right_child
                 else:
-                    # Regular numerical threshold logic
                     node = node.left_child if feature_value <= node.threshold_value else node.right_child
                     
         return node.leaf_value
