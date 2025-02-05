@@ -30,12 +30,18 @@ if duplicates > 0:
     print(f"{duplicates} duplicate rows have been dropped. The dataset now has {mushrooms.shape[0]} rows.")
 else:
     print("\nNo duplicate rows found in the dataset.")
+    
+# Count edible and poisonous mushrooms again
+edible_count = (mushrooms['class'] == 'e').sum()
+poisonous_count = mushrooms.shape[0] - edible_count
+print(f"\nNumber of edible mushrooms: {edible_count}")
+print(f"Number of poisonous mushrooms: {poisonous_count}")
 
 # Check for missing values
 if mushrooms.isnull().any().any():
     print("\nMissing values found in the dataset.")
     na_summary = mushrooms.isnull().sum().loc[lambda x: x > 0].to_frame(name='Missing Count')
-    na_summary['Missing Percentage'] = (na_summary['Missing Count'] / n_rows) * 100
+    na_summary['Missing Percentage'] = (na_summary['Missing Count'] / mushrooms.shape[0]) * 100
     print("\nSummary of missing values:")
     print(na_summary)
 else:
@@ -163,6 +169,12 @@ mushrooms.dropna(inplace=True)
 rows_after = mushrooms.shape[0]
 print(f"Dropped {rows_before - rows_after} rows with missing values.")
 print(f"Remaining rows: {rows_after}, Remaining columns: {mushrooms.shape[1]}")
+
+# Count edible and poisonous mushrooms again
+edible_count = (mushrooms['class'] == 0).sum()
+poisonous_count = rows_after - edible_count
+print(f"\nNumber of edible mushrooms: {edible_count}")
+print(f"Number of poisonous mushrooms: {poisonous_count}")
 
 # Check for missing values again
 if mushrooms.isnull().any().any():

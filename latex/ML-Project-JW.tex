@@ -313,15 +313,15 @@ S[table-format=2.2]
 \hline
 & \multicolumn{2}{c}{\textbf{Missing Values}} \\ \cline{2-3}
 \textbf{Variable} & \textbf{Count} & \textbf{Percentage} \\ \hline
-cap-surface & 14120 & 23.12 \\ \hline
-gill-attachment & 9855 & 16.14 \\ \hline
-gill-spacing & 25062 & 41.04 \\ \hline
-stem-root & 51536 & 84.39 \\ \hline
-stem-surface & 38122 & 62.42 \\ \hline
-veil-type & 57746 & 94.56 \\ \hline
-veil-color & 53510 & 87.62 \\ \hline
-ring-type & 2471 & 4.05 \\ \hline
-spore-print-color & 54597 & 89.40 \\ \hline
+cap-surface & 14120 & 23.18 \\ \hline
+gill-attachment & 9855 & 16.18 \\ \hline
+gill-spacing & 25062 & 41.14 \\ \hline
+stem-root & 51536 & 84.59 \\ \hline
+stem-surface & 38122 & 62.57 \\ \hline
+veil-type & 57746 & 94.79 \\ \hline
+veil-color & 53510 & 87.83 \\ \hline
+ring-type & 2471 & 4.06 \\ \hline
+spore-print-color & 54597 & 89.62 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -366,7 +366,7 @@ season & categorical & s (spring), u (summer), a (autumn), w (winter) \\ \hline
 
 Notably, several gill-related and stem-related variables include ``f'' as a possible value, meaning ``none''. This raised a question about whether ``f'' represents a valid value or missing data. Analysis revealed that if any gill-related variable has a value of ``f'', all other gill-related variables for that mushroom also have a value of ``f''. A similar pattern was found for stem-related variables. Overall, 3,414 mushrooms lacked gill-related information, and 915 lacked stem-related information. These 915 mushrooms also had stem-height and stem-width equal to 0, confirming the consistency of this pattern. Gaining some domain knowledge revealed that some mushrooms naturally lack gills or a stem. This suggests that the values of ``f'' and 0 reflect genuine biological characteristics rather than missing data. Consequently, these values were treated as valid in subsequent analyses.
 
-Lastly, the veil-type variable was examined for its potential utility in predictive modeling. This variable only takes the value ``u (universal)'', but it was missing for the majority (94.56\%) of observations. Additionally, when veil-type was missing, both classes (edible and poisonous) were represented, indicating that the missingness did not provide meaningful predictive information for classification. As a result, the veil-type variable was excluded from further analysis.
+Lastly, the veil-type variable was examined for its potential utility in predictive modeling. This variable only takes the value ``u (universal)'', but it was missing for the majority (94.79\%) of observations. Additionally, when veil-type was missing, both classes (edible and poisonous) were represented, indicating that the missingness did not provide meaningful predictive information for classification. As a result, the veil-type variable was excluded from further analysis.
 
 \section{Model Training and Evaluation}
 
