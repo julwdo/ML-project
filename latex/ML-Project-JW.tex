@@ -104,10 +104,10 @@ The \texttt{DecisionTreeClassifier} class implements a decision tree for binary 
 \begin{itemize}
     \item \texttt{min\_samples\_split} (int): The minimum number of samples required to split a node.
     \item \texttt{max\_depth} (int or None): The maximum depth of the tree. If set to \texttt{None}, the tree expands until all nodes are pure, contain fewer than \texttt{min\_samples\_split} samples, or further splitting results in an information gain below \texttt{min\_information\_gain}.
-    \item \texttt{n\_features} (int, float, or str): The number of features to consider when identifying the best split. This can be specified as an integer, a float, or one of the following strings:\ \texttt{`sqrt'} or \texttt{`log2'}.
+    \item \texttt{n\_features} (int, float, str, or None): The number of features to consider when identifying the best split. This can be specified as an integer, a float, or one of the following strings:\ \texttt{`sqrt'} or \texttt{`log2'}.
     \item \texttt{criterion} (str): The function to measure the quality of a split. Options are:\ \texttt{`gini'}, \texttt{`scaled\_entropy'}, and \texttt{`square\_root'}.
     \item \texttt{min\_information\_gain} (float): The minimum information gain required to perform a split.
-    \item \texttt{n\_quantiles} (int or None): The number of quantiles to consider when determining the best threshold for continuous features. If set to \texttt{None}, the algorithm uses midpoints of unique values.
+    \item \texttt{n\_quantiles} (int or None): The number of quantiles to consider when determining the best threshold for splitting based on continuous features. If set to \texttt{None}, the algorithm uses midpoints of unique values.
     \item \texttt{isolate\_one} (bool): Whether to isolate a single value for categorical features, creating a one-vs-rest split.
     \item \texttt{root} (TreeNode or None): The root node of the decision tree.
     \item \texttt{depth} (int): The final depth of the tree after it has been built.
@@ -200,7 +200,7 @@ This parameter affects the granularity of splits for categorical features. Setti
 \subsubsection*{Private Methods:}
 \begin{itemize}
     \item \texttt{\_build\_tree()}: Recursively builds the tree by splitting the data based on the best feature and threshold. It stops if any stopping condition is met, e.g., \texttt{max\_depth}.
-\item \texttt{\_get\_most\_common\_label()}: This method finds and returns the most common label in a given array.
+\item \texttt{\_get\_most\_common\_label()}: Finds and returns the most common label in a given array.
     \item \texttt{\_find\_best\_split()}: Finds the best feature and threshold for splitting the data.
     \item \texttt{\_calculate\_information\_gain()}: Computes the information gain from a potential split based on a selec- ted criterion.
     \item \texttt{\_split()}: Splits the data based on the selected feature and threshold.
@@ -420,7 +420,7 @@ Comparing these two approaches reveals the subtle yet significant impact of prep
 
 \section{Conclusions}
 
-This project successfully implemented a custom decision tree classifier for mushroom classification, demonstra- ting high predictive performance. Nested cross-validation ensured robust hyperparameter tuning and evaluation, while preprocessing techniques enhanced model accuracy and reliability.
+This project successfully implemented a custom decision tree classifier for mushroom classification, demonstra- ting high predictive performance. Nested cross-validation ensured robust hyperparameter tuning and evaluation, while removing missing values enhanced model accuracy and reliability.
 
 Future work could address some limitations by exploring more realistic datasets, employing advanced methods for handling missing values, and incorporating metrics for interpretability and computational efficiency. In addition, integrating ensemble methods, such as random forests or gradient boosting, could provide further insights into the potential of tree-based models for mushroom classification and similar tasks.
   
